@@ -13,4 +13,4 @@
 # 	$ chmod 400 acceso.pem
 
 #	Conexion
-ssh -i "acceso.pem" ubuntu@ec2-15-188-8-81.eu-west-3.compute.amazonaws.com
+ssh -i "acceso.pem" ubuntu@ec2-35-180-30-241.eu-west-3.compute.amazonaws.com
