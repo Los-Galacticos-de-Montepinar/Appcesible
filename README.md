@@ -1,3 +1,3 @@
-# appcesible
+# AppCesible
 
 A new Flutter project.
