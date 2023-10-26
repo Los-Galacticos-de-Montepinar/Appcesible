@@ -1,3 +1,15 @@
+# Everithing but lib
+.vscode
+android
+ios
+linux
+Miscellaneous
+web
+windows
+.metadata
+analysis_options.yaml
+pubspec*
+
 # Miscellaneous
 *.class
 *.log
