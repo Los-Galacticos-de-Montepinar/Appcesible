@@ -9,7 +9,7 @@ web
 windows
 .metadata
 analysis_options.yaml
-pubspec*
+pubspec.lock
 
 # Miscellaneous
 *.class
