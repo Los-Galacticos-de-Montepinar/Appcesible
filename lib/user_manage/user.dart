@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+// Function that makes a HTTP request to get a User from the server DB
 Future<User> getUserFromId(int id) async {
   final response = await http.get(
-    Uri.http(User._baseAddress, '/$id'),
+    Uri.http(User.baseAddress, '/$id'),
     headers: <String, String> {
       'Content-Type': 'application/json; charset=UTF-8'
     }
@@ -18,22 +19,23 @@ Future<User> getUserFromId(int id) async {
 }
 
 class User {
-  static const String _baseAddress = 'localhost:8080';
+  static const String baseAddress = 'localhost:8080';
 
   final int id;
 
-  // Login info
+  // Login information
   final String userName;
   final String passwd;
 
-  // Profile info
+  // Profile information
   final int idProfileImg;
   final int userType;
   final int idClass;
 
-  // General info
+  // General information
   final int age;
 
+  // Contructor
   User({
     required this.id,
     required this.userName,
@@ -44,6 +46,7 @@ class User {
     required this.age
   });
 
+  // Factory method that creates an User instance from a JSON
   factory User.fromJSON(Map<String, dynamic> json) {
     return User(
       id: json["id"] as int,
