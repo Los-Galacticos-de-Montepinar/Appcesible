@@ -1,6 +1,10 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+//Future<User> createUser() async {
+//
+//}
+
 // Function that makes a HTTP request to get a User from the server DB
 Future<User> getUserFromId(int id) async {
   final response = await http.get(
@@ -25,7 +29,7 @@ class User {
 
   // Login information
   final String userName;
-  final String passwd;
+  //final String passwd;
 
   // Profile information
   final int idProfileImg;
@@ -36,10 +40,10 @@ class User {
   final int age;
 
   // Contructor
-  User({
+  User._defaultConstructor({
     required this.id,
     required this.userName,
-    required this.passwd,
+    //required this.passwd,
     required this.idProfileImg,
     required this.userType,
     required this.idClass,
@@ -48,10 +52,10 @@ class User {
 
   // Factory method that creates an User instance from a JSON
   factory User.fromJSON(Map<String, dynamic> json) {
-    return User(
+    return User._defaultConstructor(
       id: json["id"] as int,
       userName: json["userName"] as String,
-      passwd: json["passwd"] as String,
+      //passwd: json["passwd"] as String,
       idProfileImg: json["idProfileImg"] as int,
       userType: json["userType"] as int,
       idClass: json["idClass"] as int,
