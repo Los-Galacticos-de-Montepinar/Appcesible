@@ -1,18 +1,44 @@
+import 'package:appcesible/user_manage/user_model.dart';
 import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MainApp());
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends StatefulWidget {
   const MainApp({super.key});
 
   @override
+  State<MainApp> createState() {
+    return MainAppState();
+  }
+}
+
+class MainAppState extends State<MainApp> {
+  Future<UserModel>? _user;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _user = getUserFromId(2);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       home: Scaffold(
         body: Center(
-          child: Text('Hello World!'),
+          child: FutureBuilder<UserModel>(
+            future: _user,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Text('Nombre de usuario: ${snapshot.data!.userName}');
+              }
+              else {
+                return Text('${snapshot.error}');
+              }
+            },),
         ),
       ),
     );
