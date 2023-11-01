@@ -1,11 +1,5 @@
 import 'dart:convert';
 
-//Future<UserModel> createUser() async {
-//
-//}
-
-
-
 class UserModel {
   static const String baseAddress = '10.0.2.2:8080';
 
