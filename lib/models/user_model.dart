@@ -1,35 +1,19 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
 
-//Future<User> createUser() async {
+//Future<UserModel> createUser() async {
 //
 //}
 
-// Function that makes a HTTP request to get a User from the server DB
-Future<User> getUserFromId(int id) async {
-  final response = await http.get(
-    Uri.http(User.baseAddress, '/$id'),
-    headers: <String, String> {
-      'Content-Type': 'application/json; charset=UTF-8'
-    }
-  );
 
-  if (response.statusCode == 200) {
-    return User.fromJSON(jsonDecode(response.body));
-  }
-  else {
-    throw Exception('Failed to load User');
-  }
-}
 
-class User {
-  static const String baseAddress = 'localhost:8080';
+class UserModel {
+  static const String baseAddress = '10.0.2.2:8080';
 
-  final int id;
+  int id;
 
   // Login information
   final String userName;
-  //final String passwd;
+  //final String _passwd;
 
   // Profile information
   final int idProfileImg;
@@ -40,7 +24,7 @@ class User {
   final int age;
 
   // Contructor
-  User._defaultConstructor({
+  UserModel._defaultConstructor({
     required this.id,
     required this.userName,
     //required this.passwd,
@@ -51,8 +35,8 @@ class User {
   });
 
   // Factory method that creates an User instance from a JSON
-  factory User.fromJSON(Map<String, dynamic> json) {
-    return User._defaultConstructor(
+  factory UserModel.fromJSON(Map<String, dynamic> json) {
+    return UserModel._defaultConstructor(
       id: json["id"] as int,
       userName: json["userName"] as String,
       //passwd: json["passwd"] as String,
@@ -62,4 +46,7 @@ class User {
       age: json["age"] as int
     );
   }
+
+  // GET methods
+  String get username => userName;
 }
