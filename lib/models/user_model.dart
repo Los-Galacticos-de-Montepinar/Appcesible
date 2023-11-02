@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+
 class UserModel {
   static const String baseAddress = '10.0.2.2:8080';
 
@@ -18,7 +20,7 @@ class UserModel {
   final int age;
 
   // Contructor
-  UserModel._defaultConstructor({
+  UserModel({
     required this.id,
     required this.userName,
     //required this.passwd,
@@ -30,11 +32,11 @@ class UserModel {
 
   // Factory method that creates an User instance from a JSON
   factory UserModel.fromJSON(Map<String, dynamic> json) {
-    return UserModel._defaultConstructor(
+    return UserModel(
       id: json["id"] as int,
       userName: json["userName"] as String,
       //passwd: json["passwd"] as String,
-      idProfileImg: json["idProfileImg"] as int,
+      idProfileImg: json["pfp"] as int,
       userType: json["userType"] as int,
       idClass: json["idClass"] as int,
       age: json["age"] as int
