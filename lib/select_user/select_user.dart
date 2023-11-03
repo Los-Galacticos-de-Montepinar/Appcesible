@@ -127,7 +127,7 @@ class SelectUser extends StatelessWidget {
                       ),
                       child: ClipOval(
                         child: Image.asset(
-                          'images/alonso.png',
+                          'assets/images/alonso.png',
                           width: 200,
                           height: 200,
                           fit: BoxFit.cover,

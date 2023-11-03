@@ -1,6 +1,6 @@
-import 'package:appcesible/responsive/select_user.dart';
 import 'package:flutter/material.dart';
-import 'package:appcesible/responsive/homepage.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'select_user/select_user.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,9 +11,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: HomePage(),
+    return ScreenUtilInit(
+      builder: (context, child) {
+        return const MaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: SelectUser(),
+        );
+      },
     );
   }
 }

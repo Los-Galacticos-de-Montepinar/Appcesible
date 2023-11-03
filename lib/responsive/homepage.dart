@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:appcesible/responsive/desktop_body.dart';
-import 'package:appcesible/responsive/mobile_body.dart';
-import 'package:appcesible/responsive/responsive_layout.dart';
+import 'desktop_body.dart';
+import 'mobile_body.dart';
+import 'responsive_layout.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
