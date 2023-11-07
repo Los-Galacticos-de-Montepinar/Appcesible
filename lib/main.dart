@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: TeacherHome(),
     );
@@ -100,7 +100,7 @@ class TeacherHome extends StatelessWidget {
                   style: ButtonStyle(
                     elevation: MaterialStateProperty.all(5),
                     alignment: Alignment.centerLeft,
-                    minimumSize: MaterialStateProperty.all(Size(400, 80)),
+                    minimumSize: MaterialStateProperty.all(const Size(400, 80)),
                     backgroundColor: MaterialStateProperty.all(const Color.fromARGB(134, 238, 238, 238)),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5.0),
@@ -150,7 +150,7 @@ class TeacherHome extends StatelessWidget {
                   style: ButtonStyle(
                     elevation: MaterialStateProperty.all(5),
                     alignment: Alignment.centerLeft,
-                    minimumSize: MaterialStateProperty.all(Size(400, 80)),
+                    minimumSize: MaterialStateProperty.all(const Size(400, 80)),
                     backgroundColor: MaterialStateProperty.all(const Color.fromARGB(134, 238, 238, 238)),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5.0),
@@ -194,7 +194,7 @@ class TeacherHome extends StatelessWidget {
                   style: ButtonStyle(
                     elevation: MaterialStateProperty.all(5),
                     alignment: Alignment.centerLeft,
-                    minimumSize: MaterialStateProperty.all(Size(400, 80)),
+                    minimumSize: MaterialStateProperty.all(const Size(400, 80)),
                     backgroundColor: MaterialStateProperty.all(const Color.fromARGB(134, 238, 238, 238)),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5.0),
@@ -238,7 +238,7 @@ class TeacherHome extends StatelessWidget {
                   style: ButtonStyle(
                     elevation: MaterialStateProperty.all(5),
                     alignment: Alignment.centerLeft,
-                    minimumSize: MaterialStateProperty.all(Size(400, 80)),
+                    minimumSize: MaterialStateProperty.all(const Size(400, 80)),
                     backgroundColor: MaterialStateProperty.all(const Color.fromARGB(134, 238, 238, 238)),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5.0),
@@ -282,7 +282,7 @@ class TeacherHome extends StatelessWidget {
                   style: ButtonStyle(
                     elevation: MaterialStateProperty.all(5),
                     alignment: Alignment.centerLeft,
-                    minimumSize: MaterialStateProperty.all(Size(400, 80)),
+                    minimumSize: MaterialStateProperty.all(const Size(400, 80)),
                     backgroundColor: MaterialStateProperty.all(const Color.fromARGB(134, 238, 238, 238)),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5.0),
@@ -326,7 +326,7 @@ class TeacherHome extends StatelessWidget {
                   style: ButtonStyle(
                     elevation: MaterialStateProperty.all(5),
                     alignment: Alignment.centerLeft,
-                    minimumSize: MaterialStateProperty.all(Size(400, 80)),
+                    minimumSize: MaterialStateProperty.all(const Size(400, 80)),
                     backgroundColor: MaterialStateProperty.all(const Color.fromARGB(134, 238, 238, 238)),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5.0),
@@ -367,7 +367,7 @@ class TeacherHome extends StatelessWidget {
                   style: ButtonStyle(
                     elevation: MaterialStateProperty.all(5),
                     alignment: Alignment.centerLeft,
-                    minimumSize: MaterialStateProperty.all(Size(400, 80)),
+                    minimumSize: MaterialStateProperty.all(const Size(400, 80)),
                     backgroundColor: MaterialStateProperty.all(const Color.fromARGB(134, 238, 238, 238)),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5.0),
