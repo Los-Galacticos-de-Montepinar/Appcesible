@@ -12,6 +12,7 @@ dependencies:
   http:
   table_calendar: ^3.0.9
   flutter_screenutil:
+  responsive_builder:
 
 dev_dependencies:
   flutter_test:

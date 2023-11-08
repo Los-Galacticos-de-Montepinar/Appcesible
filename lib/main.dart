@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'select_user/select_user.dart';
+import 'widgets/select_user.dart';
 
 void main() {
   runApp(const MyApp());
