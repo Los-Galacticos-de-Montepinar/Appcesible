@@ -1,4 +1,5 @@
 import 'package:appcesible/widgets/photo_list.dart';
+import 'package:appcesible/widgets/top_menu.dart';
 import 'package:flutter/material.dart';
 
 class SelectUserTab extends StatelessWidget {
@@ -7,22 +8,7 @@ class SelectUserTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          elevation: 5,
-          title: const FittedBox(
-            child: Text(
-              'Appcesible TABLET',
-              style: TextStyle(
-                fontSize: 40,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
-            ),
-          ),
-          centerTitle: true,
-          backgroundColor: Colors.grey[500],
-          toolbarHeight: 80,
-        ),
+        appBar: const TopMenu(),
         body: Column(
           children: [
             const SizedBox(height: 30),

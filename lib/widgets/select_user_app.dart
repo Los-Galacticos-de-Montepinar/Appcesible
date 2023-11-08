@@ -1,3 +1,4 @@
+import 'package:appcesible/widgets/top_menu.dart';
 import 'package:flutter/material.dart';
 //import 'package:flutter/src/widgets/container.dart';
 //import 'package:flutter/src/widgets/framework.dart';
@@ -9,22 +10,7 @@ class SelectUserApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        elevation: 5,
-        title: const FittedBox(
-          child: Text(
-            'Appcesible',
-            style: TextStyle(
-              fontSize: 40,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.grey[500],
-        toolbarHeight: 80,
-      ),
+      appBar: const TopMenu(),
       body: Center(
         child: FittedBox(
           child: Column(

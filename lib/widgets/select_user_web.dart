@@ -1,3 +1,4 @@
+import 'package:appcesible/widgets/top_menu.dart';
 import 'package:flutter/material.dart';
 
 class SelectUserWeb extends StatelessWidget {
@@ -6,15 +7,7 @@ class SelectUserWeb extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 4,
-        backgroundColor: Colors.teal[900],
-        title: const Text(
-          'Web View',
-          style: TextStyle(fontSize: 30),
-        ),
-        centerTitle: true,
-      ),
+      appBar: const TopMenu(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
         child: Column(

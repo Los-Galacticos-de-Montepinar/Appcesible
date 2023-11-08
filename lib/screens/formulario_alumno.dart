@@ -1,27 +1,5 @@
+import 'package:appcesible/widgets/top_menu.dart';
 import 'package:flutter/material.dart';
-
-// Esto es una plantilla, para que sea la de añadir alumno, le pasais argumentos vacios, es decir, llamais al constructor
-// FormularioAlumnos("","","",{},[],,"")
-// si quereis editar,
-// FormularioAlumnos("Titulo","Nombre","Contraseña",{mapa con el tipo de contenido},[lista de clases],indice
-// de la clase a la que pertenece el alumnno,"enlace de la foto del alumno")
-//
-// El mapa es basicamente, si tenemos como tipos de contenido audio, texto y pictogramas, y el alumno solo usa el texto,
-// su mapa será {"Audio":false,"Pictogramas":false,"Texto":true}, el índice es dentro de la lista que le pasamos,
-// la lista de clases es ["3A","2A","1A"] y el alumno esta en 2A, el indice que pasamos es 1
-
-void main() {
-  runApp(const MaterialApp(
-    home: FormularioAlumnos(
-        "Añadir alumno",
-        "Agustin",
-        "123",
-        {"Audio": true, "Pictogramas": false, "Texto": false},
-        ['1A', '2A', '3A'],
-        2,
-        ""),
-  ));
-}
 
 class FormularioAlumnos extends StatefulWidget {
   final String title;
@@ -64,12 +42,12 @@ class FormularioAlumnosState extends State<FormularioAlumnos> {
         context: context,
         builder: (buildcontext) {
           return AlertDialog(
-            title: const Text("Alerta"),
+            title: const Text('Alerta'),
             content: Text(text),
             actions: <Widget>[
               ElevatedButton(
                 child: const Text(
-                  "CERRAR",
+                  'CERRAR',
                   style: TextStyle(color: Colors.white),
                 ),
                 onPressed: () {
@@ -83,10 +61,10 @@ class FormularioAlumnosState extends State<FormularioAlumnos> {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
+    //final screenHeight = MediaQuery.of(context).size.height;
 
-    const heightPercentage = 0.12;
-    final heightTitle = screenHeight * heightPercentage;
+    //const heightPercentage = 0.12;
+    //final heightTitle = screenHeight * heightPercentage;
 
     if (firstExe) {
       nameController = TextEditingController(text: widget.name);
@@ -101,7 +79,7 @@ class FormularioAlumnosState extends State<FormularioAlumnos> {
         if (value) choosedTypes += ' $key ';
       });
 
-      if (widget.picture != "") {
+      if (widget.picture != '') {
         //picture=DecorationImage(image: NetworkImage(widget.picture));
       }
 
@@ -110,12 +88,7 @@ class FormularioAlumnosState extends State<FormularioAlumnos> {
 
     return MaterialApp(
         home: Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.yellow[300],
-              title: const Text('AppCesible', textScaleFactor: 1.5),
-              centerTitle: true,
-              toolbarHeight: heightTitle,
-            ),
+            appBar: const TopMenu(),
             body: Center(
                 child: SingleChildScrollView(
                     child: Column(
@@ -198,7 +171,7 @@ class FormularioAlumnosState extends State<FormularioAlumnos> {
                           padding: const EdgeInsets.all(20),
                           child: ElevatedButton(
                               onPressed: () => {},
-                              child: const Text("Subir Foto")),
+                              child: const Text('Subir Foto')),
                         )
                       ],
                     )),
@@ -207,21 +180,21 @@ class FormularioAlumnosState extends State<FormularioAlumnos> {
                     child: TextButton(
                         onPressed: () => {
                               if (nameController.value.text.isEmpty)
-                                _showAlertDialog("Rellene el campo nombre")
+                                _showAlertDialog('Rellene el campo nombre')
                               else if (passwdController.value.text.isEmpty)
-                                _showAlertDialog("Rellene el campo contraseña")
+                                _showAlertDialog('Rellene el campo contraseña')
                               else if (choosedTypes.isEmpty)
-                                _showAlertDialog("Rellene el campo contenidos")
+                                _showAlertDialog('Rellene el campo contenidos')
                               else if (classIndex == -1)
-                                _showAlertDialog("Rellene el campo clase")
+                                _showAlertDialog('Rellene el campo clase')
                               else if ((picture.image as AssetImage)
                                       .assetName ==
                                   'assets/images/addPicture.png')
-                                _showAlertDialog("Rellene el campo foto")
+                                _showAlertDialog('Rellene el campo foto')
                               //else
                               //  subirDatos
                             },
-                        child: const Text("Finalizar")))
+                        child: const Text('Finalizar')))
               ],
             )))));
   }

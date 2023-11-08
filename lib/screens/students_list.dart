@@ -1,3 +1,4 @@
+import 'package:appcesible/widgets/top_menu.dart';
 import 'package:flutter/material.dart';
 
 class StudentsList extends StatelessWidget {
@@ -5,8 +6,8 @@ class StudentsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
+    return const Scaffold(
+      appBar: TopMenu(),
     );
   }
 }

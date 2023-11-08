@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:appcesible/models/user_model.dart';
 
 void createUser(UserModel user, String password) async {
-  int id = user.id;
   final response = await http.post(
     Uri.http(UserModel.baseAddress, '/user/new'),
     headers: <String, String>{
