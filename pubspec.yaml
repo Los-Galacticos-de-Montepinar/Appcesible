@@ -10,8 +10,8 @@ dependencies:
   flutter:
     sdk: flutter
   http:
-  provider:
   table_calendar: ^3.0.9
+  flutter_screenutil:
 
 dev_dependencies:
   flutter_test:
