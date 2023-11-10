@@ -1,8 +1,8 @@
 import 'package:appcesible/screens/screen_util_breakpoints.dart';
+import 'package:appcesible/screens/select_user_app.dart';
+import 'package:appcesible/screens/select_user_tab.dart';
+import 'package:appcesible/screens/select_user_web.dart';
 import 'package:flutter/material.dart';
-import 'package:appcesible/widgets/select_user_app.dart';
-import 'package:appcesible/widgets/select_user_tab.dart';
-import 'package:appcesible/widgets/select_user_web.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 class SelectUser extends StatelessWidget {

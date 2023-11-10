@@ -21,8 +21,7 @@ class SelectUserTab extends StatelessWidget {
               ),
             ),
             const Padding(padding: EdgeInsets.only(top: 5), child: PhotoList()),
-            Container(
-              width: 143.0, // Ancho deseado
+            FittedBox(
               child: ElevatedButton(
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(
