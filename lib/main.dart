@@ -38,6 +38,7 @@ class MainApp extends StatelessWidget {
   //}
 
   // FORMULARIO USUARIO/ALUMNO
+  //
   // Esto es una plantilla, para que sea la de añadir alumno, le pasais argumentos vacios, es decir, llamais al constructor
   // FormularioAlumnos('','','',{},[],,'')
   // si quereis editar,
