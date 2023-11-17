@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:appcesible/command/session_command.dart';
+
 class TopMenu extends StatelessWidget implements PreferredSizeWidget {
   @override
   final Size preferredSize;
@@ -38,7 +40,9 @@ class TopMenu extends StatelessWidget implements PreferredSizeWidget {
             )
           ],
         ),
-        onPressed: () {},
+        onPressed: () {
+          userLogout();
+        },
       ),
       // ! Se utiliza para poner texto a la derecha del titulo
       actions: <Widget>[
