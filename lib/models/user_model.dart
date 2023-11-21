@@ -14,15 +14,15 @@ class UserModel {
   final int age;
 
   // Constructor
-  UserModel(
-    {required this.id,
+  UserModel({
+    required this.id,
     required this.userName,
     //required this.passwd,
     required this.idProfileImg,
     required this.userType,
     required this.idClass,
-    required this.age}
-  );
+    required this.age
+  });
 
   // Factory method that creates an User instance from a JSON
   factory UserModel.fromJSON(Map<String, dynamic> json) {
