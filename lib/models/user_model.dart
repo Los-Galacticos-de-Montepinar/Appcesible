@@ -1,6 +1,4 @@
 class UserModel {
-  static const String baseAddress = '10.0.2.2:8080';
-
   int id;
 
   // Login information
@@ -15,26 +13,27 @@ class UserModel {
   // General information
   final int age;
 
-  // Contructor
-  UserModel(
-      {required this.id,
-      required this.userName,
-      //required this.passwd,
-      required this.idProfileImg,
-      required this.userType,
-      required this.idClass,
-      required this.age});
+  // Constructor
+  UserModel({
+    required this.id,
+    required this.userName,
+    //required this.passwd,
+    required this.idProfileImg,
+    required this.userType,
+    required this.idClass,
+    required this.age
+  });
 
   // Factory method that creates an User instance from a JSON
   factory UserModel.fromJSON(Map<String, dynamic> json) {
     return UserModel(
-        id: json["id"] as int,
-        userName: json["userName"] as String,
-        //passwd: json["passwd"] as String,
-        idProfileImg: json["pfp"] as int,
-        userType: json["userType"] as int,
-        idClass: json["idClass"] as int,
-        age: json["age"] as int);
+        id: json['id'] as int,
+        userName: json['userName'] as String,
+        //passwd: json['passwd'] as String,
+        idProfileImg: json['pfp'] as int,
+        userType: json['userType'] as int,
+        idClass: json['idClass'] as int,
+        age: json['age'] as int);
   }
 
   // GET methods
