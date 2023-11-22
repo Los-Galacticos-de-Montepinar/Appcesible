@@ -2,10 +2,10 @@ import 'package:appcesible/widgets/top_menu.dart';
 import 'package:flutter/material.dart';
 
 class PictoPassw extends StatefulWidget {
-  PictoPassw({Key? key}) : super(key: key);
+  PictoPassw({super.key});
 
   @override
-  _PictoPasswState createState() => _PictoPasswState();
+  State<PictoPassw> createState() => _PictoPasswState();
 }
 
 class _PictoPasswState extends State<PictoPassw> {
