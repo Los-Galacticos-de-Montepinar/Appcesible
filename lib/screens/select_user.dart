@@ -17,7 +17,7 @@ class SelectUser extends StatelessWidget {
       },
       tablet: (context) {
         ScreenUtilBreakpoints.initTabletDesignSize(context);
-        return const SelectUserTab();
+        return SelectUserTab();
       },
       desktop: (context) {
         ScreenUtilBreakpoints.initWebDesignSize(context);
