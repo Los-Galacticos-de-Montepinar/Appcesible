@@ -1,3 +1,5 @@
+import 'package:appcesible/screens/normal_passw.dart';
+import 'package:appcesible/screens/pictograms_passw.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
