@@ -10,13 +10,13 @@ class SelectUserTab extends StatefulWidget {
 
 class _SelectUserTabState extends State<SelectUserTab> {
   List<String> imagenes = [
-    'assets/images/alonso.png',
-    'assets/images/alonso.png',
+    'assets/images/ronaldo.png',
     'assets/images/alonso.png',
     'assets/images/alonso.png',
     'assets/images/alonso.png',
     'assets/images/alonso.png',
     'assets/images/ronaldo.png',
+    'assets/images/alonso.png',
     'assets/images/ronaldo.png',
     'assets/images/ronaldo.png',
     'assets/images/ronaldo.png',
@@ -35,6 +35,33 @@ class _SelectUserTabState extends State<SelectUserTab> {
         child: FittedBox(
           child: Column(
             children: [
+              ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:
+                        Colors.grey[500], // Cambia el color de fondo
+                  ),
+                  child: const Row(
+                    children: [
+                      Icon(
+                        Icons.subdirectory_arrow_left_outlined,
+                        size: 38,
+                        color: Colors.white,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        'Volver',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  )),
+              const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -43,12 +70,14 @@ class _SelectUserTabState extends State<SelectUserTab> {
 
                   // Elevated Button to the previous user
                   ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        currentIndex =
-                            (currentIndex - 6).clamp(0, imagenes.length - 1);
-                      });
-                    },
+                    onPressed: currentIndex > 0
+                        ? () {
+                            setState(() {
+                              currentIndex =
+                                  (currentIndex - 6).clamp(0, imagenes.length);
+                            });
+                          }
+                        : null,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
                       shape: const RoundedRectangleBorder(
@@ -78,9 +107,16 @@ class _SelectUserTabState extends State<SelectUserTab> {
                         mainAxisSpacing: 10.0,
                         crossAxisSpacing: 10.0,
                       ),
-                      itemCount: (currentIndex + 6).clamp(0, imagenes.length),
+                      itemCount: currentIndex + 6 > imagenes.length
+                          ? imagenes.length - currentIndex
+                          : 6,
                       itemBuilder: (context, index) {
-                        return FittedBox(
+                        int imageIndex = currentIndex + index;
+                        return InkWell(
+                          onTap: () {
+                            // Manejar el evento de clic aquí
+                            print('Imagen clicada, número: $imageIndex');
+                          },
                           child: Container(
                             width: 200,
                             height: 200,
@@ -92,7 +128,7 @@ class _SelectUserTabState extends State<SelectUserTab> {
                               ),
                             ),
                             child: ClipOval(
-                              child: _imageWidget(image: imagenes[index]),
+                              child: _imageWidget(image: imagenes[imageIndex]),
                             ),
                           ),
                         );
@@ -103,12 +139,14 @@ class _SelectUserTabState extends State<SelectUserTab> {
                   const SizedBox(width: 20),
                   // Elevated Button to the next user
                   ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        currentIndex =
-                            (currentIndex + 6).clamp(0, imagenes.length - 1);
-                      });
-                    },
+                    onPressed: currentIndex + 6 < imagenes.length
+                        ? () {
+                            setState(() {
+                              currentIndex =
+                                  (currentIndex + 6).clamp(0, imagenes.length);
+                            });
+                          }
+                        : null,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
                       shape: const RoundedRectangleBorder(
@@ -124,36 +162,10 @@ class _SelectUserTabState extends State<SelectUserTab> {
                       color: Colors.white,
                     ),
                   ),
-                  // Box transparent between left and the button
+                  // Box transparent between the button and right side
                   const SizedBox(width: 10),
                 ],
               ),
-              ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor:
-                        Colors.grey[500], // Cambia el color de fondo
-                  ),
-                  child: const Row(
-                    children: [
-                      Icon(
-                        Icons.subdirectory_arrow_left_outlined,
-                        size: 38,
-                        color: Colors.white,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        'Volver',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  )),
             ],
           ),
         ),

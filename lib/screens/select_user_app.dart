@@ -1,10 +1,30 @@
 import 'package:appcesible/widgets/top_menu.dart';
 import 'package:flutter/material.dart';
-//import 'package:flutter/src/widgets/container.dart';
-//import 'package:flutter/src/widgets/framework.dart';
 
-class SelectUserApp extends StatelessWidget {
-  const SelectUserApp({super.key});
+class SelectUserApp extends StatefulWidget {
+  SelectUserApp({Key? key});
+
+  @override
+  _SelectUserAppState createState() => _SelectUserAppState();
+}
+
+class _SelectUserAppState extends State<SelectUserApp> {
+  List<String> imagenes = [
+    'assets/images/alonso.png',
+    'assets/images/ronaldo.png',
+    'assets/images/alonso.png',
+    'assets/images/ronaldo.png',
+    'assets/images/alonso.png',
+    'assets/images/ronaldo.png',
+    'assets/images/alonso.png',
+    'assets/images/ronaldo.png',
+    'assets/images/alonso.png',
+    'assets/images/ronaldo.png',
+    'assets/images/alonso.png',
+    'assets/images/ronaldo.png',
+  ];
+
+  int currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +35,6 @@ class SelectUserApp extends StatelessWidget {
         child: FittedBox(
           child: Column(
             children: <Widget>[
-              // Padding for the back button
               SizedBox(
                 width: 150,
                 child: ElevatedButton(
@@ -45,7 +64,6 @@ class SelectUserApp extends StatelessWidget {
                       ],
                     )),
               ),
-
               const SizedBox(height: 40),
               Column(children: [
                 const SizedBox(
@@ -71,15 +89,20 @@ class SelectUserApp extends StatelessWidget {
                     children: <Widget>[
                       // Elevated Button to the previous user
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: currentIndex > 0
+                            ? () {
+                                setState(() {
+                                  currentIndex = (currentIndex - 1)
+                                      .clamp(0, imagenes.length - 1);
+                                });
+                              }
+                            : null,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.black,
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(20.0),
                               bottomLeft: Radius.circular(20.0),
-                              topRight: Radius.circular(0.0),
-                              bottomRight: Radius.circular(0.0),
                             ),
                           ),
                         ),
@@ -94,19 +117,25 @@ class SelectUserApp extends StatelessWidget {
                       const SizedBox(width: 20),
 
                       // Profile Picture box
-                      Container(
-                        width: 200,
-                        height: 200,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: Colors.black,
-                            width: 5.0,
+                      InkWell(
+                        onTap: () {
+                          // Maneja la acción al hacer clic en la imagen.
+                          print('Imagen clickeada ${currentIndex}');
+                          // Agrega el código que deseas ejecutar al hacer clic en la imagen.
+                        },
+                        child: Container(
+                          width: 200,
+                          height: 200,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Colors.black,
+                              width: 5.0,
+                            ),
                           ),
-                        ),
-                        child: ClipOval(
-                          child:
-                              _imageWidget(image: 'assets/images/alonso.png'),
+                          child: ClipOval(
+                            child: _imageWidget(image: imagenes[currentIndex]),
+                          ),
                         ),
                       ),
 
@@ -115,13 +144,18 @@ class SelectUserApp extends StatelessWidget {
 
                       // Elevated Button to the next user
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: currentIndex < imagenes.length - 1
+                            ? () {
+                                setState(() {
+                                  currentIndex = (currentIndex + 1)
+                                      .clamp(0, imagenes.length - 1);
+                                });
+                              }
+                            : null,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.black,
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(0.0),
-                              bottomLeft: Radius.circular(0.0),
                               topRight: Radius.circular(20.0),
                               bottomRight: Radius.circular(20.0),
                             ),
