@@ -198,7 +198,7 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.yellow[300],
-          title: const Text('AppCesible', textScaler: TextScaler.linear(1.5)),
+          title: const Text('AppCesible', textScaleFactor: 1.5),
           centerTitle: true,
           toolbarHeight: heightTitle,
         ),
@@ -211,7 +211,7 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                     padding: const EdgeInsets.all(8),
                     child: Text(
                       widget.title,
-                      textScaler: const TextScaler.linear(2),
+                      textScaleFactor: 2,
                     )
                   ),
                   Padding(

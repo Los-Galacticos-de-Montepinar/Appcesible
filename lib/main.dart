@@ -31,13 +31,13 @@ class MainApp extends StatelessWidget {
 
   // HOME DEL PROFESOR
 
-  //@override
-  //Widget build(BuildContext context) {
-  //  return const MaterialApp(
-  //    //debugShowCheckedModeBanner: false,
-  //    home: TeacherHome(),
-  //  );
-  //}
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      //debugShowCheckedModeBanner: false,
+      home: TeacherHome(),
+    );
+  }
 
   // FORMULARIO USUARIO/ALUMNO
   //
@@ -63,16 +63,4 @@ class MainApp extends StatelessWidget {
    '',
    0);
   }*/
-
-  Widget build(BuildContext context) {
-   return const FormularioUsuarios(
-      'Añadir usuario',
-     'Agustin',
-      '123',
-    {'Audio': true, 'Pictogramas': false, 'Texto': false},
-    ['1A', '2A', '3A'],
-    2,
-    '',
-    0);
-   }
 }

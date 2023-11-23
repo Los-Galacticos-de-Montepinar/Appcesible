@@ -1,3 +1,4 @@
+import 'package:appcesible/screens/formulario_usuarios.dart';
 import 'package:appcesible/widgets/top_menu.dart';
 import 'package:flutter/material.dart';
 
@@ -208,7 +209,21 @@ class TeacherHome extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 8, right: 8),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (BuildContext context) {
+                    return const FormularioUsuarios(
+                      'Añadir alumno',
+                      '',
+                      '',
+                      {'Audio': false, 'Pictogramas': false, 'Texto': false},
+                      ['1A', '2A', '3A'],
+                      -1,
+                      '',
+                      -1
+                    );
+                  }));
+                },
                 style: ButtonStyle(
                   elevation: MaterialStateProperty.all(5),
                   alignment: Alignment.centerLeft,
@@ -253,7 +268,21 @@ class TeacherHome extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 8, right: 8),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (BuildContext context) {
+                    return const FormularioUsuarios(
+                      'Modificar alumno',
+                      'Agustin',
+                      '123',
+                      {'Audio': true, 'Pictogramas': false, 'Texto': false},
+                      ['1A', '2A', '3A'],
+                      2,
+                      '',
+                      1
+                    );
+                  }));
+                },
                 style: ButtonStyle(
                   elevation: MaterialStateProperty.all(5),
                   alignment: Alignment.centerLeft,
