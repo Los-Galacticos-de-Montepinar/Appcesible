@@ -14,11 +14,11 @@ import 'package:appcesible/services/user_service.dart';
 void main() {
   runApp( 
     const MaterialApp(
-      home: FormularioAlumnos("Añadir alumno","","",{"Audio":false,"Pictogramas":false,"Texto":false},['1A','2A','3A'],-1,"",-1),
+      home: FormularioUsuarios("Añadir alumno","","",{"Audio":false,"Pictogramas":false,"Texto":false},['1A','2A','3A'],-1,"",-1),
     ));
 }
 
-class FormularioAlumnos extends StatefulWidget {
+class FormularioUsuarios extends StatefulWidget {
   final String title;
   final String name;
   final String passwd;
@@ -27,13 +27,13 @@ class FormularioAlumnos extends StatefulWidget {
   final int classIndex;
   final String picture;
   final int userT;
-  const FormularioAlumnos(this.title , this.name ,this.passwd, this.content , this.classes, this.classIndex, this.picture, this.userT ,{super.key});
+  const FormularioUsuarios(this.title , this.name ,this.passwd, this.content , this.classes, this.classIndex, this.picture, this.userT ,{super.key});
 
   @override
   FormularioAlumnosState createState() => FormularioAlumnosState();
 }
 
-class FormularioAlumnosState extends State<FormularioAlumnos> {
+class FormularioAlumnosState extends State<FormularioUsuarios> {
   
   Map<String,bool> content = {};
   List<String> classes = [];
@@ -43,6 +43,7 @@ class FormularioAlumnosState extends State<FormularioAlumnos> {
   int userT=-1;
   bool firstExe=true;
   bool show=false;
+  bool picto=false;
   DecorationImage picture=const DecorationImage(image: AssetImage('assets/images/addPicture.png'), fit: BoxFit.fill);
 
   TextEditingController nameController = TextEditingController();
@@ -56,11 +57,45 @@ class FormularioAlumnosState extends State<FormularioAlumnos> {
     super.dispose();
   }
 
-  void _showAlertDialog(String text) {
+  Widget passwdPic(){
+    Image ejemplo=Image.asset("assets/images/addPicture.png");
+    return ejemplo;
+  }
+
+  Widget passwdText(){
+      return Padding(
+              padding: const EdgeInsets.all(8),
+              child: TextField(
+                controller: passwdController,
+                decoration: const InputDecoration(
+                  labelText: 'Contraseña',
+                  border: OutlineInputBorder(),
+                ),
+              )
+            );
+  }
+
+  Widget pictoCheckWid(){
+    return Row(
+      children: [
+        Checkbox(
+            value: picto, 
+            onChanged: (bool? value) {
+              setState(() {
+                picto = value!;
+              });
+            }, 
+          ),
+        const Text("Contraseña con pictogramas")
+      ],
+    );
+  }
+
+  void _showAlertDialog(String text, BuildContext context) {
     showDialog(
       context: context,
-      builder: (buildcontext) {
-        return AlertDialog(
+      builder: (BuildContext context) {
+          return AlertDialog(
           title: const Text("Alerta"),
           content: Text(text),
           actions: <Widget>[
@@ -73,6 +108,8 @@ class FormularioAlumnosState extends State<FormularioAlumnos> {
       }
     );
   }
+
+  
 
   Widget contentW(BuildContext context){
     return Column(
@@ -146,6 +183,8 @@ class FormularioAlumnosState extends State<FormularioAlumnos> {
       }
       userTypes.addAll(["Profesor","Estudiante","Administrador"]);
 
+      show=userTypes[userT]=="Estudiante";
+
       content.forEach((key, value) {if(value) choosedTypes+=' $key ';});
 
       if(widget.picture!=""){
@@ -159,7 +198,7 @@ class FormularioAlumnosState extends State<FormularioAlumnos> {
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.yellow[300],
-          title: const Text('AppCesible', textScaleFactor: 1.5),
+          title: const Text('AppCesible', textScaler: TextScaler.linear(1.5)),
           centerTitle: true,
           toolbarHeight: heightTitle,
         ),
@@ -172,7 +211,7 @@ class FormularioAlumnosState extends State<FormularioAlumnos> {
                     padding: const EdgeInsets.all(8),
                     child: Text(
                       widget.title,
-                      textScaleFactor: 2,
+                      textScaler: const TextScaler.linear(2),
                     )
                   ),
                   Padding(
@@ -185,16 +224,21 @@ class FormularioAlumnosState extends State<FormularioAlumnos> {
                       ),
                     )
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: TextField(
-                      controller: passwdController,
-                      decoration: const InputDecoration(
-                        labelText: 'Contraseña',
-                        border: OutlineInputBorder(),
-                      ),
-                    )
+
+                  Container(
+                    height: 180,
+                    padding: EdgeInsets.all(8),
+                    child: Column(
+                      children: [
+                        (!picto || userTypes[userT]!="Estudiante") ? passwdText():Container()
+                        ,
+                        (picto && userTypes[userT]=="Estudiante") ? passwdPic():Container()
+                      ],
+                    ),
                   ),
+
+                  show ? Container(child: pictoCheckWid()):SizedBox.shrink()
+                  ,
                   Padding(
                     padding: const EdgeInsets.all(12),
                     child: DropdownButtonFormField(
@@ -225,7 +269,7 @@ class FormularioAlumnosState extends State<FormularioAlumnos> {
                       ),
                     ),
                   ),
-                    show ? Container(child: contentW(context)):SizedBox.shrink()
+                  show ? Container(child: contentW(context)):SizedBox.shrink()
                   ,
                   Padding(
                     padding: const EdgeInsets.all(12),
@@ -278,7 +322,7 @@ class FormularioAlumnosState extends State<FormularioAlumnos> {
                   child: TextButton(
                       onPressed: ()=>{
                         if(nameController.value.text.isEmpty)
-                          _showAlertDialog("Rellene el campo nombre")
+                          _showAlertDialog("Rellene el campo nombre", context)/*
                         else if(passwdController.value.text.isEmpty)
                           _showAlertDialog("Rellene el campo contraseña")
                         else if(choosedTypes.isEmpty)
@@ -286,7 +330,7 @@ class FormularioAlumnosState extends State<FormularioAlumnos> {
                         else if(classes[classIndex]=='')
                           _showAlertDialog("Rellene el campo clase")
                         else if((picture.image as AssetImage).assetName=='assets/images/addPicture.png')
-                          _showAlertDialog("Rellene el campo foto")
+                          _showAlertDialog("Rellene el campo foto")*/
                         //else
                           //upload()
                       }, 

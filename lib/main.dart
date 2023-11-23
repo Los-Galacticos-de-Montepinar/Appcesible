@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:appcesible/screens/select_user.dart';
-import 'package:appcesible/screens/formulario_alumno.dart';
+import 'package:appcesible/screens/formulario_usuarios.dart';
 import 'package:appcesible/screens/home_teacher.dart';
 
 void main() {
@@ -49,16 +49,28 @@ class MainApp extends StatelessWidget {
   // su mapa será {'Audio':false,'Pictogramas':false,'Texto':true}, el índice es dentro de la lista que le pasamos,
   // la lista de clases es ['3A','2A','1A'] y el alumno esta en 2A, el indice que pasamos es 1
 
-  @override
+  /*@override
   Widget build(BuildContext context) {
    return const FormularioAlumnos(
-      'Añadir alumno',
+      'Añadir usuario',
      'Agustin',
     '123',
    {'Audio': true, 'Pictogramas': false, 'Texto': false},
   ['1A', '2A', '3A'],
    2,
    '',
-   -1);
-  }
+   0);
+  }*/
+
+  Widget build(BuildContext context) {
+   return const FormularioUsuarios(
+      'Añadir usuario',
+     'Agustin',
+      '123',
+    {'Audio': true, 'Pictogramas': false, 'Texto': false},
+    ['1A', '2A', '3A'],
+    2,
+    '',
+    0);
+   }
 }
