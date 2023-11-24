@@ -15,6 +15,7 @@ dependencies:
   responsive_builder:
   shared_preferences: ^2.2.2
   fluttertoast: ^8.0.7
+  pointycastle: ^3.7.3
 
 dev_dependencies:
   flutter_test:
