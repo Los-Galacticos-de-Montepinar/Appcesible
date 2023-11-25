@@ -1,10 +1,15 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:pointycastle/pointycastle.dart';
 import 'package:pointycastle/src/platform_check/platform_check.dart';
 import "package:pointycastle/export.dart";
 
-AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey> pair = _generateRSAkeyPair(_exampleSecureRandom());
-AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey> generateKeyPair() => pair;
+AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey> _pair = _generateRSAkeyPair(_exampleSecureRandom());
+String _publicPem = _encodePublicKeyToPemPKCS1(_pair.publicKey);
+
+AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey> generateKeyPair() => _pair;
+String generatePem() => _publicPem;
 
 AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey> _generateRSAkeyPair(SecureRandom secureRandom, {int bitLength = 2048}) {
   // Create an RSA key generator and initialize it
@@ -23,7 +28,7 @@ AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey> _generateRSAkeyPair(SecureRandom 
   // Cast the generated key pair into the RSA key types
 
   final myPublic = pair.publicKey as RSAPublicKey;
-  final myPrivate = pair.privateKey as RSAPrivateKey;
+  final myPrivate = pair.privateKey as RSAPrivateKey;  
 
   return AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey>(myPublic, myPrivate);
 }
@@ -34,6 +39,16 @@ SecureRandom _exampleSecureRandom() {
     ..seed(KeyParameter(
         Platform.instance.platformEntropySource().getBytes(32)));
   return secureRandom;
+}
+
+String _encodePublicKeyToPemPKCS1(RSAPublicKey publicKey) {
+    var topLevel = ASN1Sequence();
+    topLevel.add(ASN1Integer(publicKey.modulus));
+    topLevel.add(ASN1Integer(publicKey.exponent));
+    topLevel.encode();
+
+    var dataBase64 = base64.encode(topLevel.encodedBytes as List<int>);
+    return """-----BEGIN PUBLIC KEY-----\r\n$dataBase64\r\n-----END PUBLIC KEY-----""";
 }
 
 Uint8List rsaEncrypt(RSAPublicKey myPublic, Uint8List dataToEncrypt) {

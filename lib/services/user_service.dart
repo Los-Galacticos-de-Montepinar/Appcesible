@@ -3,11 +3,11 @@ import 'dart:convert';
 
 import 'package:appcesible/models/user_model.dart';
 
-String baseAddress = '10.0.2.2:8080';
+String _baseAddress = '10.0.2.2:8080';
 
 void createUser(UserModel user, String password) async {
   final response = await http.post(
-    Uri.http(baseAddress, '/user/new'),
+    Uri.http(_baseAddress, '/user/new'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8'
     },
@@ -30,7 +30,7 @@ void createUser(UserModel user, String password) async {
 
 // Function that makes a HTTP request to get a User from the server DB
 Future<UserModel> getUserFromId(int id) async {
-  final response = await http.get(Uri.http(baseAddress, '/user/$id'),
+  final response = await http.get(Uri.http(_baseAddress, '/user/$id'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8'
       });
@@ -47,7 +47,7 @@ Future<UserModel> getUserFromId(int id) async {
 void updateUser(UserModel user, String password) async {
   int id = user.id;
   final response = await http.post(
-    Uri.http(baseAddress, '/user/$id'),
+    Uri.http(_baseAddress, '/user/$id'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8'
     },
