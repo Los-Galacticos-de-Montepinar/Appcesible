@@ -5,8 +5,6 @@ import 'package:appcesible/models/task_model.dart';
 
 String baseAddress = '10.0.2.2:8080';
 
-// FIXED tasks
-
 void createTask(TaskModel task) async {
   final taskResponse = await http.post(
     Uri.http(baseAddress, (task.type == 0) ? '/task/new' : '/task/petition/new'),
@@ -20,9 +18,7 @@ void createTask(TaskModel task) async {
   );
 
   if (taskResponse.statusCode == 200) {
-    print("Created task");
-
-    int id = 0;
+    int id = int.parse(taskResponse.body);
 
     for (TaskElement element in task.elements) {
       final elemResponse = await http.post(
@@ -51,11 +47,15 @@ void createTask(TaskModel task) async {
         throw Exception('Failed to create step');
       }
     }
+
+    print("Created task");
   }
   else {
     throw Exception('Failed to create task');
   }
 }
+
+// FIXED tasks
 
 void getAllFixedTasks(TaskModel task) async {
 
@@ -77,25 +77,24 @@ Future<TaskModel> getFixedTaskFromId(int id) async {
 
 // MATERIAL petition tasks
 
-void createPetitionTask(TaskModel task) {
+void main() async {
+  final taskResponse = await http.post(
+    Uri.http(baseAddress, '/task/new'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8'
+    },
+    body: jsonEncode(<String, dynamic>{
+      'title': 'prueba1',
+      'desc': 'prueba1'
+    }),
+  );
 
-}
-
-void main() {
-  TaskModel task = TaskModel(id: 1, type: 0, description: 'desc', title: 'title', idPicto: 8);
-  task.addElement(Step(description: 'description1', media: 'media1', stepNumber: 1));
-  task.addElement(Step(description: 'description2', media: 'media2', stepNumber: 2));
-  task.addElement(Step(description: 'description3', media: 'media3', stepNumber: 3));
-  task.addElement(Step(description: 'description4', media: 'media4', stepNumber: 4));
-  task.addElement(Step(description: 'description5', media: 'media5', stepNumber: 5));
-
-  for (TaskElement element in task.elements) {
-    print(jsonEncode(<String, String>{
-      'taskId': '${task.id}',
-      'description': (element as Step).description,
-      'media': element.media,
-      'order': '${element.stepNumber}'
-    }));
-    print('\n');
+  if (taskResponse.statusCode == 200) {
+    int id = int.parse(taskResponse.body);
+    print('RES - ${taskResponse.body}');
+    print('ID - $id');
+  }
+  else {
+    print('ERROR');
   }
 }
