@@ -5,11 +5,29 @@ import 'package:pointycastle/pointycastle.dart';
 import 'package:pointycastle/src/platform_check/platform_check.dart';
 import "package:pointycastle/export.dart";
 
+bool serverKeyReceived = false;
+RSAPublicKey _serverPublicKey = getServerPublicKey();
 AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey> _pair = _generateRSAkeyPair(_exampleSecureRandom());
 String _publicPem = _encodePublicKeyToPemPKCS1(_pair.publicKey);
 
+RSAPublicKey getServerPublicKey() {
+  if (!serverKeyReceived) {
+    setServerPublicKey(Uint8List(0), false);
+  }
+  
+  return _serverPublicKey;
+}
+void setServerPublicKey(Uint8List keyBytes, bool set) {
+  //print(keyBytes);
+  //print(_readBytes(keyBytes));
+  _serverPublicKey = RSAPublicKey(_readBytes(keyBytes), BigInt.parse('65537'));
+  serverKeyReceived = set;
+}
+
 AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey> generateKeyPair() => _pair;
 String generatePem() => _publicPem;
+
+// GENERATION methods
 
 AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey> _generateRSAkeyPair(SecureRandom secureRandom, {int bitLength = 2048}) {
   // Create an RSA key generator and initialize it
@@ -34,7 +52,6 @@ AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey> _generateRSAkeyPair(SecureRandom 
 }
 
 SecureRandom _exampleSecureRandom() {
-
   final secureRandom = SecureRandom('Fortuna')
     ..seed(KeyParameter(
         Platform.instance.platformEntropySource().getBytes(32)));
@@ -50,6 +67,8 @@ String _encodePublicKeyToPemPKCS1(RSAPublicKey publicKey) {
     var dataBase64 = base64.encode(topLevel.encodedBytes as List<int>);
     return """-----BEGIN PUBLIC KEY-----\r\n$dataBase64\r\n-----END PUBLIC KEY-----""";
 }
+
+// ECNRYPT methods
 
 Uint8List rsaEncrypt(RSAPublicKey myPublic, Uint8List dataToEncrypt) {
   final encryptor = OAEPEncoding(RSAEngine())
@@ -78,6 +97,10 @@ Uint8List _processInBlocks(AsymmetricBlockCipher engine, Uint8List input) {
         ? engine.inputBlockSize
         : input.length - inputOffset;
 
+    //print(engine.inputBlockSize);
+    //print(input.length - inputOffset);
+    //print('$chunkSize');
+
     outputOffset += engine.processBlock(
         input, inputOffset, chunkSize, output, outputOffset);
 
@@ -89,6 +112,8 @@ Uint8List _processInBlocks(AsymmetricBlockCipher engine, Uint8List input) {
       : output.sublist(0, outputOffset);
 }
 
+// FORMATTING methods
+
 Uint8List stringToUint8List(String str) {
   final List<int> codeUnits = str.codeUnits;
   final Uint8List uint8list = Uint8List.fromList(codeUnits);
@@ -98,6 +123,22 @@ Uint8List stringToUint8List(String str) {
 
 String uint8ListToString(Uint8List uint8list) {
   return String.fromCharCodes(uint8list);
+}
+
+BigInt _readBytes(Uint8List bytes) {
+  BigInt read(int start, int end) {
+    if (end - start <= 4) {
+      int result = 0;
+      for (int i = end - 1; i >= start; i--) {
+        result = result * 256 + bytes[i];
+      }
+      return BigInt.from(result);
+    }
+    int mid = start + ((end - start) >> 1);
+    var result = read(start, mid) + read(mid, end) * (BigInt.one << ((mid - start) * 8));
+    return result;
+  }
+  return read(0, bytes.length);
 }
 
 void main() {
