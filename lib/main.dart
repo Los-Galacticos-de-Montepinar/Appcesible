@@ -1,3 +1,4 @@
+import 'package:appcesible/screens/create_task_material.dart';
 import 'package:appcesible/screens/select_user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,6 +12,21 @@ void main() {
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
+
+  // TASK MATERIAL
+
+  @override
+  Widget build(BuildContext context) {
+    return ScreenUtilInit(
+      designSize: const Size(412, 570), // ?
+      builder: (context, child) {
+        return const MaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: MaterialTask(),
+        );
+      },
+    );
+  }
 
   // SELECCION DE USUARIO
 
@@ -49,16 +65,15 @@ class MainApp extends StatelessWidget {
   // su mapa será {'Audio':false,'Pictogramas':false,'Texto':true}, el índice es dentro de la lista que le pasamos,
   // la lista de clases es ['3A','2A','1A'] y el alumno esta en 2A, el indice que pasamos es 1
 
-  @override
-  Widget build(BuildContext context) {
-    return const FormularioAlumnos(
-      'Añadir alumno',
-      'Agustin',
-      '123',
-      {'Audio': true, 'Pictogramas': false, 'Texto': false},
-      ['1A', '2A', '3A'],
-      2,
-      ''
-    );
-  }
+  // @override
+  // Widget build(BuildContext context) {
+  //   return const FormularioAlumnos(
+  //       'Añadir alumno',
+  //       'Agustin',
+  //       '123',
+  //       {'Audio': true, 'Pictogramas': false, 'Texto': false},
+  //       ['1A', '2A', '3A'],
+  //       2,
+  //       '');
+  // }
 }

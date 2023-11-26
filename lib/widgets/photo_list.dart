@@ -1,3 +1,5 @@
+// NO ESTÁ EN USO, HAY QUE IMPLEMENTARLO PARA PODER USARLO EN SELECCIONAR USUARIO
+
 import 'package:flutter/material.dart';
 
 class PhotoList extends StatelessWidget {
