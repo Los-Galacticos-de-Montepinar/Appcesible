@@ -1,9 +1,13 @@
+import 'package:appcesible/screens/home_student_mobile.dart';
 import 'package:appcesible/screens/select_user.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:appcesible/screens/home_student_mobile.dart';
+import 'package:appcesible/screens/home_student_init.dart';
 import 'package:appcesible/screens/formulario_alumno.dart';
+import 'package:appcesible/screens/create_task_mobile.dart';
 import 'package:appcesible/screens/home_teacher.dart';
+
+import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MainApp());
@@ -12,9 +16,47 @@ void main() {
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
-  // SELECCION DE USUARIO
+  
+@override
+
+// TASK CREATION
+
+Widget build(BuildContext context) {
+  return ScreenUtilInit(
+    designSize: const Size(412, 570),
+    builder: (context, child) {
+      return const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: CreateTaskMobile(),
+      );
+    },
+  );
+}
+
+
+
+/*
+@override
+
+// HOME USUARIO
+
+Widget build(BuildContext context) {
+  return ScreenUtilInit(
+    designSize: const Size(412, 570),
+    builder: (context, child) {
+      return const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: HomeStudentInit(),
+      );
+    },
+  );
+}
+*/
 
   //@override
+  
+  // SELECCION DE USUARIO
+  /*
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(412, 570), // ?
@@ -26,6 +68,7 @@ class MainApp extends StatelessWidget {
       },
     );
   }
+  */
 
   // HOME DEL PROFESOR
 
