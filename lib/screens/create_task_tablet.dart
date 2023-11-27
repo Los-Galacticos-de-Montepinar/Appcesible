@@ -13,7 +13,6 @@ class CreateTaskTablet extends StatefulWidget {
 }
 
 class _CreateTaskTabletState extends State<CreateTaskTablet> {
-
   // Auxiliary variables
   String _selectedTipo = '';
   String _mediaPath = '';
@@ -42,7 +41,33 @@ class _CreateTaskTabletState extends State<CreateTaskTablet> {
                 ),
                 const MyStyledBox(),
                 const SizedBox(width: 20.0),
-                _createTask(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _createTask(),
+                    const SizedBox(width: 20),
+                    _createTask2(),
+                  ],
+                ),
+                imageWidget(image: 'assets/images/addPicture.png'),
+                const SizedBox(height: 20),
+                SizedBox(
+                  width: 700,
+                  height: 50,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Logic Button
+                    },
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.red),
+                      fixedSize:
+                          MaterialStateProperty.all(const Size(200.0, 60.0)),
+                    ),
+                    child: const Text('Crear Tarea'),
+                  ),
+                ),
+                const SizedBox(height: 20),
               ],
             ),
           ),
@@ -75,6 +100,41 @@ class _CreateTaskTabletState extends State<CreateTaskTablet> {
   Widget _createTask() {
     return Container(
       width: 350,
+      height: 300,
+      padding: const EdgeInsets.all(16.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(13.0),
+      ),
+      child: const Column(
+        children: [
+          SizedBox(height: 10.0),
+          TextField(
+            style: TextStyle(fontSize: 15.0),
+            decoration: InputDecoration(
+              labelText: 'Nombre de la tarea',
+              border: OutlineInputBorder(),
+            ),
+          ),
+          SizedBox(height: 20.0),
+          TextField(
+            maxLines: 7,
+            style: TextStyle(fontSize: 15.0),
+            decoration: InputDecoration(
+              labelText: 'Descripción',
+              border: OutlineInputBorder(),
+            ),
+          ),
+          //SizedBox(height: 20.0),
+        ],
+      ),
+    );
+  }
+
+  // Widget that create the task
+  Widget _createTask2() {
+    return Container(
+      width: 350,
+      height: 300,
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(13.0),
@@ -82,26 +142,9 @@ class _CreateTaskTabletState extends State<CreateTaskTablet> {
       child: Column(
         children: [
           const SizedBox(height: 10.0),
-          const TextField(
-            style: TextStyle(fontSize: 15.0),
-            decoration: InputDecoration(
-              labelText: 'Nombre de la tarea',
-              border: OutlineInputBorder(),
-            ),
-          ),
-          const SizedBox(height: 15.0),
-          const TextField(
-            maxLines: 5,
-            style: TextStyle(fontSize: 15.0),
-            decoration: InputDecoration(
-              labelText: 'Descripción',
-              border: OutlineInputBorder(),
-            ),
-          ),
-          const SizedBox(height: 20.0),
           SizedBox(
             width: 320,
-            height: 50,
+            height: 49,
             child: ElevatedButton(
               onPressed: () async {
                 // Navigate to the second screen and wait for return data
@@ -163,27 +206,23 @@ class _CreateTaskTabletState extends State<CreateTaskTablet> {
                     },
                   ),
           ),
-          const SizedBox(height: 20.0),
-          imageWidget(image: 'assets/images/addPicture.png'),
-          const SizedBox(height: 20.0),
-          SizedBox(
-            width: 400,
-            height: 50,
-            child: ElevatedButton(
-              onPressed: () {
-                // Logic Button
-              },
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
-                fixedSize: MaterialStateProperty.all(const Size(200.0, 60.0)),
-              ),
-              child: const Text('Crear Tarea'),
-            ),
-          )
+          //const SizedBox(height: 10.0),
         ],
       ),
     );
   }
+
+/* 
+
+
+
+          
+          imageWidget(image: 'assets/images/addPicture.png'),
+          const SizedBox(height: 20.0),
+          
+
+
+*/
 
 // Displays a notification to select a video or an image
   void _showMediaPickerDialog() {
@@ -193,7 +232,7 @@ class _CreateTaskTabletState extends State<CreateTaskTablet> {
         return AlertDialog(
           title: const Text('Seleccionar Multimedia'),
           content: SizedBox(
-            height: 100.0, 
+            height: 100.0,
             child: Column(
               children: [
                 ListTile(
@@ -222,24 +261,23 @@ class _CreateTaskTabletState extends State<CreateTaskTablet> {
     );
   }
 
-    void _pickImage() {
+  void _pickImage() {
     // Logic for the selecting image
-    }
+  }
 
-    void _pickVideo() {
-      // Logic for the selecting video
-    }
+  void _pickVideo() {
+    // Logic for the selecting video
+  }
 }
 
 // Class that creates a box with text inside
 class MyStyledBox extends StatelessWidget {
-
   const MyStyledBox({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 360,
+      width: 700,
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
         color: Colors.grey[400],
