@@ -1,18 +1,18 @@
-// SCREEEN TO CREATE A TASK - Phone Version
+// SCREEEN TO CREATE A TASK - Tablet Version
 // Autor: Alejandro Sanchez Rodríguez
 
 import 'package:appcesible/widgets/top_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:appcesible/screens/create_step_task_mobile.dart';
 
-class CreateTaskMobile extends StatefulWidget {
-  const CreateTaskMobile({Key? key}) : super(key: key);
+class CreateTaskTablet extends StatefulWidget {
+  const CreateTaskTablet({Key? key}) : super(key: key);
 
   @override
-  _CreateTaskMobileState createState() => _CreateTaskMobileState();
+  _CreateTaskTabletState createState() => _CreateTaskTabletState();
 }
 
-class _CreateTaskMobileState extends State<CreateTaskMobile> {
+class _CreateTaskTabletState extends State<CreateTaskTablet> {
 
   // Auxiliary variables
   String _selectedTipo = '';

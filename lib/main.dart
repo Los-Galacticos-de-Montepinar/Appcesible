@@ -1,11 +1,7 @@
-import 'package:appcesible/screens/home_student_mobile.dart';
-import 'package:appcesible/screens/select_user.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:appcesible/screens/home_student_mobile.dart';
+import 'package:appcesible/screens/create_task_init.dart';
 import 'package:appcesible/screens/home_student_init.dart';
-import 'package:appcesible/screens/formulario_alumno.dart';
-import 'package:appcesible/screens/create_task_mobile.dart';
-import 'package:appcesible/screens/home_teacher.dart';
+
 
 import 'package:flutter/material.dart';
 
@@ -27,7 +23,7 @@ Widget build(BuildContext context) {
     builder: (context, child) {
       return const MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: CreateTaskMobile(),
+        home: CreateTaskInit(),
       );
     },
   );
