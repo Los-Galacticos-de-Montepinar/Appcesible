@@ -1,3 +1,4 @@
+import 'package:appcesible/widgets/top_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:appcesible/services/user_service.dart';
 import 'package:appcesible/widgets/alert_dialog.dart';
@@ -184,12 +185,7 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
 
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.yellow[300],
-          title: const Text('AppCesible', textScaleFactor: 1.5),
-          centerTitle: true,
-          toolbarHeight: heightTitle,
-        ),
+        appBar: const TopMenu(),
         body: Center(
             child: SingleChildScrollView(
               child: Column(
