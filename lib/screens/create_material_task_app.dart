@@ -1,3 +1,4 @@
+import 'package:appcesible/widgets/quantity_dialog.dart';
 import 'package:appcesible/widgets/top_menu.dart';
 import 'package:appcesible/widgets/error.dart';
 import 'package:flutter/material.dart';
@@ -14,10 +15,10 @@ class MaterialTaskApp extends StatefulWidget {
 
 class _MaterialTaskAppState extends State<MaterialTaskApp> {
   List<String> selectedMaterials = [];
+  Map<String, int> materialQuantities = {};
   bool showSelectedMaterials = false;
 
   TextEditingController controllerNombreTarea = TextEditingController();
-  TextEditingController controllerCantidad = TextEditingController();
   TextEditingController controllerProfesor = TextEditingController();
   TextEditingController controllerClase = TextEditingController();
   TextEditingController controllerEstudiante = TextEditingController();
@@ -63,7 +64,7 @@ class _MaterialTaskAppState extends State<MaterialTaskApp> {
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
-                      fontWeight: FontWeight.normal,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                 ),
@@ -72,10 +73,6 @@ class _MaterialTaskAppState extends State<MaterialTaskApp> {
                     name: 'Nombre Tarea',
                     typeData: 1,
                     controller: controllerNombreTarea),
-                MaterialFormEntry(
-                    name: 'Cantidad',
-                    typeData: 0,
-                    controller: controllerCantidad),
                 MaterialFormEntry(
                     name: 'Profesor',
                     typeData: 1,
@@ -97,7 +94,7 @@ class _MaterialTaskAppState extends State<MaterialTaskApp> {
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
-                      fontWeight: FontWeight.normal,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                 ),
@@ -113,14 +110,34 @@ class _MaterialTaskAppState extends State<MaterialTaskApp> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text("Materiales Seleccionados:"),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              'Material Seleccionado',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontStyle: FontStyle.italic,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            TextButton.icon(
+                              onPressed: _clearSelectedMaterials,
+                              icon: const Icon(Icons.delete),
+                              label: const Text('Limpiar'),
+                            ),
+                          ],
+                        ),
                         const SizedBox(height: 5),
-                        Text(selectedMaterials.join(", ")),
+                        for (var entry in materialQuantities.entries)
+                          Text(
+                              "Tipo: ${entry.key}. \nCantidad: ${entry.value}\n"),
                         const SizedBox(height: 30),
                       ],
                     ),
                   ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 0),
                 MyButton(buttonText: 'Crear Pedido', onPressed: _createOrder),
                 const SizedBox(height: 30),
               ],
@@ -132,34 +149,45 @@ class _MaterialTaskAppState extends State<MaterialTaskApp> {
   }
 
   void _onMaterialSelected(String material) {
-    setState(() {
-      if (!selectedMaterials.contains(material)) {
-        selectedMaterials.add(material);
-        showSelectedMaterials = true;
-      }
-    });
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return QuantityDialog(
+          material: material,
+          onQuantitySelected: (quantity) {
+            setState(() {
+              if (!selectedMaterials.contains(material)) {
+                selectedMaterials.add(material);
+              }
+              materialQuantities[material] = quantity;
+              showSelectedMaterials = true;
+            });
+          },
+        );
+      },
+    );
   }
 
+  // Crea el pedido
   void _createOrder() {
     if (!_validateFormEntries()) {
-      // Call the showErrorDialog method from the ErrorWindow class with red color (#FF0000)
+      // Call the showErrorDialog method from the ErrorWindow class
       ErrorWindow.showErrorDialog(context, 'Debes rellenar todos los campos.');
       return;
     }
 
     // Logic to create the order
     print("Order Created: ");
-    for (var material in selectedMaterials) {
-      print("Material: $material");
+    for (var entry in materialQuantities.entries) {
+      print("Material: ${entry.key}, Quantity: ${entry.value}");
     }
   }
 
+  // Validate all forms are with content
   bool _validateFormEntries() {
     // Check if all required fields are filled
-    // You can adjust this logic based on your specific requirements
     if (selectedMaterials.isEmpty ||
         controllerNombreTarea.text.isEmpty ||
-        controllerCantidad.text.isEmpty ||
         controllerProfesor.text.isEmpty ||
         controllerClase.text.isEmpty ||
         controllerEstudiante.text.isEmpty ||
@@ -167,5 +195,14 @@ class _MaterialTaskAppState extends State<MaterialTaskApp> {
       return false;
     }
     return true;
+  }
+
+  // Clear array materials
+  void _clearSelectedMaterials() {
+    setState(() {
+      selectedMaterials.clear();
+      materialQuantities.clear();
+      showSelectedMaterials = false;
+    });
   }
 }
