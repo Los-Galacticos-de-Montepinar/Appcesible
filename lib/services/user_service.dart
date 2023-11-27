@@ -3,7 +3,8 @@ import 'dart:convert';
 
 import 'package:appcesible/models/user_model.dart';
 
-String baseAddress = '172.17.0.1:8080';
+//String baseAdresss = = '192.168.1.136:8080';  // IP ordenador (para usar la app desde el movil)
+String baseAddress = 'localhost:8080';
 
 void createUser(UserModel user, String password) async {
   final response = await http.post(
@@ -45,7 +46,7 @@ Future<UserModel> getUserFromId(int id) async {
 
 // Return the number of users in the DB
 Future<int> countUsers() async {
-  final response = await http.get(Uri.http('localhost:8080', '/user'),
+  final response = await http.get(Uri.http(baseAddress, '/user'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8'
       });
@@ -60,7 +61,7 @@ Future<int> countUsers() async {
 
 // Return all users information
 Future<List<UserModel>> getAllUsers() async {
-  final response = await http.get(Uri.http('localhost:8080', '/user'),
+  final response = await http.get(Uri.http(baseAddress, '/user'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8'
       });

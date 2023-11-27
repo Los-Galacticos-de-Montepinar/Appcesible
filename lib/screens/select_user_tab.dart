@@ -96,8 +96,7 @@ class _SelectUserTabState extends State<SelectUserTab> {
       appBar: const TopMenu(),
       body: Center(
         child: Container(
-          width: 1200, // Ajusta según tus necesidades
-          height: 1920, // Ajusta según tus necesidades
+          width: 1024, // Ajusta según tus necesidades
           alignment: Alignment
               .topCenter, // Alinea el contenido en la parte superior del contenedor
           child: FittedBox(
@@ -127,7 +126,7 @@ class _SelectUserTabState extends State<SelectUserTab> {
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                           ),
-                        ), 
+                        ),
                       ],
                     )),
                 const SizedBox(height: 70),
@@ -165,7 +164,7 @@ class _SelectUserTabState extends State<SelectUserTab> {
                     // Box transparent between the button and the profile picture
                     const SizedBox(width: 20),
                     Container(
-                      width: 880,
+                      width: 900,
                       padding: const EdgeInsets.symmetric(horizontal: 30),
                       child: GridView.builder(
                         shrinkWrap: true,

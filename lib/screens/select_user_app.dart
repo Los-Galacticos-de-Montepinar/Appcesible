@@ -61,13 +61,16 @@ class _SelectUserAppState extends State<SelectUserApp> {
       appBar: const TopMenu(),
       body: Center(
         child: Container(
-          width: 1080, // Ajusta según tus necesidades
-          height: 2400, // Ajusta según tus necesidades
+          width: 1024, // Ajusta según tus necesidades
+          alignment: Alignment
+              .topCenter, // Alinea el contenido en la parte superior del contenedor
           child: FittedBox(
             child: Column(
               children: <Widget>[
+                const SizedBox(height: 80),
                 SizedBox(
-                  width: 150,
+                  width: 160,
+                  height: 50,
                   child: ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
@@ -95,7 +98,7 @@ class _SelectUserAppState extends State<SelectUserApp> {
                         ],
                       )),
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 65),
                 Column(children: [
                   SizedBox(
                     // Box where the name is shown
@@ -119,7 +122,7 @@ class _SelectUserAppState extends State<SelectUserApp> {
                   const SizedBox(height: 40),
                   SizedBox(
                     height: 200,
-                    width: 380,
+                    width: 412,
                     child: Row(
                       children: <Widget>[
                         // Elevated Button to the previous user
