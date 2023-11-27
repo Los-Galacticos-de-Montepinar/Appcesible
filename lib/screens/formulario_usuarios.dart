@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:appcesible/services/user_service.dart';
+import 'package:appcesible/widgets/alert_dialog.dart';
+import 'package:appcesible/widgets/local_photo.dart';
+import 'package:appcesible/models/user_model.dart';
 
 /// Esto es una plantilla, para que sea la de añadir alumno, le pasais argumentos vacios, es decir, llamais al constructor
 /// FormularioAlumnos("","","",{},[],,"")
@@ -89,27 +92,7 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
         const Text("Contraseña con pictogramas")
       ],
     );
-  }
-
-  void _showAlertDialog(String text, BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-          return AlertDialog(
-          title: const Text("Alerta"),
-          content: Text(text),
-          actions: <Widget>[
-            ElevatedButton(
-              child: const Text("CERRAR", style: TextStyle(color: Colors.white),),
-              onPressed: (){ Navigator.of(context).pop(); },
-            )
-          ],
-        );
-      }
-    );
-  }
-
-  
+  }  
 
   Widget contentW(BuildContext context){
     return Column(
@@ -159,6 +142,11 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
 
     Function upload;
     if(firstExe){
+
+      if(widget.name.isEmpty && widget.passwd.isEmpty){
+        upload=createUser;
+      }
+
       nameController = TextEditingController(text: widget.name);
 
       passwdController = TextEditingController(text: widget.passwd);
@@ -296,43 +284,35 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                       ),
                     ),
                   ),
-
                   Padding(
                     padding: const EdgeInsets.all(22),
-                    child: Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: picture
-                          ),
-                          height: 128,
-                          width: 128,
-                          child: const ClipOval(),
-                        ),
-                        
+                    child: UploadPicture()                        
                     ),
-                  Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: ElevatedButton(
-                        onPressed: () => {}, 
-                        child: const Text("Subir Foto")
-                      ),
-                        ),
                   Padding(
                   padding: const EdgeInsets.all(22),
                   child: TextButton(
                       onPressed: ()=>{
                         if(nameController.value.text.isEmpty)
-                          _showAlertDialog("Rellene el campo nombre", context)/*
+                          dialogBuilder(context,"Rellene el campo nombre")
                         else if(passwdController.value.text.isEmpty)
-                          _showAlertDialog("Rellene el campo contraseña")
-                        else if(choosedTypes.isEmpty)
-                          _showAlertDialog("Rellene el campo contenidos")
+                          dialogBuilder(context,"Rellene el campo contraseña")
+                        else if(userTypes[userT]=="")
+                          dialogBuilder(context,"Rellene el campo tipo usuario")
+                        else if((choosedTypes.isEmpty && userTypes[userT]=="Estudiante"))
+                          dialogBuilder(context,"Rellene el campo contenidos")
                         else if(classes[classIndex]=='')
-                          _showAlertDialog("Rellene el campo clase")
+                          dialogBuilder(context,"Rellene el campo clase")
                         else if((picture.image as AssetImage).assetName=='assets/images/addPicture.png')
-                          _showAlertDialog("Rellene el campo foto")*/
-                        //else
-                          //upload()
+                          dialogBuilder(context,"Rellene el campo foto")
+                        else{
+                          upload(
+                            UserModel(id: id,
+                                      userName: userName,
+                                      idProfileImg: idProfileImg,
+                                      userType: userType, 
+                                      idClass: idClass, 
+                                      age: age))
+                        }
                       }, 
                       child: const Text("Finalizar")
                     )
