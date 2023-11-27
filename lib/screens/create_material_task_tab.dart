@@ -1,25 +1,32 @@
-
-import 'package:flutter/material.dart';
 import 'package:appcesible/widgets/top_menu.dart';
-
+import 'package:appcesible/widgets/error.dart';
+import 'package:flutter/material.dart';
+import 'package:appcesible/widgets/my_button.dart';
 import 'form_drop_down.dart';
 import 'form_entry.dart';
 
 class MaterialTaskTab extends StatefulWidget {
-  const MaterialTaskTab({super.key});
+  const MaterialTaskTab({Key? key}) : super(key: key);
 
   @override
   _MaterialTaskTabState createState() => _MaterialTaskTabState();
 }
 
 class _MaterialTaskTabState extends State<MaterialTaskTab> {
-  List<String> selectedMaterials = []; // Array para almacenar los materiales
-  bool showSelectedMaterials =
-      false; // Variable para controlar la visibilidad del contenedor
+  List<String> selectedMaterials = [];
+  bool showSelectedMaterials = false;
+
+  TextEditingController controllerNombreTarea = TextEditingController();
+  TextEditingController controllerCantidad = TextEditingController();
+  TextEditingController controllerProfesor = TextEditingController();
+  TextEditingController controllerClase = TextEditingController();
+  TextEditingController controllerEstudiante = TextEditingController();
+  TextEditingController controllerFecha = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: Colors.white,
         appBar: const TopMenu(),
@@ -34,9 +41,7 @@ class _MaterialTaskTabState extends State<MaterialTaskTab> {
                   decoration: BoxDecoration(
                     color: Colors.grey[400],
                     borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                        color: Colors
-                            .black), // Añade esta línea para el borde negro
+                    border: Border.all(color: Colors.black),
                   ),
                   child: const Center(
                     child: Text(
@@ -52,10 +57,9 @@ class _MaterialTaskTabState extends State<MaterialTaskTab> {
                 const SizedBox(height: 30),
                 Container(
                   margin: const EdgeInsets.only(left: 5),
-                  alignment:
-                      Alignment.topLeft, // Añadida esta línea para centrar
+                  alignment: Alignment.topLeft,
                   child: const Text(
-                    'Datos generales',
+                    'Información General',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -64,17 +68,30 @@ class _MaterialTaskTabState extends State<MaterialTaskTab> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                const MaterialFormEntry(name: 'Nombre de Tarea', typeData: 1),
-                const MaterialFormEntry(name: 'Cantidad', typeData: 0),
-                const MaterialFormEntry(name: 'Profesor', typeData: 1),
-                const MaterialFormEntry(name: 'Aula', typeData: 1),
-                const MaterialFormEntry(name: 'Alumno', typeData: 1),
-                const MaterialFormEntry(name: 'Fecha', typeData: 1),
+                MaterialFormEntry(
+                    name: 'Nombre Tarea',
+                    typeData: 1,
+                    controller: controllerNombreTarea),
+                MaterialFormEntry(
+                    name: 'Cantidad',
+                    typeData: 0,
+                    controller: controllerCantidad),
+                MaterialFormEntry(
+                    name: 'Profesor',
+                    typeData: 1,
+                    controller: controllerProfesor),
+                MaterialFormEntry(
+                    name: 'Clase', typeData: 1, controller: controllerClase),
+                MaterialFormEntry(
+                    name: 'Estudiante',
+                    typeData: 1,
+                    controller: controllerEstudiante),
+                MaterialFormEntry(
+                    name: 'Fecha', typeData: 2, controller: controllerFecha),
                 const SizedBox(height: 30),
                 Container(
                   margin: const EdgeInsets.only(left: 5),
-                  alignment:
-                      Alignment.topLeft, // Añadida esta línea para centrar
+                  alignment: Alignment.topLeft,
                   child: const Text(
                     'Pedido',
                     style: TextStyle(
@@ -86,20 +103,26 @@ class _MaterialTaskTabState extends State<MaterialTaskTab> {
                 ),
                 const SizedBox(height: 10),
                 MaterialFormEntryWithDropdown(
-                    name: 'Tipo de Material',
+                    name: 'Tipo Material',
                     onMaterialSelected: _onMaterialSelected),
                 const SizedBox(height: 20),
-                // Contenedor para mostrar los materiales seleccionados
                 if (showSelectedMaterials)
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text("Materiales seleccionados:"),
-                      const SizedBox(height: 5),
-                      Text(selectedMaterials.join(
-                          ", ")), // Muestra los materiales seleccionados separados por coma
-                    ],
+                  Container(
+                    margin: const EdgeInsets.only(left: 5),
+                    alignment: Alignment.topLeft,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text("Materiales Seleccionados:"),
+                        const SizedBox(height: 5),
+                        Text(selectedMaterials.join(", ")),
+                        const SizedBox(height: 30),
+                      ],
+                    ),
                   ),
+                const SizedBox(height: 30),
+                MyButton(buttonText: 'Crear Pedido', onPressed: _createOrder),
+                const SizedBox(height: 30),
               ],
             ),
           ),
@@ -108,36 +131,41 @@ class _MaterialTaskTabState extends State<MaterialTaskTab> {
     );
   }
 
-  // Función para manejar la selección de materiales
   void _onMaterialSelected(String material) {
     setState(() {
       if (!selectedMaterials.contains(material)) {
         selectedMaterials.add(material);
-        if (!showSelectedMaterials) {
-          showSelectedMaterials = true;
-        }
+        showSelectedMaterials = true;
       }
     });
   }
-}
 
-class ImageWidget extends StatelessWidget {
-  final String image;
+  void _createOrder() {
+    if (!_validateFormEntries()) {
+      // Call the showErrorDialog method from the ErrorWindow class with red color (#FF0000)
+      ErrorWindow.showErrorDialog(context, 'Debes rellenar todos los campos.');
+      return;
+    }
 
-  const ImageWidget({super.key, required this.image});
+    // Logic to create the order
+    print("Order Created: ");
+    for (var material in selectedMaterials) {
+      print("Material: $material");
+    }
+  }
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 200,
-      width: 200,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        image: DecorationImage(
-          image: AssetImage(image),
-          fit: BoxFit.cover,
-        ),
-      ),
-    );
+  bool _validateFormEntries() {
+    // Check if all required fields are filled
+    // You can adjust this logic based on your specific requirements
+    if (selectedMaterials.isEmpty ||
+        controllerNombreTarea.text.isEmpty ||
+        controllerCantidad.text.isEmpty ||
+        controllerProfesor.text.isEmpty ||
+        controllerClase.text.isEmpty ||
+        controllerEstudiante.text.isEmpty ||
+        controllerFecha.text.isEmpty) {
+      return false;
+    }
+    return true;
   }
 }
