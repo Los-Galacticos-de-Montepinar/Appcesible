@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -40,12 +41,49 @@ void sendPublicKey() async {
 // ENCRYPT methods
 
 void sendEncryptedMessage(String message) async {
+  Uint8List data = stringToUint8List(message);
+  Uint8List dataEncrypted = rsaEncrypt(getServerPublicKey(), data);
+  //print(dataEncrypted);
+  String json = jsonEncode(<String, dynamic>{
+    'data': dataEncrypted
+  });
+  print(json);
+  print(dataEncrypted.length);
+
+  //var request = http.MultipartRequest(
+  //  'POST',
+  //  Uri.http('localhost:8080', '/session/test')
+  //);
+  //request.files.add(http.MultipartFile.fromBytes('data', dataEncrypted));
+  //request.send().then((response) {
+  //  if (response.statusCode == 200) {
+  //    print(response.stream);
+  //  }
+  //  else {
+  //    throw Exception('Server cannot decrypt');
+  //  }
+  //});
+
+  //final request = http.Request(
+  //  'POST',
+  //  Uri.http('localhost:8080', '/session/test')
+  //);
+  //request.headers.addAll(<String, String>{
+  //  'Content-Type': 'application/json; charset=UTF-8'
+  //});
+  //request.body = jsonEncode(<String, dynamic>{
+  //  'data': dataEncrypted
+  //});
+
+  //final streamedResponse = await request.send();
+  //final response = await http.Response.fromStream(streamedResponse);
+
   final response = await http.post(
     Uri.http('localhost:8080', '/session/test'),
     headers: <String, String>{
       'Content-Type': 'application/octet-stream'
     },
-    body: rsaEncrypt(getServerPublicKey(), stringToUint8List(message)),
+    body: dataEncrypted,
   );
 
   if (response.statusCode == 200) {
@@ -56,8 +94,9 @@ void sendEncryptedMessage(String message) async {
   }
 }
 
-void main() {
+void main() async {
   getKeyFromServer();
+  Future.delayed(const Duration(seconds: 5));
   //stdin.readLineSync();
   //print(getServerPublicKey().modulus);
   //sendEncryptedMessage('hola este es un mensaje encriptado');
