@@ -19,6 +19,7 @@ class _CreateStepMobileState extends State<CreateStepMobile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
         appBar: AppBar(
           elevation: 5,
           toolbarHeight: 70,
@@ -120,7 +121,7 @@ class _CreateStepMobileState extends State<CreateStepMobile> {
         return AlertDialog(
           title: const Text('Seleccionar Multimedia'),
           content: SizedBox(
-            height: 100.0, 
+            height: 120.0, 
             child: Column(
               children: [
                 ListTile(

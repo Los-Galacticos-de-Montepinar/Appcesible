@@ -1,3 +1,6 @@
+// HOME STUDENT - Mobile Version
+// Autor: Alejandro Sanchez Rodríguez
+
 import 'package:flutter/material.dart';
 
 
@@ -157,8 +160,8 @@ class MyBoxWithImageAndText extends StatelessWidget {
         // Add the logic here for when the box is tapped
       },
       child: Container(
-        height: 180,
-        width: 180,
+        height: 182,
+        width: 182,
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
           border: Border.all(color: color, width: 3.0),

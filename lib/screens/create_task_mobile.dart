@@ -31,6 +31,7 @@ class _CreateTaskMobileState extends State<CreateTaskMobile> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: const TopMenu(),
         body: Center(
           child: FittedBox(
@@ -193,7 +194,7 @@ class _CreateTaskMobileState extends State<CreateTaskMobile> {
         return AlertDialog(
           title: const Text('Seleccionar Multimedia'),
           content: SizedBox(
-            height: 100.0, 
+            height: 120.0, 
             child: Column(
               children: [
                 ListTile(

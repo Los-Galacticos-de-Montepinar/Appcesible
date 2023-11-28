@@ -1,7 +1,7 @@
+import 'package:appcesible/screens/task_list_mobile.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:appcesible/screens/create_task_init.dart';
 import 'package:appcesible/screens/home_student_init.dart';
-
 
 import 'package:flutter/material.dart';
 
@@ -12,8 +12,78 @@ void main() {
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
-  
-@override
+  @override
+  Widget build(BuildContext context) {
+
+    List<MyTaskData> tasks2 = [
+      MyTaskData(
+        imagePath: 'assets/images/gato.png',
+        taskName: 'Hacer ejercicio y hacer los deberes',
+        studentName: 'Juan Perez',
+        state: 'done',
+      ),
+      MyTaskData(
+        imagePath: 'assets/images/gato.png',
+        taskName: 'Estudiar para el examen',
+        studentName: 'Maria Rodriguez',
+        state: 'done',
+      ),
+      MyTaskData(
+        imagePath: 'assets/images/gato.png',
+        taskName: 'Completar proyecto',
+        studentName: 'Carlos Lopez',
+        state: 'not finished',
+      ),
+      MyTaskData(
+        imagePath: 'assets/images/gato.png',
+        taskName: 'Hacer ejercicio',
+        studentName: 'Juan Perez',
+        state: 'done',
+      ),
+      MyTaskData(
+        imagePath: 'assets/images/gato.png',
+        taskName: 'Estudiar para el examen',
+        studentName: 'Maria Rodriguez',
+        state: 'not finished',
+      ),
+      MyTaskData(
+        imagePath: 'assets/images/gato.png',
+        taskName: 'Completar proyecto',
+        studentName: 'Carlos Lopez',
+        state: 'done',
+      ),
+      MyTaskData(
+        imagePath: 'assets/images/gato.png',
+        taskName: 'Hacer ejercicio',
+        studentName: 'Juan Perez',
+        state: 'not finished',
+      ),
+      MyTaskData(
+        imagePath: 'assets/images/gato.png',
+        taskName: 'Estudiar para el examen',
+        studentName: 'Maria Rodriguez',
+        state: 'not done',
+      ),
+      MyTaskData(
+        imagePath: 'assets/images/gato.png',
+        taskName: 'Completar proyecto',
+        studentName: 'Carlos Lopez',
+        state: 'not done',
+      ),
+    ];
+
+    return ScreenUtilInit(
+      designSize: const Size(412, 570),
+      builder: (context, child) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: TaskListMobile(tasks: tasks2),
+        );
+      },
+    );
+  }
+
+/*
 
 // TASK CREATION
 
@@ -28,8 +98,7 @@ Widget build(BuildContext context) {
     },
   );
 }
-
-
+*/
 
 /*
 @override
@@ -50,7 +119,7 @@ Widget build(BuildContext context) {
 */
 
   //@override
-  
+
   // SELECCION DE USUARIO
   /*
   Widget build(BuildContext context) {
@@ -100,3 +169,6 @@ Widget build(BuildContext context) {
   // '');
   // }
 }
+
+// Auxiliar class for task data
+
