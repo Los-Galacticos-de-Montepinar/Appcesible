@@ -10,7 +10,7 @@ class UploadPicture extends StatefulWidget{
   UploadPictureState createState() => UploadPictureState();
 
   static UploadPictureState? of(BuildContext context) {
-    return context.findAncestorStateOfType<UploadPictureState>().;
+    return context.findAncestorStateOfType<UploadPictureState>();
   }
 }
 

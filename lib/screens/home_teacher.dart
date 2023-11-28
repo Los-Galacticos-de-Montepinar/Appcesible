@@ -264,12 +264,13 @@ class TeacherHome extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (BuildContext context) {
-                    return const FormularioUsuarios(
-                      'Modificar alumno',
-                      1
-                    );
-                  }));
+                    .push(MaterialPageRoute(builder: (BuildContext context) {
+                      return const FormularioUsuarios(
+                        'Modificar alumno',
+                        1
+                      );
+                    })
+                  );
                 },
                 style: ButtonStyle(
                   elevation: MaterialStateProperty.all(5),

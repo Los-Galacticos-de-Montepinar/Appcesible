@@ -13,13 +13,12 @@ String _baseAddress = '10.0.2.2:8080';
 void getKeyFromServer() async {
   final response = await http.get(
     Uri.http('localhost:8080', '/session/public'),
-    headers: <String, String>{
-      'Content-Type': 'application/octet-stream'
-    },
+    //headers: <String, String>{
+    //  'Content-Type': 'application/octet-stream'
+    //},
   );
 
   if (response.statusCode == 200) {
-    //Map<String, dynamic> json = jsonDecode(response.body);
     //print(response.bodyBytes);
     setServerPublicKey(response.bodyBytes, true);
     sendEncryptedMessage('hola este es un mensaje encriptado');
@@ -44,11 +43,12 @@ void sendEncryptedMessage(String message) async {
   Uint8List data = stringToUint8List(message);
   Uint8List dataEncrypted = rsaEncrypt(getServerPublicKey(), data);
   //print(dataEncrypted);
-  String json = jsonEncode(<String, dynamic>{
-    'data': dataEncrypted
-  });
-  print(json);
+  //String json = jsonEncode(<String, dynamic>{
+  //  'data': dataEncrypted
+  //});
+  //print(json);
   print(dataEncrypted.length);
+  print(uint8ListToString(dataEncrypted));
 
   //var request = http.MultipartRequest(
   //  'POST',
@@ -81,9 +81,9 @@ void sendEncryptedMessage(String message) async {
   final response = await http.post(
     Uri.http('localhost:8080', '/session/test'),
     headers: <String, String>{
-      'Content-Type': 'application/octet-stream'
+      'Content-Type': 'text/plain; charset=UTF-8'
     },
-    body: dataEncrypted,
+    body: uint8ListToString(dataEncrypted),
   );
 
   if (response.statusCode == 200) {
@@ -94,9 +94,9 @@ void sendEncryptedMessage(String message) async {
   }
 }
 
-void main() async {
+void main() {
   getKeyFromServer();
-  Future.delayed(const Duration(seconds: 5));
+  //Future.delayed(const Duration(seconds: 5));
   //stdin.readLineSync();
   //print(getServerPublicKey().modulus);
   //sendEncryptedMessage('hola este es un mensaje encriptado');

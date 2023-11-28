@@ -2,13 +2,13 @@ class UserModel {
   int id;
 
   // Login information
-  final String userName;
-  //final String _passwd;
+  String userName;
+  //String _passwd;
 
   // Profile information
-  final int idProfileImg;
-  final int userType;
-  final int idClass;
+  int idProfileImg;
+  int userType;
+  int idClass;
 
   // Constructor
   UserModel({
