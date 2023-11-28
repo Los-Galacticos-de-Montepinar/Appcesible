@@ -1,6 +1,21 @@
-import 'dart:convert';
-import 'dart:typed_data';
+import 'package:crypton/crypton.dart';
 
+class Encrypt {
+  static final Encrypt _instance = Encrypt._init();
+
+  static final RSAKeypair _rsaKeypair = RSAKeypair.fromRandom();
+  static final String _publicKeyPem = _encodePublicKeyToPem(_rsaKeypair.publicKey);
+
+  factory Encrypt() => _instance;
+  Encrypt._init();
+
+  static String get publicKeyPem => _publicKeyPem;
+  static String decrypt(String msg) => _rsaKeypair.privateKey.decrypt(msg);
+
+  static String _encodePublicKeyToPem(RSAPublicKey publicKey) => publicKey.toPEM();
+}
+
+/*
 import 'package:pointycastle/pointycastle.dart';
 import 'package:pointycastle/src/platform_check/platform_check.dart';
 import "package:pointycastle/export.dart";
@@ -143,3 +158,4 @@ BigInt _readBytes(Uint8List bytes) {
 
 void main() {
 }
+*/
