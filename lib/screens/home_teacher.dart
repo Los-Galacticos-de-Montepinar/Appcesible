@@ -214,12 +214,6 @@ class TeacherHome extends StatelessWidget {
                       .push(MaterialPageRoute(builder: (BuildContext context) {
                     return const FormularioUsuarios(
                       'Añadir alumno',
-                      '',
-                      '',
-                      {'Audio': false, 'Pictogramas': false, 'Texto': false},
-                      ['1A', '2A', '3A'],
-                      -1,
-                      '',
                       -1
                     );
                   }));
@@ -273,12 +267,6 @@ class TeacherHome extends StatelessWidget {
                       .push(MaterialPageRoute(builder: (BuildContext context) {
                     return const FormularioUsuarios(
                       'Modificar alumno',
-                      'Agustin',
-                      '123',
-                      {'Audio': true, 'Pictogramas': false, 'Texto': false},
-                      ['1A', '2A', '3A'],
-                      2,
-                      '',
                       1
                     );
                   }));

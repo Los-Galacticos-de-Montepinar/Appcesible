@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:appcesible/widgets/alert_dialog.dart';
 import 'dart:io';
 
 
@@ -9,16 +8,16 @@ class UploadPicture extends StatefulWidget{
 
   @override
   UploadPictureState createState() => UploadPictureState();
+
+  static UploadPictureState? of(BuildContext context) {
+    return context.findAncestorStateOfType<UploadPictureState>().;
+  }
 }
 
 class UploadPictureState extends State<UploadPicture>{
 
   late XFile? imageFile;
   Image photo=Image.asset("assets/images/bellingol.jpg", fit: BoxFit.fill);
-
-  Image getPhoto(){    
-    return photo;
-  }
 
 Future<void> pickImage() async {
     final ImagePicker picker = ImagePicker();
@@ -54,6 +53,7 @@ Future<void> pickImage() async {
                     setState(()=>{})
                   }
         }),
+        print(photo)
         },
       style: ButtonStyle(
         shape: MaterialStateProperty.all<CircleBorder>(CircleBorder()),

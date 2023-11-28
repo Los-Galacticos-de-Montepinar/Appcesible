@@ -10,9 +10,6 @@ class UserModel {
   final int userType;
   final int idClass;
 
-  // General information
-  final int age;
-
   // Constructor
   UserModel({
     required this.id,
@@ -21,7 +18,7 @@ class UserModel {
     required this.idProfileImg,
     required this.userType,
     required this.idClass,
-    required this.age
+
   });
 
   // Factory method that creates an User instance from a JSON
@@ -32,8 +29,7 @@ class UserModel {
         //passwd: json['passwd'] as String,
         idProfileImg: json['pfp'] as int,
         userType: json['userType'] as int,
-        idClass: json['idClass'] as int,
-        age: json['age'] as int);
+        idClass: json['idClass'] as int,);
   }
 
   // GET methods

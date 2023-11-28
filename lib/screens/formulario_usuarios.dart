@@ -18,20 +18,14 @@ import 'package:appcesible/models/user_model.dart';
 void main() {
   runApp( 
     const MaterialApp(
-      home: FormularioUsuarios("Añadir alumno","","",{"Audio":false,"Pictogramas":false,"Texto":false},['1A','2A','3A'],-1,"",-1),
+      home: FormularioUsuarios("Añadir usuario",-1),
     ));
 }
 
 class FormularioUsuarios extends StatefulWidget {
   final String title;
-  final String name;
-  final String passwd;
-  final Map<String,bool> content;
-  final List<String> classes;
-  final int classIndex;
-  final String picture;
-  final int userT;
-  const FormularioUsuarios(this.title , this.name ,this.passwd, this.content , this.classes, this.classIndex, this.picture, this.userT ,{super.key});
+  final int id;
+  const FormularioUsuarios(this.title , this.id,{super.key});
 
   @override
   FormularioAlumnosState createState() => FormularioAlumnosState();
@@ -142,30 +136,42 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
     final heightTitle = screenHeight * heightPercentage;
 
     Function upload;
+    int id=widget.id;
+    UserModel user=UserModel(id: id, userName: "", idProfileImg: -1, userType: -1, idClass: -1);
+
+    Image defaultImage=Image.asset("assets/images/addPicture.png");
+
+    if(id==-1){
+      upload=createUser;
+    }else{
+      upload=updateUser;
+
+      getUserFromId(id).then((value) => {user = value})
+      .catchError((e)=>{throw Exception(e)});
+    }
+
+    Map<String,bool> content;
+
     if(firstExe){
 
-      if(widget.name.isEmpty && widget.passwd.isEmpty){
-        upload=createUser;
-      }
+      nameController = TextEditingController(text: user.userName);
 
-      nameController = TextEditingController(text: widget.name);
+      passwdController = TextEditingController(text: "");
 
-      passwdController = TextEditingController(text: widget.passwd);
+      content={"Texto":false,"Audio":false,"Imagenes":false};
 
-      content=Map.fromIterables(widget.content.keys, widget.content.values);
-
-      classIndex=widget.classIndex;
+      classIndex=user.idClass;
       if(classIndex==-1){
         classes.add('');
-        classes.addAll(widget.classes);
+        classes.addAll(["1A","2A","3A"]);
         classIndex=0;
         upload=createUser;
       }else{
-        classes=widget.classes;
+        classes=["1A","2A","3A"];
         upload=updateUser;
       }
 
-      userT=widget.userT;
+      userT=user.userType;
       if(userT==-1){
         userT=0;
         userTypes.add("");
@@ -175,10 +181,6 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
       show=userTypes[userT]=="Estudiante";
 
       content.forEach((key, value) {if(value) choosedTypes+=' $key ';});
-
-      if(widget.picture!=""){
-        //picture=DecorationImage(image: NetworkImage(widget.picture));
-      }
 
       firstExe=false;
     }
@@ -298,17 +300,20 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                           dialogBuilder(context,"Rellene el campo contenidos")
                         else if(classes[classIndex]=='')
                           dialogBuilder(context,"Rellene el campo clase")
-                        else if((picture.image as AssetImage).assetName=='assets/images/addPicture.png')
-                          dialogBuilder(context,"Rellene el campo foto")
-                        else{
-                          upload(
-                            UserModel(id: id,
-                                      userName: userName,
-                                      idProfileImg: idProfileImg,
-                                      userType: userType, 
-                                      idClass: idClass, 
-                                      age: age))
-                        }
+                        else if(UploadPicture.of(context)!=null){
+                            if(defaultImage==UploadPicture.of(context).photo)
+                              dialogBuilder(context,"Rellene el campo foto")
+                            else{
+                              upload(
+                                UserModel(id: id,
+                                          userName: nameController.value.text,
+                                          idProfileImg: 0,
+                                          userType: userT, 
+                                          idClass: classIndex),
+                                          passwdController.value.text)
+                            }
+                        }else
+                           dialogBuilder(context,"Rellene el campo foto")
                       }, 
                       child: const Text("Finalizar")
                     )
