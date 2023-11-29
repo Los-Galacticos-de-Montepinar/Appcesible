@@ -18,13 +18,12 @@ class _LoginState extends State<Login> {
   bool _authenticationFailed = false;
   bool visible = false;
   UserModel user = UserModel(
-      id: 3,
-      passwd: 'yoquese',
-      userName: 'Diego Brando',
-      idProfileImg: 5,
-      userType: 5,
-      idClass: 1,
-      age: 12);
+    id: 3,
+    userName: 'Diego Brando',
+    idProfileImg: 5,
+    userType: 5,
+    idClass: 1,
+  );
 
   @override
   Widget build(BuildContext context) {
