@@ -3,12 +3,12 @@ import 'dart:convert';
 
 import 'package:appcesible/models/user_model.dart';
 
-//String baseAdresss = = '192.168.1.136:8080';  // IP ordenador (para usar la app desde el movil)
-String baseAddress = 'localhost:8080';
+//String _baseAdresss = = '10.0.2.2:8080';  // IP ordenador (para usar la app desde el movil)
+String _baseAddress = 'localhost:8080';
 
 void createUser(UserModel user, String password) async {
   final response = await http.post(
-    Uri.http(baseAddress, '/user/new'),
+    Uri.http(_baseAddress, '/user/new'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8'
     },
@@ -31,10 +31,12 @@ void createUser(UserModel user, String password) async {
 
 // Function that makes a HTTP request to get a User from the server DB
 Future<UserModel> getUserFromId(int id) async {
-  final response = await http.get(Uri.http(baseAddress, '/user/$id'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8'
-      });
+  final response = await http.get(
+    Uri.http(_baseAddress, '/user/$id'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8'
+    }
+  );
 
   if (response.statusCode == 200) {
     dynamic json = jsonDecode(response.body);
@@ -46,10 +48,12 @@ Future<UserModel> getUserFromId(int id) async {
 
 // Return the number of users in the DB
 Future<int> countUsers() async {
-  final response = await http.get(Uri.http(baseAddress, '/user'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8'
-      });
+  final response = await http.get(
+    Uri.http(_baseAddress, '/user'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8'
+    }
+  );
 
   if (response.statusCode == 200) {
     List<dynamic> userList = jsonDecode(response.body);
@@ -61,10 +65,12 @@ Future<int> countUsers() async {
 
 // Return all users information
 Future<List<UserModel>> getAllUsers() async {
-  final response = await http.get(Uri.http(baseAddress, '/user'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8'
-      });
+  final response = await http.get(
+    Uri.http(_baseAddress, '/user'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8'
+    }
+  );
 
   if (response.statusCode == 200) {
     List<dynamic> userList = jsonDecode(response.body);
@@ -78,7 +84,7 @@ Future<List<UserModel>> getAllUsers() async {
 void updateUser(UserModel user, String password) async {
   int id = user.id;
   final response = await http.post(
-    Uri.http(baseAddress, '/user/$id'),
+    Uri.http(_baseAddress, '/user/$id'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8'
     },
@@ -96,23 +102,88 @@ void updateUser(UserModel user, String password) async {
   }
 }
 
-void createStep(String media, String description) async {
-  final response = await http.post(
-    Uri.http(UserModel.baseAddress, '/task/step/new'),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8'
-    },
-    body: jsonEncode(<String, dynamic>{
-      'media': media,
-      'order': 1,
-      'taskId': 1,
-      'desc': description,
-    }),
-  );
+// Future<UserModel> authenticateUser(int id, String enteredPassword) async {
+//   final response = await http.get(Uri.http(_baseAddress, '/user/$id'),
+//       headers: <String, String>{
+//         'Content-Type': 'application/json; charset=UTF-8'
+//       });
+//   if (response.statusCode == 200) {
+//     dynamic json = jsonDecode(response.body);
+//     UserModel user = UserModel.fromJSON(json);
+//     if (verifyPassword(enteredPassword, user.passwd)) {
+//       print("Contraseña correcta");
+//       return UserModel.fromJSON(json);
+//     } else {
+//       print(enteredPassword.toString());
+//       print(user.passwd.toString());
+//       throw Exception('Contraseña incorrecta');
+//     }
+//   } else {
+//     print('object');
+//     throw Exception('Failed to load User');
+//   }
+// }
 
-  if (response.statusCode == 200) {
-    print("New step created");
-  } else {
-    throw Exception('Failed to create a step');
+// bool verifyPassword(String enteredPassword, String dbPassword) {
+//   return enteredPassword == dbPassword;
+// }
+
+Future<bool> authenticateUser(UserModel user, String enteredPassword) async {
+  try {
+    final response = await http.post(
+      Uri.http(_baseAddress, '/session/login'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8'
+      },
+      body: jsonEncode(<String, dynamic>{
+        'userName': user.userName,
+        'passwd': enteredPassword,
+        'publicKey': 123,
+      }),
+    )
+    .timeout(const Duration(seconds: 200));
+
+    if (response.statusCode == 200) {
+      var jsonResponse = await json.decode(json.encode(response.body));
+      print('Autenticacion exitosa. Token: $jsonResponse');
+      return true;
+    } else {
+      print(
+          'Error en la autenticación. Código de estado: ${response.statusCode}');
+      return false;
+    }
+  } catch (e) {
+    print('Error durante la solicitud: $e');
+    return false;
+  }
+}
+
+Future<bool> pictoAuthenticateUser0(UserModel user, String enteredPassword) async {
+  try {
+    final response = await http.post(
+      Uri.http(_baseAddress, '/session/login'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8'
+      },
+      body: jsonEncode(<String, dynamic>{
+        'userName': user.userName,
+        'passPart0': enteredPassword,
+        'publicKey': 123,
+      }),
+    )
+    .timeout(const Duration(seconds: 200));
+
+    if (response.statusCode == 200) {
+      var jsonResponse = await json.decode(json.encode(response.body));
+      print('Autenticacion exitosa. Token: $jsonResponse');
+      return true;
+    } else {
+      print(
+          'Error en la autenticación. Código de estado: ${response.statusCode}');
+      return false;
+    }
+  } catch (e) {
+    print('Error durante la solicitud: $e');
+    return false;
   }
 }

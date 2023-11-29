@@ -3,11 +3,11 @@ import 'dart:convert';
 
 import 'package:appcesible/models/task_model.dart';
 
-String baseAddress = '10.0.2.2:8080';
+String _baseAddress = '10.0.2.2:8080';
 
 void createTask(TaskModel task) async {
   final taskResponse = await http.post(
-    Uri.http(baseAddress, (task.type == 0) ? '/task/new' : '/task/petition/new'),
+    Uri.http(_baseAddress, (task.type == 0) ? '/task/new' : '/task/petition/new'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8'
     },
@@ -22,7 +22,7 @@ void createTask(TaskModel task) async {
 
     for (TaskElement element in task.elements) {
       final elemResponse = await http.post(
-        Uri.http(baseAddress, (task.type == 0) ? 'task/step/new' : 'task/petition/$id/item/new'),
+        Uri.http(_baseAddress, (task.type == 0) ? 'task/step/new' : 'task/petition/$id/item/new'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8'
         },
@@ -62,10 +62,12 @@ void getAllFixedTasks(TaskModel task) async {
 }
 
 Future<TaskModel> getFixedTaskFromId(int id) async {
-  final response = await http.get(Uri.http(baseAddress, '/task/$id'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8'
-      });
+  final response = await http.get(
+    Uri.http(_baseAddress, '/task/$id'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8'
+    }
+  );
 
   if (response.statusCode == 200) {
     dynamic json = jsonDecode(response.body);
@@ -75,11 +77,32 @@ Future<TaskModel> getFixedTaskFromId(int id) async {
   }
 }
 
+void createStep(String media, String description) async {
+  final response = await http.post(
+    Uri.http(_baseAddress, '/task/step/new'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8'
+    },
+    body: jsonEncode(<String, dynamic>{
+      'media': media,
+      'order': 1,
+      'taskId': 1,
+      'desc': description,
+    }),
+  );
+
+  if (response.statusCode == 200) {
+    print("New step created");
+  } else {
+    throw Exception('Failed to create a step');
+  }
+}
+
 // MATERIAL petition tasks
 
 void main() async {
   final taskResponse = await http.post(
-    Uri.http(baseAddress, '/task/new'),
+    Uri.http(_baseAddress, '/task/new'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8'
     },

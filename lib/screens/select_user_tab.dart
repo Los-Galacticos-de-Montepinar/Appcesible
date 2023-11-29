@@ -80,7 +80,7 @@ class _SelectUserTabState extends State<SelectUserTab> {
         selectedUser = user;
       });
 
-      print('User loaded: ${selectedUser?.username}');
+      print('User loaded: ${selectedUser?.userName}');
     } catch (e) {
       print('Error loading user: $e');
       // Manejar el error según sea necesario

@@ -4,8 +4,6 @@ import 'package:appcesible/services/user_service.dart';
 import 'package:appcesible/widgets/top_menu.dart';
 import 'package:flutter/material.dart';
 
-import 'students_list.dart';
-
 class Login extends StatefulWidget {
   const Login({super.key});
 
@@ -63,7 +61,7 @@ class _LoginState extends State<Login> {
                       controller: password,
                       decoration: InputDecoration(
                         labelText: 'contraseña',
-                        hintText: "contraseña",
+                        hintText: 'contraseña',
                         //errorText: 'contraseña incorrecta',
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16),
@@ -81,8 +79,8 @@ class _LoginState extends State<Login> {
                         ),
                         suffixIcon: IconButton(
                           icon: visible
-                              ? Icon(Icons.visibility_off)
-                              : Icon(Icons.visibility),
+                              ? const Icon(Icons.visibility_off)
+                              : const Icon(Icons.visibility),
                           onPressed: () {
                             setState(() {
                               visible = !visible;
@@ -93,7 +91,7 @@ class _LoginState extends State<Login> {
                       obscureText: visible,
                     ),
                     if (_authenticationFailed)
-                      Text(
+                      const Text(
                         'Contraseña incorrecta. Intentalo de nuevo',
                         style: TextStyle(color: Colors.red),
                       ),
@@ -125,14 +123,15 @@ class _LoginState extends State<Login> {
                       _authenticationFailed = !correct;
                     });
                     if (correct) {
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (BuildContext context) {
-                        return const TeacherHome();
-                      }));
+                      Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (BuildContext context) {
+                          return const TeacherHome();
+                        })
+                      );
                     }
                   },
                   child: const Text(
-                    "Iniciar Sesion",
+                    'Iniciar Sesion',
                     style: TextStyle(color: Colors.black, fontSize: 20),
                   ),
                 ),

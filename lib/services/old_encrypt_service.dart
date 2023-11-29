@@ -1,3 +1,4 @@
+/*
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -101,3 +102,4 @@ void main() {
   //print(getServerPublicKey().modulus);
   //sendEncryptedMessage('hola este es un mensaje encriptado');
 }
+*/
