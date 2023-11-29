@@ -1,7 +1,10 @@
+import 'package:appcesible/models/user_model.dart';
+import 'package:appcesible/screens/home_teacher.dart';
+import 'package:appcesible/services/user_service.dart';
+import 'package:appcesible/widgets/top_menu.dart';
 import 'package:flutter/material.dart';
 
-import 'package:appcesible/screens/home_teacher.dart';
-import 'package:appcesible/widgets/top_menu.dart';
+import 'students_list.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -12,7 +15,16 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   TextEditingController password = TextEditingController();
+  bool _authenticationFailed = false;
   bool visible = false;
+  UserModel user = UserModel(
+      id: 3,
+      passwd: 'yoquese',
+      userName: 'Diego Brando',
+      idProfileImg: 5,
+      userType: 5,
+      idClass: 1,
+      age: 12);
 
   @override
   Widget build(BuildContext context) {
@@ -81,6 +93,11 @@ class _LoginState extends State<Login> {
                       ),
                       obscureText: visible,
                     ),
+                    if (_authenticationFailed)
+                      Text(
+                        'Contraseña incorrecta. Intentalo de nuevo',
+                        style: TextStyle(color: Colors.red),
+                      ),
                   ],
                 ),
               ),
@@ -103,7 +120,18 @@ class _LoginState extends State<Login> {
                       ),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () async {
+                    bool correct = await authenticateUser(user, password.text);
+                    setState(() {
+                      _authenticationFailed = !correct;
+                    });
+                    if (correct) {
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (BuildContext context) {
+                        return const TeacherHome();
+                      }));
+                    }
+                  },
                   child: const Text(
                     "Iniciar Sesion",
                     style: TextStyle(color: Colors.black, fontSize: 20),
