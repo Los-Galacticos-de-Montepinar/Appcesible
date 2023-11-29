@@ -87,57 +87,50 @@ class MainApp extends StatelessWidget {
     );
   }
 
-/*
-
-// TASK CREATION
-
-Widget build(BuildContext context) {
-  return ScreenUtilInit(
-    designSize: const Size(412, 570),
-    builder: (context, child) {
-      return const MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: CreateTaskInit(),
-      );
-    },
-  );
-}
-*/
-
-/*
-@override
-
-// HOME USUARIO
-
-Widget build(BuildContext context) {
-  return ScreenUtilInit(
-    designSize: const Size(412, 570),
-    builder: (context, child) {
-      return const MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: HomeStudentInit(),
-      );
-    },
-  );
-}
-*/
-
+  // TASK CREATION
+  
   //@override
+  //Widget build(BuildContext context) {
+  //  return ScreenUtilInit(
+  //    designSize: const Size(412, 570),
+  //    builder: (context, child) {
+  //      return const MaterialApp(
+  //        debugShowCheckedModeBanner: false,
+  //        home: CreateTaskInit(),
+  //      );
+  //    },
+  //  );
+  //}  
+
+  // HOME USUARIO
+  
+  //@override
+  //Widget build(BuildContext context) {
+  //  return ScreenUtilInit(
+  //    designSize: const Size(412, 570),
+  //    builder: (context, child) {
+  //      return const MaterialApp(
+  //        debugShowCheckedModeBanner: false,
+  //        home: HomeStudentInit(),
+  //      );
+  //    },
+  //  );
+  //}
 
   // SELECCION DE USUARIO
-  /*
-  Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      designSize: const Size(412, 570), // ?
-      builder: (context, child) {
-        return const MaterialApp(
-          debugShowCheckedModeBanner: false,
-          home: SelectUser(),
-        );
-      },
-    );
-  }
-  */
+  
+  //@override
+  //Widget build(BuildContext context) {
+  //  return ScreenUtilInit(
+  //    designSize: const Size(412, 570), // ?
+  //    builder: (context, child) {
+  //      return const MaterialApp(
+  //        debugShowCheckedModeBanner: false,
+  //        home: SelectUser(),
+  //      );
+  //    },
+  //  );
+  //}
 
   // HOME DEL PROFESOR
 
@@ -173,6 +166,3 @@ Widget build(BuildContext context) {
   // '');
   // }
 }
-
-// Auxiliar class for task data
-
