@@ -19,7 +19,7 @@ class UserModel {
       required this.userName,
       required this.idProfileImg,
       required this.userType,
-      required this.idClass});
+      required this.idClass
   });
 
   // Factory method that creates an User instance from a JSON
@@ -29,7 +29,7 @@ class UserModel {
         userName: json['userName'] as String,
         idProfileImg: json['pfp'] as int,
         userType: json['userType'] as int,
-        idClass: json['idClass'] as int);
+        idClass: json['idClass'] as int
     );
   }
 }
