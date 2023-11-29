@@ -1,9 +1,15 @@
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+
 class UserModel {
+  static const String baseAddress = 'localhost:8080';
+
   int id;
 
   // Login information
   final String userName;
-  //final String _passwd;
+  final String passwd;
 
   // Profile information
   final int idProfileImg;
@@ -13,11 +19,11 @@ class UserModel {
   // General information
   final int age;
 
-  // Constructor
+  // Contructor
   UserModel({
     required this.id,
     required this.userName,
-    //required this.passwd,
+    required this.passwd,
     required this.idProfileImg,
     required this.userType,
     required this.idClass,
@@ -27,13 +33,14 @@ class UserModel {
   // Factory method that creates an User instance from a JSON
   factory UserModel.fromJSON(Map<String, dynamic> json) {
     return UserModel(
-        id: json['id'] as int,
-        userName: json['userName'] as String,
-        //passwd: json['passwd'] as String,
-        idProfileImg: json['pfp'] as int,
-        userType: json['userType'] as int,
-        idClass: json['idClass'] as int,
-        age: json['age'] as int);
+      id: json["id"] as int,
+      userName: json["userName"] as String,
+      passwd: json?["passwd"] as String? ?? '',
+      idProfileImg: json["pfp"] as int,
+      userType: json["userType"] as int,
+      idClass: json["idClass"] as int,
+      age: json?["age"] as int? ?? 0,
+    );
   }
 
   // GET methods

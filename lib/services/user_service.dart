@@ -64,3 +64,24 @@ void updateUser(UserModel user, String password) async {
     throw Exception('Failed to update User');
   }
 }
+
+void createStep(String media, String description) async {
+  final response = await http.post(
+    Uri.http(UserModel.baseAddress, '/task/step/new'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8'
+    },
+    body: jsonEncode(<String, dynamic>{
+      'media': media,
+      'order': 1,
+      'taskId': 1,
+      'desc': description,
+    }),
+  );
+
+  if (response.statusCode == 200) {
+    print("New step created");
+  } else {
+    throw Exception('Failed to create a step');
+  }
+}
