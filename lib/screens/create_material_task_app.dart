@@ -1,4 +1,6 @@
+import 'package:appcesible/widgets/confirmation_window.dart';
 import 'package:appcesible/widgets/quantity_dialog.dart';
+import 'package:appcesible/widgets/seleccionar_estudiante_window.dart';
 import 'package:appcesible/widgets/top_menu.dart';
 import 'package:appcesible/widgets/error.dart';
 import 'package:flutter/material.dart';
@@ -81,8 +83,9 @@ class _MaterialTaskAppState extends State<MaterialTaskApp> {
                     name: 'Clase', typeData: 1, controller: controllerClase),
                 MaterialFormEntry(
                     name: 'Estudiante',
-                    typeData: 1,
-                    controller: controllerEstudiante),
+                    typeData: 4,
+                    controller: controllerEstudiante,
+                    onTap: _showEstudiantePopup),
                 MaterialFormEntry(
                     name: 'Fecha', typeData: 2, controller: controllerFecha),
                 const SizedBox(height: 30),
@@ -176,6 +179,15 @@ class _MaterialTaskAppState extends State<MaterialTaskApp> {
       return;
     }
 
+    // Show ConfirmationWindow when all fields are filled
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return ConfirmationWindow(onConfirm: _handleConfirmation);
+        });
+  }
+
+  void _handleConfirmation() {
     // Logic to create the order
     print("Order Created: ");
     for (var entry in materialQuantities.entries) {
@@ -204,5 +216,20 @@ class _MaterialTaskAppState extends State<MaterialTaskApp> {
       materialQuantities.clear();
       showSelectedMaterials = false;
     });
+  }
+
+  void _showEstudiantePopup() async {
+    final result = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return SeleccionarEstudianteWindow();
+      },
+    );
+
+    if (result != null) {
+      setState(() {
+        controllerEstudiante.text = result;
+      });
+    }
   }
 }

@@ -3,15 +3,17 @@ import 'package:flutter/services.dart';
 
 class MaterialFormEntry extends StatefulWidget {
   final String name;
-  final int typeData; // 0 -> int, 1 -> string, 2 -> fecha
+  final int typeData; // 0 -> int, 1 -> string, 2 -> fecha, 4 -> especial
   final TextEditingController controller;
+  final void Function()? onTap;
 
   const MaterialFormEntry({
-    Key? key,
+    super.key,
     required this.name,
     required this.typeData,
     required this.controller,
-  }) : super(key: key);
+    this.onTap,
+  });
 
   @override
   _MaterialFormEntryState createState() => _MaterialFormEntryState();
@@ -38,15 +40,24 @@ class _MaterialFormEntryState extends State<MaterialFormEntry> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (widget.typeData != 2) // Formulario estándar si typeData no es 2
-            TextFormField(
-              controller: widget.controller,
-              decoration: InputDecoration(
-                labelText: widget.name,
-                border: const OutlineInputBorder(),
+          if (widget.typeData != 2) // No es 2
+            GestureDetector(
+              onTap: () {
+                widget.onTap?.call(); // Llama a onTap si no es nulo
+              },
+              child: AbsorbPointer(
+                absorbing:
+                    widget.typeData == 4, // Absorbe clics si typeData es 4
+                child: TextFormField(
+                  controller: widget.controller,
+                  decoration: InputDecoration(
+                    labelText: widget.name,
+                    border: const OutlineInputBorder(),
+                  ),
+                  keyboardType: _getKeyboardType(),
+                  inputFormatters: _getInputFormatters(),
+                ),
               ),
-              keyboardType: _getKeyboardType(),
-              inputFormatters: _getInputFormatters(),
             ),
           if (widget.typeData == 2) // Selector de fecha si typeData es 2
             Row(
@@ -62,7 +73,7 @@ class _MaterialFormEntryState extends State<MaterialFormEntry> {
                   ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.calendar_today),
+                  icon: const Icon(Icons.calendar_today),
                   onPressed: () => _selectDate(context),
                 ),
               ],

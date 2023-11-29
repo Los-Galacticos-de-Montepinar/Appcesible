@@ -25,6 +25,8 @@ class _QuantityDialogState extends State<QuantityDialog> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Row(
+            mainAxisAlignment:
+                MainAxisAlignment.center, // Centra los botones horizontalmente
             children: [
               IconButton(
                 icon: const Icon(Icons.remove),
@@ -48,22 +50,52 @@ class _QuantityDialogState extends State<QuantityDialog> {
             ],
           ),
           const SizedBox(
-              height: 20), // Add some space between the buttons and the text
+            height: 20.0,
+          ), // Añade espacio entre los botones y el texto
         ],
       ),
       actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          child: const Text('Cancelar'),
-        ),
-        TextButton(
-          onPressed: () {
-            widget.onQuantitySelected(quantity);
-            Navigator.of(context).pop();
-          },
-          child: const Text('Aceptar'),
+        Row(
+          mainAxisAlignment:
+              MainAxisAlignment.center, // Centra los botones horizontalmente
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red, // Color de fondo rojo
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0), // Bordes redondos
+                ),
+              ),
+              child: const Text(
+                'Cancelar',
+                style: TextStyle(
+                  color: Colors.white, // Color del texto blanco
+                ),
+              ),
+            ),
+            const SizedBox(width: 10.0), // Añade espacio entre los botones
+            ElevatedButton(
+              onPressed: () {
+                widget.onQuantitySelected(quantity);
+                Navigator.of(context).pop();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green, // Color de fondo verde
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0), // Bordes redondos
+                ),
+              ),
+              child: const Text(
+                'Aceptar',
+                style: TextStyle(
+                  color: Colors.white, // Color del texto blanco
+                ),
+              ),
+            ),
+          ],
         ),
       ],
     );
