@@ -3,12 +3,13 @@ import 'dart:convert';
 
 import 'package:appcesible/models/task_model.dart';
 
-String baseAddress = '10.0.2.2:8080';
+// String _baseAddress = '10.0.2.2:8080';      // IP emulador
+// String _baseAddress = 'localhost:8080';
+String _baseAddress = '192.168.1.42:8080';  // IP ordenador
 
 void createTask(TaskModel task) async {
   final taskResponse = await http.post(
-    Uri.http(
-        baseAddress, (task.type == 0) ? '/task/new' : '/task/petition/new'),
+    Uri.http(_baseAddress, (task.type == 0) ? '/task/new' : '/task/petition/new'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8'
     },
@@ -21,26 +22,28 @@ void createTask(TaskModel task) async {
 
     for (TaskElement element in task.elements) {
       final elemResponse = await http.post(
-          Uri.http(
-              baseAddress,
-              (task.type == 0)
-                  ? 'task/step/new'
-                  : 'task/petition/$id/item/new'),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8'
-          },
-          body: (task.type == 0)
-              ? jsonEncode(<String, dynamic>{
-                  'taskId': id,
-                  'description': (element as Step).description,
-                  'media': element.media,
-                  'order': element.stepNumber
-                })
-              : jsonEncode(<String, dynamic>{
-                  'taskId': id,
-                  'item': (element as TaskItem).id,
-                  'count': element.quantity
-                }));
+        Uri.http(
+          _baseAddress,
+          (task.type == 0)
+            ? 'task/step/new'
+            : 'task/petition/$id/item/new'
+        ),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        },
+        body: (task.type == 0)
+          ? jsonEncode(<String, dynamic>{
+              'taskId': id,
+              'description': (element as Step).description,
+              'media': element.media,
+              'order': element.stepNumber
+            })
+          : jsonEncode(<String, dynamic>{
+              'taskId': id,
+              'item': (element as TaskItem).id,
+              'count': element.quantity
+            })
+      );
 
       if (elemResponse.statusCode == 200) {
         print('Created step');
@@ -60,10 +63,13 @@ void createTask(TaskModel task) async {
 void getAllFixedTasks(TaskModel task) async {}
 
 Future<TaskModel> getFixedTaskFromId(int id) async {
-  final response = await http.get(Uri.http(baseAddress, '/task/$id'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8'
-      });
+  final response = await http.get(
+    Uri.http(_baseAddress,
+    '/task/$id'
+  ),
+  headers: <String, String>{
+    'Content-Type': 'application/json; charset=UTF-8'
+  });
 
   if (response.statusCode == 200) {
     dynamic json = jsonDecode(response.body);
@@ -77,7 +83,7 @@ Future<TaskModel> getFixedTaskFromId(int id) async {
 
 void main() async {
   final taskResponse = await http.post(
-    Uri.http(baseAddress, '/task/new'),
+    Uri.http(_baseAddress, '/task/new'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8'
     },
