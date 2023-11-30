@@ -1,3 +1,4 @@
+import 'package:appcesible/command/session_command.dart';
 import 'package:appcesible/screens/formulario_usuarios.dart';
 import 'package:appcesible/widgets/top_menu.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,21 @@ class TeacherHome extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 8, right: 8),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () { // AQUI !!!!!!!
+                  int userType = -1;
+                  getSessionInformation().then((value) {
+                    userType = value.getInt('userType')!;
+                  });
+
+                  Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (BuildContext context) {
+                      return FormularioUsuarios(
+                        'Editar perfil',
+                        userType
+                      );
+                    })
+                  );
+                },
                 style: ButtonStyle(
                   elevation: MaterialStateProperty.all(5),
                   alignment: Alignment.centerLeft,
@@ -148,7 +163,7 @@ class TeacherHome extends StatelessWidget {
               ),
             ),
 
-            //*BOTON CREAR TAREAS
+            // BOTON CREAR TAREAS
 
             const SizedBox(
               height: 15,

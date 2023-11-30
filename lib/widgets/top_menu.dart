@@ -1,4 +1,5 @@
 import 'package:appcesible/screens/home_teacher.dart';
+import 'package:appcesible/screens/select_user.dart';
 import 'package:flutter/material.dart';
 
 import 'package:appcesible/command/session_command.dart';
@@ -44,10 +45,11 @@ class TopMenu extends StatelessWidget implements PreferredSizeWidget {
         onPressed: () {
           userLogout();
 
-          Navigator.of(context)
-            .push(MaterialPageRoute(builder: (BuildContext context) {
-              return const TeacherHome();
-          }));
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (BuildContext context) {
+              return const SelectUser();
+            }),
+            (route) => false);
         },
       ),
       // ! Se utiliza para poner texto a la derecha del titulo

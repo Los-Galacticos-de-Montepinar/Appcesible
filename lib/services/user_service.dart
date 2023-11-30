@@ -3,8 +3,8 @@ import 'dart:convert';
 
 import 'package:appcesible/models/user_model.dart';
 
-//String _baseAdresss = = '10.0.2.2:8080';  // IP ordenador (para usar la app desde el movil)
-String _baseAddress = 'localhost:8080';
+String _baseAddress = '10.0.2.2:8080';      // IP emulador
+// String _baseAddress = 'localhost:8080';
 
 void createUser(UserModel user, String password) async {
   final response = await http.post(

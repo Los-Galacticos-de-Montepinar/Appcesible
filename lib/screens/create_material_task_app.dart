@@ -9,7 +9,7 @@ import 'form_drop_down.dart';
 import 'form_entry.dart';
 
 class MaterialTaskApp extends StatefulWidget {
-  const MaterialTaskApp({Key? key}) : super(key: key);
+  const MaterialTaskApp({super.key});
 
   @override
   _MaterialTaskAppState createState() => _MaterialTaskAppState();

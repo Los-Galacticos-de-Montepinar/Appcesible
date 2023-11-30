@@ -1,4 +1,6 @@
 import 'package:appcesible/models/user_model.dart';
+import 'package:appcesible/screens/normal_passw.dart';
+import 'package:appcesible/screens/pictograms_passw.dart';
 import 'package:appcesible/services/user_service.dart';
 import 'package:appcesible/widgets/top_menu.dart';
 import 'package:flutter/material.dart';
@@ -127,14 +129,11 @@ class _SelectUserAppState extends State<SelectUserApp> {
                       children: <Widget>[
                         // Elevated Button to the previous user
                         ElevatedButton(
-                          onPressed: currentIndex > 0
-                              ? () {
-                                  setState(() {
-                                    currentIndex = (currentIndex - 1)
-                                        .clamp(0, profileList.length - 1);
-                                  });
-                                }
-                              : null,
+                          onPressed: () {
+                            setState(() {
+                              currentIndex = (currentIndex - 1) % (profileList.length - 1);
+                            });
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.black,
                             shape: const RoundedRectangleBorder(
@@ -157,9 +156,24 @@ class _SelectUserAppState extends State<SelectUserApp> {
                         // Profile Picture box
                         InkWell(
                           onTap: () {
+                            UserModel selUser = profileList[currentIndex].key;
                             // Maneja la acción al hacer clic en la imagen.
-                            print(
-                                'Usuario clickado, número: ${profileList[currentIndex].key.id}');
+                            print('Usuario clickado, número: ${selUser.id}');
+
+                            if (selUser.userType == 1) {  // Falta la condición para modo de visualización
+                              Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (BuildContext context) {
+                                  return PictoPassw();
+                                })
+                              );
+                            }
+                            else {
+                              Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (BuildContext context) {
+                                  return const Login();
+                                })
+                              );
+                            }
                           },
                           child: Container(
                             width: 200,
@@ -182,14 +196,11 @@ class _SelectUserAppState extends State<SelectUserApp> {
 
                         // Elevated Button to the next user
                         ElevatedButton(
-                          onPressed: currentIndex < profileList.length - 1
-                              ? () {
-                                  setState(() {
-                                    currentIndex = (currentIndex + 1)
-                                        .clamp(0, profileList.length - 1);
-                                  });
-                                }
-                              : null,
+                          onPressed: () {
+                            setState(() {
+                              currentIndex = (currentIndex + 1) % (profileList.length - 1);
+                            });
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.black,
                             shape: const RoundedRectangleBorder(

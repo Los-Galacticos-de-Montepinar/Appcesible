@@ -1,5 +1,7 @@
+import 'package:appcesible/command/session_command.dart';
 import 'package:appcesible/models/user_model.dart';
 import 'package:appcesible/screens/home_teacher.dart';
+import 'package:appcesible/screens/task_list_init.dart';
 import 'package:appcesible/services/user_service.dart';
 import 'package:appcesible/widgets/top_menu.dart';
 import 'package:flutter/material.dart';
@@ -42,10 +44,7 @@ class _LoginState extends State<Login> {
                     GestureDetector(
                       onTap: () {
                         setState(() {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (BuildContext context) {
-                            return const TeacherHome();
-                          }));
+                          Navigator.of(context).pop();
                         });
                       },
                       child: Image.asset(
@@ -122,10 +121,17 @@ class _LoginState extends State<Login> {
                     setState(() {
                       _authenticationFailed = !correct;
                     });
-                    if (correct) {
+                    if (true /*correct*/) { // CAMBIAR !!!!!!!
                       Navigator.of(context)
                         .push(MaterialPageRoute(builder: (BuildContext context) {
-                          return const TeacherHome();
+                          userLogin(user.id, user.userName, user.userType, -1);
+
+                          if (user.userType == 1) {
+                            return const HomeStudentInit();
+                          }
+                          else {
+                            return const TeacherHome();
+                          }
                         })
                       );
                     }

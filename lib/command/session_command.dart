@@ -4,12 +4,13 @@ Future<SharedPreferences> getSessionInformation() {
   return SharedPreferences.getInstance();
 }
 
-void userLogin(String userName, int userType, int interactionType) async {
+void userLogin(int id, String userName, int userType, int interactionType) async {
   SharedPreferences sessionInfo = await getSessionInformation();
+  sessionInfo.setInt('id', id);
   sessionInfo.setString('userName', userName);
   sessionInfo.setInt('userType', userType);
   sessionInfo.setInt('interactionType', interactionType);
-
+  
   print('login successful');
 }
 

@@ -18,78 +18,76 @@ void main() {
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
-  // SELECCION DE USUARIO !!!!!
+  // @override
+  // Widget build(BuildContext context) {
 
-  @override
-  Widget build(BuildContext context) {
+  //   List<MyTaskData> tasks2 = [
+  //     MyTaskData(
+  //       imagePath: 'assets/images/gato.png',
+  //       taskName: 'Hacer ejercicio y hacer los deberes',
+  //       studentName: 'Juan Perez',
+  //       state: 'done',
+  //     ),
+  //     MyTaskData(
+  //       imagePath: 'assets/images/gato.png',
+  //       taskName: 'Estudiar para el examen',
+  //       studentName: 'Maria Rodriguez',
+  //       state: 'done',
+  //     ),
+  //     MyTaskData(
+  //       imagePath: 'assets/images/gato.png',
+  //       taskName: 'Completar proyecto',
+  //       studentName: 'Carlos Lopez',
+  //       state: 'not finished',
+  //     ),
+  //     MyTaskData(
+  //       imagePath: 'assets/images/gato.png',
+  //       taskName: 'Hacer ejercicio',
+  //       studentName: 'Juan Perez',
+  //       state: 'done',
+  //     ),
+  //     MyTaskData(
+  //       imagePath: 'assets/images/gato.png',
+  //       taskName: 'Estudiar para el examen',
+  //       studentName: 'Maria Rodriguez',
+  //       state: 'not finished',
+  //     ),
+  //     MyTaskData(
+  //       imagePath: 'assets/images/gato.png',
+  //       taskName: 'Completar proyecto',
+  //       studentName: 'Carlos Lopez',
+  //       state: 'done',
+  //     ),
+  //     MyTaskData(
+  //       imagePath: 'assets/images/gato.png',
+  //       taskName: 'Hacer ejercicio',
+  //       studentName: 'Juan Perez',
+  //       state: 'not finished',
+  //     ),
+  //     MyTaskData(
+  //       imagePath: 'assets/images/gato.png',
+  //       taskName: 'Estudiar para el examen',
+  //       studentName: 'Maria Rodriguez',
+  //       state: 'not done',
+  //     ),
+  //     MyTaskData(
+  //       imagePath: 'assets/images/gato.png',
+  //       taskName: 'Completar proyecto',
+  //       studentName: 'Carlos Lopez',
+  //       state: 'not done',
+  //     ),
+  //   ];
 
-    List<MyTaskData> tasks2 = [
-      MyTaskData(
-        imagePath: 'assets/images/gato.png',
-        taskName: 'Hacer ejercicio y hacer los deberes',
-        studentName: 'Juan Perez',
-        state: 'done',
-      ),
-      MyTaskData(
-        imagePath: 'assets/images/gato.png',
-        taskName: 'Estudiar para el examen',
-        studentName: 'Maria Rodriguez',
-        state: 'done',
-      ),
-      MyTaskData(
-        imagePath: 'assets/images/gato.png',
-        taskName: 'Completar proyecto',
-        studentName: 'Carlos Lopez',
-        state: 'not finished',
-      ),
-      MyTaskData(
-        imagePath: 'assets/images/gato.png',
-        taskName: 'Hacer ejercicio',
-        studentName: 'Juan Perez',
-        state: 'done',
-      ),
-      MyTaskData(
-        imagePath: 'assets/images/gato.png',
-        taskName: 'Estudiar para el examen',
-        studentName: 'Maria Rodriguez',
-        state: 'not finished',
-      ),
-      MyTaskData(
-        imagePath: 'assets/images/gato.png',
-        taskName: 'Completar proyecto',
-        studentName: 'Carlos Lopez',
-        state: 'done',
-      ),
-      MyTaskData(
-        imagePath: 'assets/images/gato.png',
-        taskName: 'Hacer ejercicio',
-        studentName: 'Juan Perez',
-        state: 'not finished',
-      ),
-      MyTaskData(
-        imagePath: 'assets/images/gato.png',
-        taskName: 'Estudiar para el examen',
-        studentName: 'Maria Rodriguez',
-        state: 'not done',
-      ),
-      MyTaskData(
-        imagePath: 'assets/images/gato.png',
-        taskName: 'Completar proyecto',
-        studentName: 'Carlos Lopez',
-        state: 'not done',
-      ),
-    ];
-
-    return ScreenUtilInit(
-      designSize: const Size(412, 570),
-      builder: (context, child) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          home: TaskListMobile(tasks: tasks2),
-        );
-      },
-    );
-  }
+  //   return ScreenUtilInit(
+  //     designSize: const Size(412, 570),
+  //     builder: (context, child) {
+  //       return MaterialApp(
+  //         debugShowCheckedModeBanner: false,
+  //         home: TaskListMobile(tasks: tasks2),
+  //       );
+  //     },
+  //   );
+  // }
 
   // TASK CREATION
   
@@ -123,18 +121,18 @@ class MainApp extends StatelessWidget {
 
   // SELECCION DE USUARIO
   
-  //@override
-  //Widget build(BuildContext context) {
-  //  return ScreenUtilInit(
-  //    designSize: const Size(412, 570), // ?
-  //    builder: (context, child) {
-  //      return const MaterialApp(
-  //        debugShowCheckedModeBanner: false,
-  //        home: SelectUser(),
-  //      );
-  //    },
-  //  );
-  //}
+  @override
+  Widget build(BuildContext context) {
+    return ScreenUtilInit(
+      designSize: const Size(412, 570), // ?
+      builder: (context, child) {
+        return const MaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: SelectUser(),
+        );
+      },
+    );
+  }
 
   // HOME DEL PROFESOR
 
