@@ -9,10 +9,10 @@ import 'form_drop_down.dart';
 import 'form_entry.dart';
 
 class MaterialTaskTab extends StatefulWidget {
-  const MaterialTaskTab({Key? key}) : super(key: key);
+  const MaterialTaskTab({super.key});
 
   @override
-  _MaterialTaskTabState createState() => _MaterialTaskTabState();
+  State<MaterialTaskTab> createState() => _MaterialTaskTabState();
 }
 
 class _MaterialTaskTabState extends State<MaterialTaskTab> {
@@ -222,7 +222,7 @@ class _MaterialTaskTabState extends State<MaterialTaskTab> {
     final result = await showDialog(
       context: context,
       builder: (BuildContext context) {
-        return SeleccionarEstudianteWindow();
+        return const SeleccionarEstudianteWindow();
       },
     );
 

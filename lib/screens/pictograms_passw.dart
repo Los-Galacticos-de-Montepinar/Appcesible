@@ -2,10 +2,10 @@ import 'package:appcesible/widgets/top_menu.dart';
 import 'package:flutter/material.dart';
 
 class PictoPassw extends StatefulWidget {
-  PictoPassw({Key? key}) : super(key: key);
+  const PictoPassw({super.key});
 
   @override
-  _PictoPasswState createState() => _PictoPasswState();
+  State<PictoPassw> createState() => _PictoPasswState();
 }
 
 class _PictoPasswState extends State<PictoPassw> {
@@ -17,7 +17,7 @@ class _PictoPasswState extends State<PictoPassw> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: TopMenu(),
+        appBar: const TopMenu(),
         body: Column(
           children: [
             Expanded(
@@ -43,10 +43,10 @@ class _PictoPasswState extends State<PictoPassw> {
 class FirstGrid extends StatefulWidget {
   final Function(List<String>) onImagesSelected;
 
-  FirstGrid({required this.onImagesSelected});
+  const FirstGrid({super.key, required this.onImagesSelected});
 
   @override
-  _FirstGridState createState() => _FirstGridState();
+  State<FirstGrid> createState() => _FirstGridState();
 }
 
 class _FirstGridState extends State<FirstGrid> {
@@ -82,7 +82,7 @@ class _FirstGridState extends State<FirstGrid> {
       crossAxisCount: 3,
       crossAxisSpacing: crossAxisSpacing + 5,
       mainAxisSpacing: 20,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.all(8),
       children: List.generate(9, (index) {
         return GestureDetector(
@@ -119,10 +119,10 @@ class _FirstGridState extends State<FirstGrid> {
 class SecondGrid extends StatefulWidget {
   final List<String> selectedImages;
 
-  SecondGrid({required this.selectedImages});
+  const SecondGrid({super.key, required this.selectedImages});
 
   @override
-  _SecondGridState createState() => _SecondGridState();
+  State<SecondGrid> createState() => _SecondGridState();
 }
 
 class _SecondGridState extends State<SecondGrid> {
@@ -135,24 +135,22 @@ class _SecondGridState extends State<SecondGrid> {
       ),
       child: GridView.count(
         crossAxisCount: 3,
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         crossAxisSpacing: 10,
         mainAxisSpacing: 20,
         padding: const EdgeInsets.all(8),
         children: List.generate(widget.selectedImages.length, (index) {
-          return Container(
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: Align(
-                alignment: Alignment.topCenter,
-                widthFactor: 1.0,
-                heightFactor: 1.0,
-                child: Image.network(
-                  widget.selectedImages[index],
-                  width: 125,
-                  height: 125,
-                  fit: BoxFit.cover,
-                ),
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: Align(
+              alignment: Alignment.topCenter,
+              widthFactor: 1.0,
+              heightFactor: 1.0,
+              child: Image.network(
+                widget.selectedImages[index],
+                width: 125,
+                height: 125,
+                fit: BoxFit.cover,
               ),
             ),
           );

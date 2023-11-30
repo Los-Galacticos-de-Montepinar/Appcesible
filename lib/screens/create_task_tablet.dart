@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:appcesible/screens/create_step_task_mobile.dart';
 
 class CreateTaskTablet extends StatefulWidget {
-  const CreateTaskTablet({Key? key}) : super(key: key);
+  const CreateTaskTablet({super.key});
 
   @override
-  _CreateTaskTabletState createState() => _CreateTaskTabletState();
+  State<CreateTaskTablet> createState() => _CreateTaskTabletState();
 }
 
 class _CreateTaskTabletState extends State<CreateTaskTablet> {
@@ -274,7 +274,7 @@ class _CreateTaskTabletState extends State<CreateTaskTablet> {
 
 // Class that creates a box with text inside
 class MyStyledBox extends StatelessWidget {
-  const MyStyledBox({Key? key}) : super(key: key);
+  const MyStyledBox({super.key});
 
   @override
   Widget build(BuildContext context) {

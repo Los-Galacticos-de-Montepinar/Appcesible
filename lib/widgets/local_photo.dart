@@ -56,7 +56,7 @@ Future<void> pickImage() async {
         print(photo)
         },
       style: ButtonStyle(
-        shape: MaterialStateProperty.all<CircleBorder>(CircleBorder()),
+        shape: MaterialStateProperty.all<CircleBorder>(const CircleBorder()),
       ),
     );
   }

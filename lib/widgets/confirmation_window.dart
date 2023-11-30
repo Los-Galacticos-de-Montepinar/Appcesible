@@ -20,7 +20,7 @@ class ConfirmationWindow extends StatelessWidget {
                     context); // Cerrar la ventana emergente de confirmación
               },
               style: ElevatedButton.styleFrom(
-                primary: Colors.red, // Color de fondo rojo
+                backgroundColor: Colors.red, // Color de fondo rojo
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0), // Bordes redondos
                 ),
@@ -40,7 +40,7 @@ class ConfirmationWindow extends StatelessWidget {
                 onConfirm(); // Llamar a la función de confirmación
               },
               style: ElevatedButton.styleFrom(
-                primary: Colors.green, // Color de fondo verde
+                backgroundColor: Colors.green, // Color de fondo verde
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0), // Bordes redondos
                 ),

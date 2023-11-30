@@ -4,15 +4,13 @@ class MyButton extends StatefulWidget {
   final String buttonText;
   final void Function()? onPressed; // Hacer la función opcional
 
-  const MyButton({Key? key, required this.buttonText, this.onPressed})
-      : super(key: key);
+  const MyButton({super.key, required this.buttonText, this.onPressed});
 
   @override
-  _MyButtonState createState() => _MyButtonState();
+  State<MyButton> createState() => _MyButtonState();
 }
 
-class _MyButtonState extends State<MyButton>
-    with SingleTickerProviderStateMixin {
+class _MyButtonState extends State<MyButton> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _scaleAnimation;
 

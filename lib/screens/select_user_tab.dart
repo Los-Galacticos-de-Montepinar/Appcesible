@@ -4,10 +4,10 @@ import 'package:appcesible/widgets/top_menu.dart';
 import 'package:flutter/material.dart';
 
 class SelectUserTab extends StatefulWidget {
-  SelectUserTab({Key? key});
+  const SelectUserTab({super.key});
 
   @override
-  _SelectUserTabState createState() => _SelectUserTabState();
+  State<SelectUserTab> createState() => _SelectUserTabState();
 }
 
 class _SelectUserTabState extends State<SelectUserTab> {

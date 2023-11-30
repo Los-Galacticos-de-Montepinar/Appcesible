@@ -12,16 +12,33 @@ class MaterialTask extends StatelessWidget {
     return ScreenTypeLayout.builder(
       mobile: (context) {
         ScreenUtilBreakpoints.initMobileDesignSize(context);
-        return MaterialTaskApp();
+        return const MaterialTaskApp();
       },
       tablet: (context) {
         ScreenUtilBreakpoints.initTabletDesignSize(context);
-        return MaterialTaskTab();
+        return const MaterialTaskTab();
       },
       desktop: (context) {
         ScreenUtilBreakpoints.initWebDesignSize(context);
-        return MaterialTaskTab();
+        return const MaterialTaskTab();
       },
     );
   }
+}
+
+void main() {
+  // TASK MATERIAL
+
+  // @override
+  // Widget build(BuildContext context) {
+  //  return ScreenUtilInit(
+  //    designSize: const Size(412, 570), // ?
+  //    builder: (context, child) {
+  //      return const MaterialApp(
+  //        debugShowCheckedModeBanner: false,
+  //        home: MaterialTask(),
+  //      );
+  //    },
+  //  );
+  // }
 }

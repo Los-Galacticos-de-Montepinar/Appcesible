@@ -79,23 +79,23 @@ class HomeStudent extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 40),
-                Row(
+                const Row(
                   children: [
-                    const SizedBox(
+                    SizedBox(
                       width: 20.0,
                     ),
                     MyBoxWithImageAndText(
                         text: 'AGENDA',
                         color: Colors.red,
-                        color2: const Color.fromARGB(255, 234, 151, 161)),
-                    const SizedBox(
+                        color2: Color.fromARGB(255, 234, 151, 161)),
+                    SizedBox(
                       width: 20.0,
                     ),
                     MyBoxWithImageAndText(
                         text: 'HISTORIAL',
                         color: Colors.blue,
-                        color2: const Color.fromARGB(255, 130, 172, 192)),
-                    const SizedBox(
+                        color2: Color.fromARGB(255, 130, 172, 192)),
+                    SizedBox(
                       width: 20.0,
                     ),
                   ],
@@ -103,23 +103,23 @@ class HomeStudent extends StatelessWidget {
                 const SizedBox(
                   height: 20.0,
                 ),
-                Row(
+                const Row(
                   children: [
-                    const SizedBox(
+                    SizedBox(
                       width: 20.0,
                     ),
                     MyBoxWithImageAndText(
                         text: 'CHATS',
                         color: Colors.green,
-                        color2: const Color.fromARGB(255, 150, 216, 135)),
-                    const SizedBox(
+                        color2: Color.fromARGB(255, 150, 216, 135)),
+                    SizedBox(
                       width: 20.0,
                     ),
                     MyBoxWithImageAndText(
                         text: 'AGENDA',
                         color: Colors.orange,
-                        color2: const Color.fromARGB(255, 222, 175, 90)),
-                    const SizedBox(
+                        color2: Color.fromARGB(255, 222, 175, 90)),
+                    SizedBox(
                       width: 20.0,
                     )
                   ],
@@ -150,8 +150,7 @@ class MyBoxWithImageAndText extends StatelessWidget {
   final Color color;
   final Color color2;
 
-  MyBoxWithImageAndText(
-      {required this.text, required this.color, required this.color2});
+  const MyBoxWithImageAndText({super.key, required this.text, required this.color, required this.color2});
 
   @override
   Widget build(BuildContext context) {

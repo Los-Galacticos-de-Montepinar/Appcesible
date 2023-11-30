@@ -367,3 +367,15 @@ class TeacherHome extends StatelessWidget {
     );
   }
 }
+
+void main() {
+  // HOME DEL PROFESOR
+
+  // @override
+  // Widget build(BuildContext context) {
+  //  return const MaterialApp(
+  //    //debugShowCheckedModeBanner: false,
+  //    home: TeacherHome(),
+  //  );
+  // }
+}

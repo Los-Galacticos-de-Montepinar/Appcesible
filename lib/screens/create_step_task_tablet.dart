@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:appcesible/widgets/top_menu.dart';
 
 class CreateStepMobile extends StatefulWidget {
-  const CreateStepMobile({Key? key}) : super(key: key);
+  const CreateStepMobile({super.key});
 
   @override
-  _CreateStepMobileState createState() => _CreateStepMobileState();
+  State<CreateStepMobile> createState() => _CreateStepMobileState();
 }
 
 class _CreateStepMobileState extends State<CreateStepMobile> {
@@ -20,19 +20,7 @@ class _CreateStepMobileState extends State<CreateStepMobile> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          elevation: 5,
-          toolbarHeight: 70,
-          title: const Text(
-            'AppCesible',
-            style: TextStyle(
-              color: Color.fromARGB(255, 0, 0, 0),
-            ),
-          ),
-          backgroundColor: const Color.fromARGB(255, 255, 220, 131),
-          centerTitle: true,
-          iconTheme: const IconThemeData(color: Colors.black),
-        ),
+        appBar: const TopMenu(),
         body: Center(
           child: FittedBox(
             child: Column(
@@ -188,7 +176,7 @@ class _CreateStepMobileState extends State<CreateStepMobile> {
 
 // Class that creates a box with text inside
 class MyStyledBox extends StatelessWidget {
-  const MyStyledBox({Key? key}) : super(key: key);
+  const MyStyledBox({super.key});
 
   @override
   Widget build(BuildContext context) {

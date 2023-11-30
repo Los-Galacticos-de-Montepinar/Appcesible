@@ -4,19 +4,17 @@ class MaterialFormEntryWithDropdown extends StatefulWidget {
   final String name;
   final Function(String) onMaterialSelected;
 
-  MaterialFormEntryWithDropdown({
-    Key? key,
+  const MaterialFormEntryWithDropdown({
+    super.key,
     required this.name,
     required this.onMaterialSelected,
-  }) : super(key: key);
+  });
 
   @override
-  _MaterialFormEntryWithDropdownState createState() =>
-      _MaterialFormEntryWithDropdownState();
+  State<MaterialFormEntryWithDropdown> createState() => _MaterialFormEntryWithDropdownState();
 }
 
-class _MaterialFormEntryWithDropdownState
-    extends State<MaterialFormEntryWithDropdown> {
+class _MaterialFormEntryWithDropdownState extends State<MaterialFormEntryWithDropdown> {
   String? selectedMaterial;
 
   @override
@@ -54,7 +52,7 @@ class _MaterialFormEntryWithDropdownState
     return materialTypes.map((type) {
       return DropdownMenuItem<String>(
         value: type,
-        child: Container(
+        child: SizedBox(
           width: 200,
           child: Text(type),
         ),

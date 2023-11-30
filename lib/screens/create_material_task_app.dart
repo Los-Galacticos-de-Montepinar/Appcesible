@@ -12,7 +12,7 @@ class MaterialTaskApp extends StatefulWidget {
   const MaterialTaskApp({super.key});
 
   @override
-  _MaterialTaskAppState createState() => _MaterialTaskAppState();
+  State<MaterialTaskApp> createState() => _MaterialTaskAppState();
 }
 
 class _MaterialTaskAppState extends State<MaterialTaskApp> {
@@ -222,7 +222,7 @@ class _MaterialTaskAppState extends State<MaterialTaskApp> {
     final result = await showDialog(
       context: context,
       builder: (BuildContext context) {
-        return SeleccionarEstudianteWindow();
+        return const SeleccionarEstudianteWindow();
       },
     );
 

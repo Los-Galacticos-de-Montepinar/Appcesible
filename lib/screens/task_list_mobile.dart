@@ -1,13 +1,16 @@
+// SCREEEN TASK LIST - Phone Version
+// Autor: Alejandro Sanchez Rodríguez
+
 import 'package:appcesible/widgets/top_menu.dart';
 import 'package:flutter/material.dart';
 
 class TaskListMobile extends StatefulWidget {
   final List<MyTaskData> tasks;
 
-  const TaskListMobile({Key? key, required this.tasks}) : super(key: key);
+  const TaskListMobile({super.key, required this.tasks});
 
   @override
-  _TaskListMobileState createState() => _TaskListMobileState();
+  State<TaskListMobile> createState() => _TaskListMobileState();
 }
 
 class _TaskListMobileState extends State<TaskListMobile> {
@@ -136,12 +139,12 @@ class MyTask extends StatelessWidget {
   final String state;
 
   const MyTask({
-    Key? key,
+    super.key,
     required this.imagePath,
     required this.taskName,
     required this.studentName,
     required this.state,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

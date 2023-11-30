@@ -6,10 +6,10 @@ import 'package:appcesible/widgets/top_menu.dart';
 import 'package:flutter/material.dart';
 
 class SelectUserApp extends StatefulWidget {
-  SelectUserApp({Key? key});
+  const SelectUserApp({super.key});
 
   @override
-  _SelectUserAppState createState() => _SelectUserAppState();
+  State<SelectUserApp> createState() => _SelectUserAppState();
 }
 
 class _SelectUserAppState extends State<SelectUserApp> {
@@ -131,7 +131,7 @@ class _SelectUserAppState extends State<SelectUserApp> {
                         ElevatedButton(
                           onPressed: () {
                             setState(() {
-                              currentIndex = (currentIndex - 1) % (profileList.length - 1);
+                              currentIndex = (currentIndex - 1) % (profileList.length);
                             });
                           },
                           style: ElevatedButton.styleFrom(
@@ -163,7 +163,7 @@ class _SelectUserAppState extends State<SelectUserApp> {
                             if (selUser.userType == 1) {  // Falta la condición para modo de visualización
                               Navigator.of(context)
                                 .push(MaterialPageRoute(builder: (BuildContext context) {
-                                  return PictoPassw();
+                                  return const PictoPassw();
                                 })
                               );
                             }
@@ -198,7 +198,7 @@ class _SelectUserAppState extends State<SelectUserApp> {
                         ElevatedButton(
                           onPressed: () {
                             setState(() {
-                              currentIndex = (currentIndex + 1) % (profileList.length - 1);
+                              currentIndex = (currentIndex + 1) % (profileList.length);
                             });
                           },
                           style: ElevatedButton.styleFrom(

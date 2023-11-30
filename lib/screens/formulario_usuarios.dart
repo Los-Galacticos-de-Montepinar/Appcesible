@@ -5,21 +5,38 @@ import 'package:appcesible/widgets/alert_dialog.dart';
 import 'package:appcesible/widgets/local_photo.dart';
 import 'package:appcesible/models/user_model.dart';
 
-/// Esto es una plantilla, para que sea la de añadir alumno, le pasais argumentos vacios, es decir, llamais al constructor
-/// FormularioAlumnos('','','',{},[],,'')
-/// si quereis editar,
-/// FormularioAlumnos('Titulo','Nombre','Contraseña',{mapa con el tipo de contenido},[lista de clases],indice
-/// de la clase a la que pertenece el alumnno,'enlace de la foto del alumno')
-/// 
-/// El mapa es basicamente, si tenemos como tipos de contenido audio, texto y pictogramas, y el alumno solo usa el texto,
-/// su mapa será {'Audio':false,'Pictogramas':false,'Texto':true}, el índice es dentro de la lista que le pasamos,
-/// la lista de clases es ['3A','2A','1A'] y el alumno esta en 2A, el indice que pasamos es 1
+// Esto es una plantilla, para que sea la de añadir alumno, le pasais argumentos vacios, es decir, llamais al constructor
+// FormularioAlumnos('','','',{},[],,'')
+// si quereis editar,
+// FormularioAlumnos('Titulo','Nombre','Contraseña',{mapa con el tipo de contenido},[lista de clases],indice
+// de la clase a la que pertenece el alumnno,'enlace de la foto del alumno')
+//
+// El mapa es basicamente, si tenemos como tipos de contenido audio, texto y pictogramas, y el alumno solo usa el texto,
+// su mapa será {'Audio':false,'Pictogramas':false,'Texto':true}, el índice es dentro de la lista que le pasamos,
+// la lista de clases es ['3A','2A','1A'] y el alumno esta en 2A, el indice que pasamos es 1
+
+  
 
 void main() {
   runApp( 
     const MaterialApp(
       home: FormularioUsuarios('Añadir usuario',-1),
-    ));
+    )
+  );
+
+  // FORMULARIO USUARIO/ALUMNO
+
+  // @override
+  // Widget build(BuildContext context) {
+  // return const FormularioAlumnos(
+  //    'Añadir alumno',
+  //   'Agustin',
+  //  '123',
+  // {'Audio': true, 'Pictogramas': false, 'Texto': false},
+  // ['1A', '2A', '3A'],
+  // 2,
+  // '');
+  // }
 }
 
 class FormularioUsuarios extends StatefulWidget {
@@ -181,11 +198,6 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
   @override
   Widget build(BuildContext context){
     Image defaultImage=Image.asset('assets/images/addPicture.png');
-    //Map<String,bool> content;
-
-    //if(firstExe) {
-    //  updateData(user.userName, '', user.userType, user.idClass);
-    //}
 
     return MaterialApp(
       home: Scaffold(

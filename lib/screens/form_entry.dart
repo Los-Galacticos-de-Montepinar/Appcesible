@@ -16,7 +16,7 @@ class MaterialFormEntry extends StatefulWidget {
   });
 
   @override
-  _MaterialFormEntryState createState() => _MaterialFormEntryState();
+  State<MaterialFormEntry> createState() => _MaterialFormEntryState();
 }
 
 class _MaterialFormEntryState extends State<MaterialFormEntry> {

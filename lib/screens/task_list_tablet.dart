@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 class TaskListTablet extends StatefulWidget {
   final List<MyTaskData> tasks;
 
-  const TaskListTablet({Key? key, required this.tasks}) : super(key: key);
+  const TaskListTablet({super.key, required this.tasks});
 
   @override
-  _TaskListTabletState createState() => _TaskListTabletState();
+  State<TaskListTablet> createState() => _TaskListTabletState();
 }
 
 class _TaskListTabletState extends State<TaskListTablet> {
@@ -122,12 +122,12 @@ class MyTask extends StatelessWidget {
   final String state;
 
   const MyTask({
-    Key? key,
+    super.key,
     required this.imagePath,
     required this.taskName,
     required this.studentName,
     required this.state,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

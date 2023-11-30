@@ -5,13 +5,13 @@ class QuantityDialog extends StatefulWidget {
   final ValueChanged<int> onQuantitySelected;
 
   const QuantityDialog({
-    Key? key,
+    super.key,
     required this.material,
     required this.onQuantitySelected,
-  }) : super(key: key);
+  });
 
   @override
-  _QuantityDialogState createState() => _QuantityDialogState();
+  State<QuantityDialog> createState() => _QuantityDialogState();
 }
 
 class _QuantityDialogState extends State<QuantityDialog> {

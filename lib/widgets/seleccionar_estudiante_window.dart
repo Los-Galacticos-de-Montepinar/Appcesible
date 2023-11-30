@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 class SeleccionarEstudianteWindow extends StatefulWidget {
+  const SeleccionarEstudianteWindow({super.key});
+
   @override
-  _SeleccionarEstudianteWindowState createState() =>
-      _SeleccionarEstudianteWindowState();
+  State<SeleccionarEstudianteWindow> createState() => _SeleccionarEstudianteWindowState();
 }
 
-class _SeleccionarEstudianteWindowState
-    extends State<SeleccionarEstudianteWindow> {
+class _SeleccionarEstudianteWindowState extends State<SeleccionarEstudianteWindow> {
   List<String> estudiantes = [
     'Estudiante1',
     'Estudiante2',
@@ -27,7 +27,7 @@ class _SeleccionarEstudianteWindowState
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      contentPadding: EdgeInsets.all(8.0), // Ajuste el espacio interno
+      contentPadding: const EdgeInsets.all(8.0), // Ajuste el espacio interno
       backgroundColor: Colors.white,
       content: SingleChildScrollView(
         child: SizedBox(
@@ -49,7 +49,7 @@ class _SeleccionarEstudianteWindowState
                     ),
                   ),
                   IconButton(
-                    icon: Icon(Icons.close),
+                    icon: const Icon(Icons.close),
                     onPressed: () {
                       Navigator.pop(context); // Cerrar la ventana emergente
                     },

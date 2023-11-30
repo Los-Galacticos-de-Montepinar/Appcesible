@@ -12,15 +12,15 @@ class SelectUser extends StatelessWidget {
     return ScreenTypeLayout.builder(
       mobile: (context) {
         ScreenUtilBreakpoints.initMobileDesignSize(context);
-        return SelectUserApp();
+        return const SelectUserApp();
       },
       tablet: (context) {
         ScreenUtilBreakpoints.initTabletDesignSize(context);
-        return SelectUserTab();
+        return const SelectUserTab();
       },
       desktop: (context) {
         ScreenUtilBreakpoints.initWebDesignSize(context);
-        return SelectUserTab();
+        return const SelectUserTab();
       },
     );
   }

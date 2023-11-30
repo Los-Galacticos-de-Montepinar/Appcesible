@@ -17,7 +17,7 @@ class ErrorWindow {
                   Navigator.of(context).pop();
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.red, // Color de fondo rojo
+                  backgroundColor: Colors.red, // Color de fondo rojo
                   shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.circular(20.0), // Bordes redondos
