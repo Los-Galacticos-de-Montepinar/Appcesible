@@ -222,7 +222,7 @@ class _MaterialTaskAppState extends State<MaterialTaskApp> {
     final result = await showDialog(
       context: context,
       builder: (BuildContext context) {
-        return const SeleccionarEstudianteWindow();
+        return SeleccionarEstudianteWindow();
       },
     );
 

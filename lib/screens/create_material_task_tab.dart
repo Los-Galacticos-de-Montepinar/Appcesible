@@ -222,7 +222,7 @@ class _MaterialTaskTabState extends State<MaterialTaskTab> {
     final result = await showDialog(
       context: context,
       builder: (BuildContext context) {
-        return const SeleccionarEstudianteWindow();
+        return SeleccionarEstudianteWindow();
       },
     );
 
