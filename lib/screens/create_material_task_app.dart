@@ -66,19 +66,21 @@ class _MaterialTaskAppState extends MaterialTaskState<MaterialTaskApp> {
                 ),
                 MaterialFormEntry(
                   name: 'Profesor',
-                  typeData: 1,
-                  controller: controllerProfesor
+                  typeData: 4,
+                  controller: controllerProfesor,
+                  onTap: showProfesorPopup,
                 ),
                 MaterialFormEntry(
                   name: 'Clase',
-                  typeData: 1,
-                  controller: controllerClase
+                  typeData: 4,
+                  controller: controllerClase,
+                  onTap: showClasePopup,
                 ),
                 MaterialFormEntry(
                   name: 'Estudiante',
                   typeData: 4,
                   controller: controllerEstudiante,
-                  onTap: showEstudiantePopup
+                  onTap: showEstudiantePopup,
                 ),
                 MaterialFormEntry(
                   name: 'Fecha',

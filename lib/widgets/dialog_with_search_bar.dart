@@ -1,38 +1,22 @@
 import 'package:flutter/material.dart';
 
-class SeleccionarEstudianteWindow extends StatefulWidget {
-  const SeleccionarEstudianteWindow({super.key});
+class DialogWithSearchBar extends StatefulWidget {
+  final List<String> elements;
+  
+  const DialogWithSearchBar({super.key, required this.elements});
 
   @override
-  State<SeleccionarEstudianteWindow> createState() => _SeleccionarEstudianteWindowState();
+  State<DialogWithSearchBar> createState() => _DialogWithSearchBarState();
 }
 
-class _SeleccionarEstudianteWindowState extends State<SeleccionarEstudianteWindow> {
-  List<String> estudiantes = [
-    'Estudiante1',
-    'Estudiante2',
-    'Estudiante3',
-    'Estudiante4',
-    'Estudiante5',
-    'Estudiante6',
-    'Estudiante7',
-    'Estudiante8',
-    'Estudiante9',
-    'Estudiante10',
-    'Estudiante11',
-    'Estudiante12',
-    'Estudiante13',
-    'Estudiante14',
-    'Estudiante15',
-    'Estudiante16',
-  ];
-  List<String> estudiantesFiltrados = [];
+class _DialogWithSearchBarState extends State<DialogWithSearchBar> {
+  List<String> filteredElements = [];
 
   TextEditingController searchController = TextEditingController();
 
   @override
   void initState() {
-    estudiantesFiltrados = List.from(estudiantes);
+    filteredElements = List.from(widget.elements);
     super.initState();
   }
 
@@ -72,7 +56,7 @@ class _SeleccionarEstudianteWindowState extends State<SeleccionarEstudianteWindo
             controller: searchController,
             onChanged: (value) {
               setState(() {
-                estudiantesFiltrados = estudiantes
+                filteredElements = widget.elements
                     .where((estudiante) => estudiante
                         .toLowerCase()
                         .contains(value.toLowerCase()))
@@ -97,9 +81,9 @@ class _SeleccionarEstudianteWindowState extends State<SeleccionarEstudianteWindo
         child: ListView.builder(
           controller: ScrollController(),
           shrinkWrap: true,
-          itemCount: estudiantesFiltrados.length,
+          itemCount: filteredElements.length,
           itemBuilder: (context, index) {
-            return _buildEstudianteTile(estudiantesFiltrados[index]);
+            return _buildEstudianteTile(filteredElements[index]);
           },
         ),
       ),

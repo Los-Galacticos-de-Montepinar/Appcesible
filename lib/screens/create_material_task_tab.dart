@@ -1,6 +1,6 @@
 import 'package:appcesible/widgets/confirmation_window.dart';
 import 'package:appcesible/widgets/quantity_dialog.dart';
-import 'package:appcesible/widgets/seleccionar_estudiante_window.dart';
+import 'package:appcesible/widgets/dialog_with_search_bar.dart';
 import 'package:appcesible/widgets/top_menu.dart';
 import 'package:appcesible/widgets/error.dart';
 import 'package:flutter/material.dart';
@@ -224,7 +224,25 @@ class _MaterialTaskTabState extends State<MaterialTaskTab> {
     final result = await showDialog(
       context: context,
       builder: (BuildContext context) {
-        return SeleccionarEstudianteWindow();
+        return const DialogWithSearchBar(
+          elements: [
+          'Estudiante1',
+          'Estudiante2',
+          'Estudiante3',
+          'Estudiante4',
+          'Estudiante5',
+          'Estudiante6',
+          'Estudiante7',
+          'Estudiante8',
+          'Estudiante9',
+          'Estudiante10',
+          'Estudiante11',
+          'Estudiante12',
+          'Estudiante13',
+          'Estudiante14',
+          'Estudiante15',
+          'Estudiante16',
+        ]);
       },
     );
 
