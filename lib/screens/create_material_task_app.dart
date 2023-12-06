@@ -1,3 +1,4 @@
+import 'package:appcesible/widgets/dialog_button.dart';
 import 'package:flutter/material.dart';
 
 import 'package:appcesible/screens/create_material_task.dart';
@@ -142,7 +143,8 @@ class _MaterialTaskAppState extends MaterialTaskState<MaterialTaskApp> {
                     ),
                   ),
                 const SizedBox(height: 0),
-                MyButton(buttonText: 'Crear Pedido', onPressed: createOrder),
+                // MyButton(buttonText: 'Crear Pedido', onPressed: createOrder),
+                DialogButton(text: 'Crear Pedido', type: 0, onPressed: createOrder),
                 const SizedBox(height: 30),
               ],
             ),
