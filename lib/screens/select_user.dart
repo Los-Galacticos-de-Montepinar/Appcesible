@@ -41,8 +41,12 @@ abstract class SelectionState<T extends StatefulWidget> extends State<T> {
   int currentIndex = 0;
   List<MapEntry<UserModel, String>> profileList = [];
 
-  void _initializeProfileList() async {
+  Future<void> _initializeProfileList() async {
     profileList = await getInfoUsers() as List<MapEntry<UserModel, String>>;
+
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override

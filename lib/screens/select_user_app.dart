@@ -19,9 +19,7 @@ class _SelectUserAppState extends SelectionState<SelectUserApp> {
       body: Center(
         child: Expanded(
           child: Container(
-            //width: 1024, // Ajusta según tus necesidades
-            alignment: Alignment
-                .topCenter, // Alinea el contenido en la parte superior del contenedor
+            alignment: Alignment.topCenter, // Alinea el contenido en la parte superior del contenedor
             child: FittedBox(
               child: Column(
                 children: <Widget>[
@@ -67,9 +65,7 @@ class _SelectUserAppState extends SelectionState<SelectUserApp> {
                       child: Center(
                         child: FittedBox(
                           child: Text(
-                            profileList.isNotEmpty
-                                ? profileList[currentIndex].key.userName
-                                : ' ', // No users avaliable
+                            profileList.isNotEmpty ? profileList[currentIndex].key.userName : '',
                             style: const TextStyle(
                               fontSize: 35,
                               fontWeight: FontWeight.bold,

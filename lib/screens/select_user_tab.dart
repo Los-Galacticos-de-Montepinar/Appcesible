@@ -106,9 +106,7 @@ class _SelectUserTabState extends SelectionState<SelectUserTab> {
                               children: [
                                 Center(
                                   child: Text(
-                                    profileList.isNotEmpty
-                                        ? profileList[imageIndex].key.userName
-                                        : ' ', // No users available
+                                    profileList.isNotEmpty ? profileList[currentIndex].key.userName : '',
                                     style: const TextStyle(
                                       fontSize: 30,
                                       fontWeight: FontWeight.bold,
