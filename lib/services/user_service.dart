@@ -30,41 +30,7 @@ void createUser(UserModel user, String password) async {
   }
 }
 
-// Function that makes a HTTP request to get a User from the server DB
-Future<UserModel> getUserFromId(int id) async {
-  final response = await http.get(
-    Uri.http(_baseAddress, '/user/$id'),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8'
-    }
-  );
-
-  if (response.statusCode == 200) {
-    dynamic json = jsonDecode(response.body);
-    return UserModel.fromJSON(json);
-  } else {
-    throw Exception('Failed to load User');
-  }
-}
-
-// Return the number of users in the DB
-Future<int> countUsers() async {
-  final response = await http.get(
-    Uri.http(_baseAddress, '/user'),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8'
-    }
-  );
-
-  if (response.statusCode == 200) {
-    List<dynamic> userList = jsonDecode(response.body);
-    return userList.length;
-  } else {
-    throw Exception('Failed to fetch user list');
-  }
-}
-
-// Return all users information
+// Returns all users information
 Future<List<UserModel>> getAllUsers() async {
   final response = await http.get(
     Uri.http(_baseAddress, '/user'),
@@ -81,7 +47,72 @@ Future<List<UserModel>> getAllUsers() async {
   }
 }
 
-// Function that makes a HTTP request to update a User in the server DB
+// Makes a HTTP request to get a User from the server DB
+Future<UserModel> getUserFromId(int id) async {
+  final response = await http.get(
+    Uri.http(_baseAddress, '/user/$id'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8'
+    }
+  );
+
+  if (response.statusCode == 200) {
+    dynamic json = jsonDecode(response.body);
+    return UserModel.fromJSON(json);
+  } else {
+    throw Exception('Failed to load User');
+  }
+}
+
+// Returns the url of the user profile picture
+// Future<void> _getUserPhoto(int id) async {
+//   try {
+//     UserModel user = await getPhotoUser(id);
+//     return user.idProfileImg;
+//   } catch (e) {
+//     print('Error loading user: $e');
+//     // Manejar el error según sea necesario
+//   }
+// }
+
+// Returns the list of users in the DB (id and profile picture url)
+Future<List> getInfoUsers() async {
+  List<MapEntry<UserModel, String>> profileList = [];
+  
+  try {
+    List<UserModel> users = await getAllUsers();
+
+    for (var user in users) {
+      String photoUrl = "faltaUrl"; /*_getUserPhoto(user.idProfileImg);*/
+
+      profileList.add(MapEntry(user, photoUrl));
+    }
+  } catch (e) {
+    // Manejar el error según sea necesario
+    throw Exception('Error fetching user list: $e');
+  }
+
+  return profileList;
+}
+
+// Returns the number of users in the DB
+Future<int> countUsers() async {
+  final response = await http.get(
+    Uri.http(_baseAddress, '/user'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8'
+    }
+  );
+
+  if (response.statusCode == 200) {
+    List<dynamic> userList = jsonDecode(response.body);
+    return userList.length;
+  } else {
+    throw Exception('Failed to fetch user list');
+  }
+}
+
+// Makes a HTTP request to update a User in the server DB
 void updateUser(UserModel user, String password) async {
   int id = user.id;
   final response = await http.post(
