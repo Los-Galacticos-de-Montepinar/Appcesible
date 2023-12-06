@@ -172,6 +172,17 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
     );
   }
 
+  // Clear array materials
+  void clearSelectedMaterials() {
+    setState(() {
+      selectedMaterials.clear();
+      materialQuantities.clear();
+      showSelectedMaterials = false;
+    });
+  }
+
+  // Gestión de peticiones
+
   // Crea el pedido
   void createOrder() {
     if (!_validateFormEntries()) {
@@ -208,19 +219,6 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
       return false;
     }
     return true;
-  }
-
-  // Clear array materials
-  void clearSelectedMaterials() {
-    setState(() {
-      selectedMaterials.clear();
-      materialQuantities.clear();
-      showSelectedMaterials = false;
-    });
-  }
-
-  void submitForm() {
-
   }
 }
 

@@ -23,7 +23,6 @@ class _DialogWithSearchBarState extends State<DialogWithSearchBar> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      surfaceTintColor: Colors.white,
       title: Column(
         children: [
           Row(
@@ -76,6 +75,10 @@ class _DialogWithSearchBarState extends State<DialogWithSearchBar> {
       ),
       contentPadding: EdgeInsets.zero, // Ajuste el espacio interno
       backgroundColor: Colors.white,
+      surfaceTintColor: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
       content: SizedBox(
         width: double.maxFinite,
         child: ListView.builder(

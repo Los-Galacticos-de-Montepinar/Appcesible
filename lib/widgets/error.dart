@@ -1,3 +1,4 @@
+import 'package:appcesible/widgets/dialog_button.dart';
 import 'package:flutter/material.dart';
 
 class ErrorWindow {
@@ -8,28 +9,17 @@ class ErrorWindow {
         return AlertDialog(
           title: const Text('Error'),
           content: Text(message),
+          backgroundColor: Colors.white,
+          surfaceTintColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
           actions: [
             SizedBox(
               width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  // Cierra el cuadro de diálogo
-                  Navigator.of(context).pop();
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red, // Color de fondo rojo
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(20.0), // Bordes redondos
-                  ),
-                ),
-                child: const Text(
-                  'OK',
-                  style: TextStyle(
-                    color: Colors.white, // Color del texto blanco
-                  ),
-                ),
-              ),
+              child: DialogButton(text: 'Volver', type: 0, onPressed: () {
+                Navigator.of(context).pop();
+              })
             ),
           ],
         );
