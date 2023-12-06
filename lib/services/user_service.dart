@@ -3,9 +3,9 @@ import 'dart:convert';
 
 import 'package:appcesible/models/user_model.dart';
 
-// String _baseAddress = '10.0.2.2:8080';      // IP emulador
+String _baseAddress = '10.0.2.2:8080';      // IP emulador
 // String _baseAddress = 'localhost:8080';
-String _baseAddress = '192.168.1.42:8080';  // IP ordenador
+// String _baseAddress = '192.168.1.42:8080';  // IP ordenador
 
 void createUser(UserModel user, String password) async {
   final response = await http.post(
@@ -77,22 +77,22 @@ Future<UserModel> getUserFromId(int id) async {
 
 // Returns the list of users in the DB (id and profile picture url)
 Future<List> getInfoUsers() async {
-  List<MapEntry<UserModel, String>> profileList = [];
-  
   try {
     List<UserModel> users = await getAllUsers();
+    List<MapEntry<UserModel, String>> profileList = [];
 
     for (var user in users) {
       String photoUrl = "faltaUrl"; /*_getUserPhoto(user.idProfileImg);*/
 
       profileList.add(MapEntry(user, photoUrl));
+      return profileList;
     }
   } catch (e) {
     // Manejar el error según sea necesario
     throw Exception('Error fetching user list: $e');
   }
 
-  return profileList;
+  return [];
 }
 
 // Returns the number of users in the DB
