@@ -77,22 +77,22 @@ Future<UserModel> getUserFromId(int id) async {
 
 // Returns the list of users in the DB (id and profile picture url)
 Future<List> getInfoUsers() async {
+  List<MapEntry<UserModel, String>> profileList = [];
+  
   try {
     List<UserModel> users = await getAllUsers();
-    List<MapEntry<UserModel, String>> profileList = [];
 
     for (var user in users) {
       String photoUrl = "faltaUrl"; /*_getUserPhoto(user.idProfileImg);*/
 
       profileList.add(MapEntry(user, photoUrl));
-      return profileList;
     }
   } catch (e) {
     // Manejar el error según sea necesario
     throw Exception('Error fetching user list: $e');
   }
 
-  return [];
+  return profileList;
 }
 
 // Returns the number of users in the DB
