@@ -5,8 +5,8 @@ import 'package:appcesible/widgets/top_menu.dart';
 import 'package:appcesible/widgets/error.dart';
 import 'package:flutter/material.dart';
 import 'package:appcesible/widgets/my_button.dart';
-import 'form_drop_down.dart';
-import 'form_entry.dart';
+import '../widgets/form_drop_down.dart';
+import '../widgets/form_entry.dart';
 
 class MaterialTaskTab extends StatefulWidget {
   const MaterialTaskTab({super.key});
@@ -103,8 +103,10 @@ class _MaterialTaskTabState extends State<MaterialTaskTab> {
                 ),
                 const SizedBox(height: 10),
                 MaterialFormEntryWithDropdown(
-                    name: 'Tipo Material',
-                    onMaterialSelected: _onMaterialSelected),
+                  name: 'Tipo Material',
+                  onMaterialSelected: _onMaterialSelected,
+                  elements: const ["Material 1", "Material 2", "Material 3"],
+                ),
                 const SizedBox(height: 20),
                 if (showSelectedMaterials)
                   Container(

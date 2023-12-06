@@ -12,7 +12,19 @@ class _SeleccionarEstudianteWindowState extends State<SeleccionarEstudianteWindo
     'Estudiante1',
     'Estudiante2',
     'Estudiante3',
-    'Estudiante4'
+    'Estudiante4',
+    'Estudiante5',
+    'Estudiante6',
+    'Estudiante7',
+    'Estudiante8',
+    'Estudiante9',
+    'Estudiante10',
+    'Estudiante11',
+    'Estudiante12',
+    'Estudiante13',
+    'Estudiante14',
+    'Estudiante15',
+    'Estudiante16',
   ];
   List<String> estudiantesFiltrados = [];
 
@@ -20,80 +32,75 @@ class _SeleccionarEstudianteWindowState extends State<SeleccionarEstudianteWindo
 
   @override
   void initState() {
-    super.initState();
     estudiantesFiltrados = List.from(estudiantes);
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      contentPadding: const EdgeInsets.all(8.0), // Ajuste el espacio interno
-      backgroundColor: Colors.white,
-      content: SingleChildScrollView(
-        child: SizedBox(
-          width: double.maxFinite,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
+      surfaceTintColor: Colors.white,
+      title: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Wrap(
-                        children: [
-                          Text(
-                            'Seleccionar Estudiante',
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
+              const Expanded(
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                    'Buscar Estudiante',
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
                     ),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.close),
-                    onPressed: () {
-                      Navigator.pop(context); // Cerrar la ventana emergente
-                    },
-                  ),
-                ],
-              ),
-              const SizedBox(
-                  height:
-                      8.0), // Ajuste el espacio entre el título y el campo de búsqueda
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  controller: searchController,
-                  onChanged: (value) {
-                    setState(() {
-                      estudiantesFiltrados = estudiantes
-                          .where((estudiante) => estudiante
-                              .toLowerCase()
-                              .contains(value.toLowerCase()))
-                          .toList();
-                    });
-                  },
-                  decoration: const InputDecoration(
-                    labelText: 'Buscar Estudiante',
-                    border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.search), // Agrega el icono de lupa
                   ),
                 ),
               ),
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: estudiantesFiltrados.length,
-                itemBuilder: (context, index) {
-                  return _buildEstudianteTile(estudiantesFiltrados[index]);
+              IconButton(
+                icon: const Icon(Icons.close),
+                onPressed: () {
+                  Navigator.pop(context);
                 },
               ),
             ],
           ),
+          const SizedBox(
+            height: 8.0
+          ),
+          TextField(
+            controller: searchController,
+            onChanged: (value) {
+              setState(() {
+                estudiantesFiltrados = estudiantes
+                    .where((estudiante) => estudiante
+                        .toLowerCase()
+                        .contains(value.toLowerCase()))
+                    .toList();
+              });
+            },
+            decoration: const InputDecoration(
+              labelText: 'Buscar Estudiante',
+              border: OutlineInputBorder(),
+              prefixIcon: Icon(Icons.search), // Agrega el icono de lupa
+            ),
+          ),
+          const SizedBox(
+            height: 8.0
+          ),
+        ],
+      ),
+      contentPadding: EdgeInsets.zero, // Ajuste el espacio interno
+      backgroundColor: Colors.white,
+      content: SizedBox(
+        width: double.maxFinite,
+        child: ListView.builder(
+          controller: ScrollController(),
+          shrinkWrap: true,
+          itemCount: estudiantesFiltrados.length,
+          itemBuilder: (context, index) {
+            return _buildEstudianteTile(estudiantesFiltrados[index]);
+          },
         ),
       ),
     );

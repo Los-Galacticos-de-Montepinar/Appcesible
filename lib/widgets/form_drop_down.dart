@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class MaterialFormEntryWithDropdown extends StatefulWidget {
   final String name;
   final Function(String) onMaterialSelected;
+  final List<String> elements;
 
   const MaterialFormEntryWithDropdown({
     super.key,
     required this.name,
     required this.onMaterialSelected,
+    required this.elements
   });
 
   @override
@@ -30,7 +32,7 @@ class _MaterialFormEntryWithDropdownState extends State<MaterialFormEntryWithDro
               border: const OutlineInputBorder(),
             ),
             value: selectedMaterial,
-            items: _buildDropdownItems(),
+            items: _buildDropdownItems(widget.elements),
             onChanged: (value) {
               setState(() {
                 if (selectedMaterial != value) {
@@ -46,10 +48,8 @@ class _MaterialFormEntryWithDropdownState extends State<MaterialFormEntryWithDro
     );
   }
 
-  List<DropdownMenuItem<String>> _buildDropdownItems() {
-    List<String> materialTypes = ["Material 1", "Material 2", "Material 3"];
-
-    return materialTypes.map((type) {
+  List<DropdownMenuItem<String>> _buildDropdownItems(List<String> elements) {
+    return elements.map((type) {
       return DropdownMenuItem<String>(
         value: type,
         child: SizedBox(
