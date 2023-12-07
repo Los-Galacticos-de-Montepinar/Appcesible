@@ -32,6 +32,7 @@ class _FormEntryWithDropdownState extends State<FormEntryWithDropdown> {
               border: const OutlineInputBorder(),
             ),
             value: selectedElement,
+            dropdownColor: Colors.white,
             items: _buildDropdownItems(widget.elements),
             onChanged: (value) {
               setState(() {
@@ -52,8 +53,8 @@ class _FormEntryWithDropdownState extends State<FormEntryWithDropdown> {
     return elements.map((element) {
       return DropdownMenuItem<String>(
         value: element,
-        child: SizedBox(
-          width: 200,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Text(element),
         ),
       );

@@ -58,10 +58,11 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
   List<String> teachers = [];
   List<String> classes = [];
   List<String> students = [];
+  List<String> materials = [];
 
   void _initializeState() async {
+    // Get users for lists
     List<UserModel> users = await getAllUsers();
-
     for (UserModel user in users) {
       if (user.userType != 1) {
         teachers.add(user.userName);
@@ -69,6 +70,12 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
       else {
         students.add(user.userName);
       }
+    }
+
+    // Get available materials
+    List<TaskItem> items = await getAvailableItems();
+    for (TaskItem item in items) {
+      materials.add(item.name);
     }
   }
 

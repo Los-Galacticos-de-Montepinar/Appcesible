@@ -19,14 +19,15 @@ class TaskModel {
     required this.idPicto
   });
 
-  // Factory method that creates an User instance from a JSON
+  // Factory method that creates an Task instance from a JSON
   factory TaskModel.fromJSON(Map<String, dynamic> json, int type) {
     return TaskModel(
       id: json['id'] as int,
       type: type,
       title: json['title'] as String,
       description: json['desc'] as String,
-      idPicto: json[''] as int);
+      idPicto: json[''] as int
+    );
   }
 
   // Method that adds a new element to the element list
@@ -64,4 +65,13 @@ class TaskItem extends TaskElement {
     required this.name,
     required this.quantity
   });
+
+  // Factory method that creates a TaskItem instance from a JSON
+  factory TaskItem.fromJSON(Map<String, dynamic> json) {
+    return TaskItem(
+      id: json['id'] as int,
+      name: json['name'] as String,
+      quantity: 0 // json[''] as int
+    );
+  }
 }

@@ -93,7 +93,7 @@ class _MaterialTaskTabState extends MaterialTaskState<MaterialTaskTab> {
                 FormEntryWithDropdown(
                   name: 'Tipo Material',
                   onElementSelected: onMaterialSelected,
-                  elements: const ["Material 1", "Material 2", "Material 3"],
+                  elements: materials,
                 ),
                 const SizedBox(height: 20),
                 if (showSelectedMaterials)
