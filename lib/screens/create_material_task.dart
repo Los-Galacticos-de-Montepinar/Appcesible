@@ -1,4 +1,5 @@
 import 'package:appcesible/models/task_model.dart';
+import 'package:appcesible/services/task_service.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
@@ -206,17 +207,25 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return ConfirmationWindow(onConfirm: _handleConfirmation);
+        return ConfirmationWindow(
+          message: 'Se va a crear una tarea pedido. ¿Continuar?',
+          onConfirm: _handleConfirmation
+        );
       }
     );
   }
 
   void _handleConfirmation() {
+    // Add all elements to the task
+    task.addElements(selectedMaterials);
+
     // Logic to create the order
     for (var material in selectedMaterials) {
       print("Material: ${material.name}, Quantity: ${material.quantity}");
     }
 
+    // Server call
+    createTask(task);
     print("Finished");
   }
 

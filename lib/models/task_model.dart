@@ -35,8 +35,8 @@ class TaskModel {
   }
 
   // Method that adds all the elements in a list
-  void addElements(List<TaskElement> element) {
-    elements.addAll(elements);
+  void addElements(List<TaskElement> elements) {
+    this.elements.addAll(elements);
   }
 }
 
