@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 
-import 'package:appcesible/models/task_model.dart';
 import 'package:appcesible/widgets/dialog_button.dart';
 
 class QuantityDialog extends StatefulWidget {
-  final TaskItem material;
+  final String element;
   final ValueChanged<int> onQuantitySelected;
 
   const QuantityDialog({
     super.key,
-    required this.material,
+    required this.element,
     required this.onQuantitySelected,
   });
 

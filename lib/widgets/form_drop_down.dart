@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
 
-import 'package:appcesible/models/task_model.dart';
-
-class MaterialFormEntryWithDropdown extends StatefulWidget {
+class FormEntryWithDropdown extends StatefulWidget {
   final String name;
-  final Function(TaskItem) onMaterialSelected;
+  final Function(String) onElementSelected;
   final List<String> elements;
 
-  const MaterialFormEntryWithDropdown({
+  const FormEntryWithDropdown({
     super.key,
     required this.name,
-    required this.onMaterialSelected,
+    required this.onElementSelected,
     required this.elements
   });
 
   @override
-  State<MaterialFormEntryWithDropdown> createState() => _MaterialFormEntryWithDropdownState();
+  State<FormEntryWithDropdown> createState() => _FormEntryWithDropdownState();
 }
 
-class _MaterialFormEntryWithDropdownState extends State<MaterialFormEntryWithDropdown> {
-  TaskItem? selectedMaterial;
+class _FormEntryWithDropdownState extends State<FormEntryWithDropdown> {
+  String? selectedElement;
 
   @override
   Widget build(BuildContext context) {
@@ -33,13 +31,13 @@ class _MaterialFormEntryWithDropdownState extends State<MaterialFormEntryWithDro
               labelText: widget.name,
               border: const OutlineInputBorder(),
             ),
-            value: selectedMaterial?.name,
+            value: selectedElement,
             items: _buildDropdownItems(widget.elements),
             onChanged: (value) {
               setState(() {
-                if (selectedMaterial?.name != value) {
-                  selectedMaterial?.name = value!;
-                  widget.onMaterialSelected(selectedMaterial!);
+                if (selectedElement != value) {
+                  selectedElement = value!;
+                  widget.onElementSelected(selectedElement!);
                 }
               });
             },
@@ -51,12 +49,12 @@ class _MaterialFormEntryWithDropdownState extends State<MaterialFormEntryWithDro
   }
 
   List<DropdownMenuItem<String>> _buildDropdownItems(List<String> elements) {
-    return elements.map((type) {
+    return elements.map((element) {
       return DropdownMenuItem<String>(
-        value: type,
+        value: element,
         child: SizedBox(
           width: 200,
-          child: Text(type),
+          child: Text(element),
         ),
       );
     }).toList();

@@ -159,16 +159,21 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
     }
   }
 
-  void onMaterialSelected(TaskItem material) {
+  void onMaterialSelected(String material) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return QuantityDialog(
-          material: material,
+          element: material,
           onQuantitySelected: (quantity) {
             setState(() {
-              if (!selectedMaterials.contains(material)) {
-                selectedMaterials.add(material);
+              bool exists = selectedMaterials.any((element) => element.name == material);
+              if (!exists) {
+                selectedMaterials.add(TaskItem(
+                  id: -1,
+                  name: material,
+                  quantity: quantity
+                ));
               }
               selectedMaterials.last.quantity = quantity;
               showSelectedMaterials = true;

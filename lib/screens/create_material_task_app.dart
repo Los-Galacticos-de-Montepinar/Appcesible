@@ -101,9 +101,9 @@ class _MaterialTaskAppState extends MaterialTaskState<MaterialTaskApp> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                MaterialFormEntryWithDropdown(
+                FormEntryWithDropdown(
                   name: 'Tipo Material',
-                  onMaterialSelected: onMaterialSelected,
+                  onElementSelected: onMaterialSelected,
                   elements: const ["Material 1", "Material 2", "Material 3"],
                 ),
                 const SizedBox(height: 20),
