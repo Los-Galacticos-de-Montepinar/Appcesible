@@ -51,6 +51,9 @@ Future<List<UserModel>> getAllUsers() async {
   }
 }
 
+// Makes a HTTP request to get all teachers
+// Makes a HTTP request to get all students
+
 // Makes a HTTP request to get a User from the server DB
 Future<UserModel> getUserFromId(int id) async {
   final response = await http.get(

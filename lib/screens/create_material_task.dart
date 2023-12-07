@@ -1,11 +1,16 @@
-import 'package:appcesible/models/task_model.dart';
-import 'package:appcesible/services/task_service.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+
+import 'package:appcesible/models/task_model.dart';
+import 'package:appcesible/models/user_model.dart';
+
+import 'package:appcesible/services/task_service.dart';
+import 'package:appcesible/services/user_service.dart';
 
 import 'package:appcesible/screens/create_material_task_app.dart';
 import 'package:appcesible/screens/create_material_task_tab.dart';
 import 'package:appcesible/screens/screen_util_breakpoints.dart';
+
 import 'package:appcesible/widgets/dialog_with_search_bar.dart';
 import 'package:appcesible/widgets/quantity_dialog.dart';
 import 'package:appcesible/widgets/error.dart';
@@ -50,6 +55,29 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
   List<TaskItem> selectedMaterials = [];
   bool showSelectedMaterials = false;
 
+  List<String> teachers = [];
+  List<String> classes = [];
+  List<String> students = [];
+
+  void _initializeState() async {
+    List<UserModel> users = await getAllUsers();
+
+    for (UserModel user in users) {
+      if (user.userType != 1) {
+        teachers.add(user.userName);
+      }
+      else {
+        students.add(user.userName);
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    _initializeState();
+    super.initState();
+  }
+
   @override
   void dispose() {
     controllerNombreTarea.dispose();
@@ -65,25 +93,9 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
     final result = await showDialog(
       context: context,
       builder: (BuildContext context) {
-        return const DialogWithSearchBar(
-          elements: [
-          'Profesor1',
-          'Profesor2',
-          'Profesor3',
-          'Profesor4',
-          'Profesor5',
-          'Profesor6',
-          'Profesor7',
-          'Profesor8',
-          'Profesor9',
-          'Profesor10',
-          'Profesor11',
-          'Profesor12',
-          'Profesor13',
-          'Profesor14',
-          'Profesor15',
-          'Profesor16',
-        ]);
+        return DialogWithSearchBar(
+          elements: teachers
+        );
       },
     );
 
@@ -131,25 +143,9 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
     final result = await showDialog(
       context: context,
       builder: (BuildContext context) {
-        return const DialogWithSearchBar(
-          elements: [
-          'Estudiante1',
-          'Estudiante2',
-          'Estudiante3',
-          'Estudiante4',
-          'Estudiante5',
-          'Estudiante6',
-          'Estudiante7',
-          'Estudiante8',
-          'Estudiante9',
-          'Estudiante10',
-          'Estudiante11',
-          'Estudiante12',
-          'Estudiante13',
-          'Estudiante14',
-          'Estudiante15',
-          'Estudiante16',
-        ]);
+        return DialogWithSearchBar(
+          elements: students
+        );
       },
     );
 

@@ -68,13 +68,13 @@ class TopMenu extends StatelessWidget implements PreferredSizeWidget {
                   right:
                       15), //* para que tenga espacio por arriba y a la derecha
             ),
-            IconButton(
-              icon: const Icon(Icons.notifications),
-              onPressed: () {},
-              color: const Color.fromARGB(255, 0, 0, 0),
-              //constraints: const BoxConstraints(maxHeight: 0),
-              padding: const EdgeInsets.only(top: 10, right: 15),
-            )
+            // IconButton(
+            //   icon: const Icon(Icons.notifications),
+            //   onPressed: () {},
+            //   color: const Color.fromARGB(255, 0, 0, 0),
+            //   //constraints: const BoxConstraints(maxHeight: 0),
+            //   padding: const EdgeInsets.only(top: 10, right: 15),
+            // )
           ],
         )
       ],
