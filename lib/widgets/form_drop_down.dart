@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'package:appcesible/models/task_model.dart';
+
 class MaterialFormEntryWithDropdown extends StatefulWidget {
   final String name;
-  final Function(String) onMaterialSelected;
+  final Function(TaskItem) onMaterialSelected;
   final List<String> elements;
 
   const MaterialFormEntryWithDropdown({
@@ -17,7 +19,7 @@ class MaterialFormEntryWithDropdown extends StatefulWidget {
 }
 
 class _MaterialFormEntryWithDropdownState extends State<MaterialFormEntryWithDropdown> {
-  String? selectedMaterial;
+  TaskItem? selectedMaterial;
 
   @override
   Widget build(BuildContext context) {
@@ -31,13 +33,13 @@ class _MaterialFormEntryWithDropdownState extends State<MaterialFormEntryWithDro
               labelText: widget.name,
               border: const OutlineInputBorder(),
             ),
-            value: selectedMaterial,
+            value: selectedMaterial?.name,
             items: _buildDropdownItems(widget.elements),
             onChanged: (value) {
               setState(() {
-                if (selectedMaterial != value) {
-                  selectedMaterial = value;
-                  widget.onMaterialSelected(value!);
+                if (selectedMaterial?.name != value) {
+                  selectedMaterial?.name = value!;
+                  widget.onMaterialSelected(selectedMaterial!);
                 }
               });
             },

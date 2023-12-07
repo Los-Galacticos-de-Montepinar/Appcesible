@@ -1,11 +1,11 @@
 class TaskModel {
-  final int id;
-  final int type;
+  int id;
+  int type; // 0 - Fixed | 1 - Material
 
   // General information
-  final String title;
-  final String description;
-  final int idPicto;
+  String title;
+  String description;
+  int idPicto;
 
   // Task elements
   List<TaskElement> elements = [];
@@ -33,6 +33,11 @@ class TaskModel {
   void addElement(TaskElement element) {
     elements.add(element);
   }
+
+  // Method that adds all the elements in a list
+  void addElements(List<TaskElement> element) {
+    elements.addAll(elements);
+  }
 }
 
 class TaskElement {}
@@ -51,10 +56,12 @@ class Step extends TaskElement {
 
 class TaskItem extends TaskElement {
   final int id;
-  final int quantity;
+  String name;
+  int quantity;
 
   TaskItem({
     required this.id,
+    required this.name,
     required this.quantity
   });
 }

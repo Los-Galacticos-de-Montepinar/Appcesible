@@ -1,12 +1,10 @@
-import 'package:appcesible/widgets/confirmation_window.dart';
-import 'package:appcesible/widgets/quantity_dialog.dart';
-import 'package:appcesible/widgets/dialog_with_search_bar.dart';
-import 'package:appcesible/widgets/top_menu.dart';
-import 'package:appcesible/widgets/error.dart';
 import 'package:flutter/material.dart';
+
+import 'package:appcesible/screens/create_material_task.dart';
+import 'package:appcesible/widgets/top_menu.dart';
 import 'package:appcesible/widgets/my_button.dart';
-import '../widgets/form_drop_down.dart';
-import '../widgets/form_entry.dart';
+import 'package:appcesible/widgets/form_drop_down.dart';
+import 'package:appcesible/widgets/form_entry.dart';
 
 class MaterialTaskTab extends StatefulWidget {
   const MaterialTaskTab({super.key});
@@ -15,17 +13,7 @@ class MaterialTaskTab extends StatefulWidget {
   State<MaterialTaskTab> createState() => _MaterialTaskTabState();
 }
 
-class _MaterialTaskTabState extends State<MaterialTaskTab> {
-  List<String> selectedMaterials = [];
-  Map<String, int> materialQuantities = {};
-  bool showSelectedMaterials = false;
-
-  TextEditingController controllerNombreTarea = TextEditingController();
-  TextEditingController controllerProfesor = TextEditingController();
-  TextEditingController controllerClase = TextEditingController();
-  TextEditingController controllerEstudiante = TextEditingController();
-  TextEditingController controllerFecha = TextEditingController();
-
+class _MaterialTaskTabState extends MaterialTaskState<MaterialTaskTab> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -85,7 +73,7 @@ class _MaterialTaskTabState extends State<MaterialTaskTab> {
                     name: 'Estudiante',
                     typeData: 4,
                     controller: controllerEstudiante,
-                    onTap: _showEstudiantePopup),
+                    onTap: showEstudiantePopup),
                 MaterialFormEntry(
                     name: 'Fecha', typeData: 2, controller: controllerFecha),
                 const SizedBox(height: 30),
@@ -104,7 +92,7 @@ class _MaterialTaskTabState extends State<MaterialTaskTab> {
                 const SizedBox(height: 10),
                 MaterialFormEntryWithDropdown(
                   name: 'Tipo Material',
-                  onMaterialSelected: _onMaterialSelected,
+                  onMaterialSelected: onMaterialSelected,
                   elements: const ["Material 1", "Material 2", "Material 3"],
                 ),
                 const SizedBox(height: 20),
@@ -128,22 +116,21 @@ class _MaterialTaskTabState extends State<MaterialTaskTab> {
                               ),
                             ),
                             TextButton.icon(
-                              onPressed: _clearSelectedMaterials,
+                              onPressed: clearSelectedMaterials,
                               icon: const Icon(Icons.delete),
                               label: const Text('Limpiar'),
                             ),
                           ],
                         ),
                         const SizedBox(height: 5),
-                        for (var entry in materialQuantities.entries)
-                          Text(
-                              "Tipo: ${entry.key}. \nCantidad: ${entry.value}\n"),
+                        for (var material in selectedMaterials)
+                          Text("Tipo: ${material.name}. \nCantidad: ${material.quantity}\n"),
                         const SizedBox(height: 30),
                       ],
                     ),
                   ),
                 const SizedBox(height: 0),
-                MyButton(buttonText: 'Crear Pedido', onPressed: _createOrder),
+                MyButton(buttonText: 'Crear Pedido', onPressed: createOrder),
                 const SizedBox(height: 30),
               ],
             ),
@@ -151,105 +138,5 @@ class _MaterialTaskTabState extends State<MaterialTaskTab> {
         ),
       ),
     );
-  }
-
-  void _onMaterialSelected(String material) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return QuantityDialog(
-          material: material,
-          onQuantitySelected: (quantity) {
-            setState(() {
-              if (!selectedMaterials.contains(material)) {
-                selectedMaterials.add(material);
-              }
-              materialQuantities[material] = quantity;
-              showSelectedMaterials = true;
-            });
-          },
-        );
-      },
-    );
-  }
-
-  // Crea el pedido
-  void _createOrder() {
-    if (!_validateFormEntries()) {
-      // Call the showErrorDialog method from the ErrorWindow class
-      ErrorWindow.showErrorDialog(context, 'Debes rellenar todos los campos.');
-      return;
-    }
-
-    // Show ConfirmationWindow when all fields are filled
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return ConfirmationWindow(onConfirm: _handleConfirmation);
-        });
-  }
-
-  void _handleConfirmation() {
-    // Logic to create the order
-    print("Pedido Creado: ");
-    for (var entry in materialQuantities.entries) {
-      print("Material: ${entry.key}, Quantity: ${entry.value}");
-    }
-  }
-
-  // Validate all forms are with content
-  bool _validateFormEntries() {
-    // Check if all required fields are filled
-    if (selectedMaterials.isEmpty ||
-        controllerNombreTarea.text.isEmpty ||
-        controllerProfesor.text.isEmpty ||
-        controllerClase.text.isEmpty ||
-        controllerEstudiante.text.isEmpty ||
-        controllerFecha.text.isEmpty) {
-      return false;
-    }
-    return true;
-  }
-
-  // Clear array materials
-  void _clearSelectedMaterials() {
-    setState(() {
-      selectedMaterials.clear();
-      materialQuantities.clear();
-      showSelectedMaterials = false;
-    });
-  }
-
-  void _showEstudiantePopup() async {
-    final result = await showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return const DialogWithSearchBar(
-          elements: [
-          'Estudiante1',
-          'Estudiante2',
-          'Estudiante3',
-          'Estudiante4',
-          'Estudiante5',
-          'Estudiante6',
-          'Estudiante7',
-          'Estudiante8',
-          'Estudiante9',
-          'Estudiante10',
-          'Estudiante11',
-          'Estudiante12',
-          'Estudiante13',
-          'Estudiante14',
-          'Estudiante15',
-          'Estudiante16',
-        ]);
-      },
-    );
-
-    if (result != null) {
-      setState(() {
-        controllerEstudiante.text = result;
-      });
-    }
   }
 }

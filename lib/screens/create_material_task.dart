@@ -1,3 +1,4 @@
+import 'package:appcesible/models/task_model.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
@@ -32,15 +33,21 @@ class MaterialTask extends StatelessWidget {
 }
 
 abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
-  List<String> selectedMaterials = [];
-  Map<String, int> materialQuantities = {};
-  bool showSelectedMaterials = false;
-
   TextEditingController controllerNombreTarea = TextEditingController();
   TextEditingController controllerProfesor = TextEditingController();
   TextEditingController controllerClase = TextEditingController();
   TextEditingController controllerEstudiante = TextEditingController();
   TextEditingController controllerFecha = TextEditingController();
+
+  TaskModel task = TaskModel(
+    id: -1,
+    type: 1,
+    title: '',
+    description: '',
+    idPicto: -1
+  );
+  List<TaskItem> selectedMaterials = [];
+  bool showSelectedMaterials = false;
 
   @override
   void dispose() {
@@ -51,7 +58,7 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
     super.dispose();
   }
 
-  // Gestión de inputs
+  // FORM INPUT
 
   void showProfesorPopup() async {
     final result = await showDialog(
@@ -152,7 +159,7 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
     }
   }
 
-  void onMaterialSelected(String material) {
+  void onMaterialSelected(TaskItem material) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -163,7 +170,7 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
               if (!selectedMaterials.contains(material)) {
                 selectedMaterials.add(material);
               }
-              materialQuantities[material] = quantity;
+              selectedMaterials.last.quantity = quantity;
               showSelectedMaterials = true;
             });
           },
@@ -176,14 +183,13 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
   void clearSelectedMaterials() {
     setState(() {
       selectedMaterials.clear();
-      materialQuantities.clear();
       showSelectedMaterials = false;
     });
   }
 
-  // Gestión de peticiones
+  // PETITIONS
 
-  // Crea el pedido
+  // Creates petition
   void createOrder() {
     if (!_validateFormEntries()) {
       // Call the showErrorDialog method from the ErrorWindow class
@@ -193,18 +199,20 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
 
     // Show ConfirmationWindow when all fields are filled
     showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return ConfirmationWindow(onConfirm: _handleConfirmation);
-        });
+      context: context,
+      builder: (BuildContext context) {
+        return ConfirmationWindow(onConfirm: _handleConfirmation);
+      }
+    );
   }
 
   void _handleConfirmation() {
     // Logic to create the order
-    print("Pedido Creado: ");
-    for (var entry in materialQuantities.entries) {
-      print("Material: ${entry.key}, Quantity: ${entry.value}");
+    for (var material in selectedMaterials) {
+      print("Material: ${material.name}, Quantity: ${material.quantity}");
     }
+
+    print("Finished");
   }
 
   // Validate all forms are with content

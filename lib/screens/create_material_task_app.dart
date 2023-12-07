@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import 'package:appcesible/screens/create_material_task.dart';
 import 'package:appcesible/widgets/top_menu.dart';
-import 'package:appcesible/widgets/my_button.dart';
 import 'package:appcesible/widgets/form_entry.dart';
 import 'package:appcesible/widgets/form_drop_down.dart';
 
@@ -135,9 +134,8 @@ class _MaterialTaskAppState extends MaterialTaskState<MaterialTaskApp> {
                           ],
                         ),
                         const SizedBox(height: 5),
-                        for (var entry in materialQuantities.entries)
-                          Text(
-                              "Tipo: ${entry.key}. \nCantidad: ${entry.value}\n"),
+                        for (var material in selectedMaterials)
+                          Text("Tipo: ${material.name}. \nCantidad: ${material.quantity}\n"),
                         const SizedBox(height: 30),
                       ],
                     ),
