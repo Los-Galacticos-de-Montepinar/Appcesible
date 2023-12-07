@@ -22,15 +22,15 @@ class _MaterialTaskAppState extends MaterialTaskState<MaterialTaskApp> {
         backgroundColor: Colors.white,
         appBar: const TopMenu(),
         body: SingleChildScrollView(
+          padding: const EdgeInsets.all(8.0),
           child: Center(
             child: Column(
               children: [
-                const SizedBox(height: 20),
                 Container(
-                  width: 225,
+                  width: double.maxFinite,
                   height: 40,
                   decoration: BoxDecoration(
-                    color: Colors.grey[400],
+                    color: const Color(0xFFD9D9D9),
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(color: Colors.black),
                   ),
@@ -45,9 +45,12 @@ class _MaterialTaskAppState extends MaterialTaskState<MaterialTaskApp> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 30),
                 Container(
-                  margin: const EdgeInsets.only(left: 5),
+                  padding: const EdgeInsets.only(
+                    top: 20.0,
+                    bottom: 20.0,
+                    left: 5.0
+                  ),
                   alignment: Alignment.topLeft,
                   child: const Text(
                     'Información General',
@@ -58,7 +61,6 @@ class _MaterialTaskAppState extends MaterialTaskState<MaterialTaskApp> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
                 MaterialFormEntry(
                   name: 'Nombre Tarea',
                   typeData: 1,
@@ -82,14 +84,12 @@ class _MaterialTaskAppState extends MaterialTaskState<MaterialTaskApp> {
                   controller: controllerEstudiante,
                   onTap: showEstudiantePopup,
                 ),
-                MaterialFormEntry(
-                  name: 'Fecha',
-                  typeData: 2,
-                  controller: controllerFecha
-                ),
-                const SizedBox(height: 30),
                 Container(
-                  margin: const EdgeInsets.only(left: 5),
+                  padding: const EdgeInsets.only(
+                    top: 20.0,
+                    bottom: 10.0,
+                    left: 5.0
+                  ),
                   alignment: Alignment.topLeft,
                   child: const Text(
                     'Pedido',
@@ -100,13 +100,17 @@ class _MaterialTaskAppState extends MaterialTaskState<MaterialTaskApp> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 10),
+                MaterialFormEntry(
+                  name: 'Fecha',
+                  typeData: 2,
+                  controller: controllerFecha
+                ),
                 FormEntryWithDropdown(
                   name: 'Tipo Material',
                   onElementSelected: onMaterialSelected,
-                  elements: const ["Material 1", "Material 2", "Material 3"],
+                  elements: const ['Material 1', 'Material 2', 'Material 3'],
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 20.0),
                 if (showSelectedMaterials)
                   Container(
                     margin: const EdgeInsets.only(left: 5),
@@ -128,22 +132,29 @@ class _MaterialTaskAppState extends MaterialTaskState<MaterialTaskApp> {
                             ),
                             TextButton.icon(
                               onPressed: clearSelectedMaterials,
+                              style: const ButtonStyle(
+                                iconColor: MaterialStatePropertyAll(Colors.black),
+                              ),
                               icon: const Icon(Icons.delete),
-                              label: const Text('Limpiar'),
+                              label: const Text(
+                                'Limpiar',
+                                style: TextStyle(
+                                  color: Colors.black
+                                ),
+                              ),
                             ),
                           ],
                         ),
                         const SizedBox(height: 5),
                         for (var material in selectedMaterials)
-                          Text("Tipo: ${material.name}. \nCantidad: ${material.quantity}\n"),
-                        const SizedBox(height: 30),
+                          Text('Material: ${material.name}\nCantidad: ${material.quantity}\n'),
+                        const SizedBox(height: 20.0),
                       ],
                     ),
                   ),
-                const SizedBox(height: 0),
                 // MyButton(buttonText: 'Crear Pedido', onPressed: createOrder),
                 DialogButton(text: 'Crear Pedido', type: 0, onPressed: createOrder),
-                const SizedBox(height: 30),
+                const SizedBox(height: 20.0),
               ],
             ),
           ),
