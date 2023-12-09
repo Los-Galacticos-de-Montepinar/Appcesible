@@ -1,3 +1,4 @@
+import 'package:appcesible/models/assign_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -9,18 +10,21 @@ String _baseAddress = '192.168.1.42:8080';  // IP ordenador
 
 // CREATE
 
-void createTask(TaskModel task) async {
+Future<int> createTask(TaskModel task) async {
   final taskResponse = await http.post(
     Uri.http(_baseAddress, (task.type == 0) ? '/task/new' : '/task/petition/new'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8'
     },
-    body: jsonEncode(
-        <String, dynamic>{'title': task.title, 'desc': task.description}),
+    body: jsonEncode(<String, dynamic>{
+      'desc': task.description,
+      'title': task.title,
+    }),
   );
 
   if (taskResponse.statusCode == 200) {
     int id = int.parse(utf8.decode(taskResponse.bodyBytes));
+    print(id);
 
     for (TaskElement element in task.elements) {
       final elemResponse = await http.post(
@@ -36,16 +40,13 @@ void createTask(TaskModel task) async {
         body: (task.type == 0)
           ? jsonEncode(<String, dynamic>{
               'taskId': id,
-              'description': (element as Step).description,
+              'desc': (element as Step).description,
               'media': element.media,
               'order': element.stepNumber,
-              'image': element.idPicto
             })
           : jsonEncode(<String, dynamic>{
-              'taskId': id,
               'item': (element as TaskItem).id,
               'count': element.count,
-              'image': element.idPicto
             })
       );
 
@@ -57,8 +58,31 @@ void createTask(TaskModel task) async {
     }
 
     print("Created task");
+    return id;
   } else {
     throw Exception('Failed to create task');
+  }
+}
+
+// ASSIGN
+
+Future assignTask(AssignModel assignment) async {
+  final response = await http.post(
+    Uri.http(_baseAddress, '/task/${assignment.idTask}/assign'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8'
+    },
+    body: jsonEncode(<String, dynamic>{
+      'date': assignment.dueDate,
+      'user': assignment.idStudent,
+    })
+  );
+
+  if (response.statusCode == 200) {
+    print('Task assigned');
+  }
+  else {
+    throw Exception('Failed to assign task');
   }
 }
 
@@ -66,7 +90,7 @@ void createTask(TaskModel task) async {
 
 // FIXED tasks
 
-void getAllFixedTasks(TaskModel task) async {}
+Future getAllFixedTasks(TaskModel task) async {}
 
 Future<TaskModel> getFixedTaskFromId(int id) async {
   final response = await http.get(
@@ -104,19 +128,9 @@ Future<List<TaskItem>> getAvailableItems() async {
 }
 
 void main() async {
-  final response = await http.get(
-    Uri.http(_baseAddress, '/item'),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8'
-    },
-  );
-
-  if (response.statusCode == 200) {
-    List<dynamic> items = jsonDecode(utf8.decode(response.bodyBytes));
-    print(items);
-    List<TaskItem> materials = items.map((json) => TaskItem.fromJSON(json)).toList();
-    print(materials);
-  } else {
-    print('ERROR');
-  }
+  await assignTask(AssignModel(
+    idTask: 1,
+    idStudent: 2,
+    dueDate: 'Dom 10/12/2023 0900'
+  ));
 }

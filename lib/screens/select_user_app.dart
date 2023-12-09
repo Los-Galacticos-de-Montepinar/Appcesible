@@ -30,7 +30,7 @@ class _SelectUserAppState extends State<SelectUserApp> {
   }
 
   /*// Function that returns the url of the user profile picture
-  Future<void> _getUserPhoto(int id) async {
+  Future _getUserPhoto(int id) async {
     try {
       UserModel user = await getPhotoUser(id);
       return user.idProfileImg;
@@ -41,7 +41,7 @@ class _SelectUserAppState extends State<SelectUserApp> {
   }*/
 
   // Function that returns the list of users in the DB (id and profile picture url)
-  Future<void> _getInfoUsers() async {
+  Future _getInfoUsers() async {
     try {
       List<UserModel> users = await getAllUsers();
 

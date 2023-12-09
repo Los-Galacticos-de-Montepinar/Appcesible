@@ -22,7 +22,7 @@ class MaterialFormEntry extends StatefulWidget {
 }
 
 class _MaterialFormEntryState extends State<MaterialFormEntry> {
-  Future<void> _selectDateTime(BuildContext context) async {
+  Future _selectDateTime(BuildContext context) async {
     DateTime? date = await _selectDate(context);
     if (date == null) return;
 

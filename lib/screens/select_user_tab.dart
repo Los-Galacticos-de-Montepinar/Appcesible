@@ -33,7 +33,7 @@ class _SelectUserTabState extends State<SelectUserTab> {
   }
 
   /*// Function that returns the url of the user profile picture
-  Future<void> _getUserPhoto(int id) async {
+  Future _getUserPhoto(int id) async {
     try {
       UserModel user = await getPhotoUser(id);
       return user.idProfileImg;
@@ -44,7 +44,7 @@ class _SelectUserTabState extends State<SelectUserTab> {
   }*/
 
   // Function that returns the list of users in the DB (id and profile picture url)
-  Future<void> _getInfoUsers() async {
+  Future _getInfoUsers() async {
     try {
       List<UserModel> users = await getAllUsers();
 
@@ -60,7 +60,7 @@ class _SelectUserTabState extends State<SelectUserTab> {
   }
 
   // Function that returns the number of users in the DB
-  Future<void> _countNumerUsers() async {
+  Future _countNumerUsers() async {
     try {
       numUsers = await countUsers();
       print('Number of users: $numUsers');
@@ -71,7 +71,7 @@ class _SelectUserTabState extends State<SelectUserTab> {
   }
 
   // Function that returns a user from the DB
-  Future<void> _loadUserById(int userId) async {
+  Future _loadUserById(int userId) async {
     print("hola");
 
     try {

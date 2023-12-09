@@ -10,7 +10,7 @@ String _baseAddress = '192.168.1.42:8080';  // IP ordenador
 
 // CREATE
 
-void createUser(UserModel user, String password) async {
+Future createUser(UserModel user, String password) async {
   final response = await http.post(
     Uri.http(_baseAddress, '/user/new'),
     headers: <String, String>{
@@ -76,7 +76,7 @@ Future<UserModel> getUserFromId(int id) async {
 }
 
 // Returns the url of the user profile picture
-// Future<void> getUserPhoto(int id) async {
+// Future getUserPhoto(int id) async {
 //   try {
 //     UserModel user = await getPhotoUser(id);
 //     return user.idProfileImg;
@@ -143,7 +143,7 @@ Future<List<ClassModel>> getClasses() async {
 // UPDATE
 
 // Makes a HTTP request to update a User in the server DB
-void updateUser(UserModel user, String password) async {
+Future updateUser(UserModel user, String password) async {
   int id = user.id;
   final response = await http.post(
     Uri.http(_baseAddress, '/user/$id'),

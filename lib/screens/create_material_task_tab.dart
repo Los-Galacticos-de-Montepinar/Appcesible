@@ -69,24 +69,24 @@ class _MaterialTaskTabState extends MaterialTaskState<MaterialTaskTab> {
                     MaterialFormEntry(
                       name: 'Nombre Tarea',
                       typeData: 1,
-                      controller: controllerNombreTarea
+                      controller: taskNameController
                     ),
                     MaterialFormEntry(
                       name: 'Profesor',
                       typeData: 4,
-                      controller: controllerProfesor,
+                      controller: teacherController,
                       onTap: showProfesorPopup,
                     ),
                     MaterialFormEntry(
                       name: 'Clase',
                       typeData: 4,
-                      controller: controllerClase,
+                      controller: classController,
                       onTap: showClasePopup,
                     ),
                     MaterialFormEntry(
                       name: 'Estudiante',
                       typeData: 4,
-                      controller: controllerEstudiante,
+                      controller: studentController,
                       onTap: showEstudiantePopup,
                     ),
                     Container(
@@ -108,12 +108,12 @@ class _MaterialTaskTabState extends MaterialTaskState<MaterialTaskTab> {
                     MaterialFormEntry(
                       name: 'Fecha',
                       typeData: 2,
-                      controller: controllerFecha
+                      controller: dateTimeController
                     ),
                     FormEntryWithDropdown(
                       name: 'Tipo Material',
                       onElementSelected: onMaterialSelected,
-                      elements: materials,
+                      elements: getMaterialsNames(),
                     ),
                     const SizedBox(height: 20.0),
                     if (showSelectedMaterials)

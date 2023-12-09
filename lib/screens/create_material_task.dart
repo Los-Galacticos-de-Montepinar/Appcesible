@@ -1,11 +1,13 @@
-import 'package:appcesible/models/class_model.dart';
+import 'package:appcesible/screens/task_list_init.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
-import 'package:appcesible/models/task_model.dart';
 import 'package:appcesible/models/user_model.dart';
+import 'package:appcesible/models/task_model.dart';
+import 'package:appcesible/models/assign_model.dart';
+import 'package:appcesible/models/class_model.dart';
 
 import 'package:appcesible/services/task_service.dart';
 import 'package:appcesible/services/user_service.dart';
@@ -43,40 +45,32 @@ class MaterialTask extends StatelessWidget {
 }
 
 abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
-  TextEditingController controllerNombreTarea = TextEditingController();
-  TextEditingController controllerProfesor = TextEditingController();
-  TextEditingController controllerClase = TextEditingController();
-  TextEditingController controllerEstudiante = TextEditingController();
-  TextEditingController controllerFecha = TextEditingController();
+  TextEditingController taskNameController = TextEditingController();
+  TextEditingController teacherController = TextEditingController();
+  TextEditingController classController = TextEditingController();
+  TextEditingController studentController = TextEditingController();
+  TextEditingController dateTimeController = TextEditingController();
 
-  TaskModel task = TaskModel(
-    id: -1,
-    type: 1,
-    title: '',
-    description: '',
-    idPicto: -1
-  );
   List<TaskItem> selectedMaterials = [];
   bool showSelectedMaterials = false;
 
-  List<String> teachers = [];
+  List<UserModel> teachers = [];
   List<String> classes = [];
-  List<String> students = [];
-  List<TaskItem> items = [];
-  List<String> materials = [];
+  List<UserModel> students = [];
+  List<TaskItem> materials = [];
 
   bool initialized = false;
 
-  Future<void> initializeState() async {
+  Future initializeState() async {
     if (!initialized) {
       // Get users for lists
       List<UserModel> users = await getAllUsers();
       for (UserModel user in users) {
         if (user.userType != 1) {
-          teachers.add(user.userName);
+          teachers.add(user);
         }
         else {
-          students.add(user.userName);
+          students.add(user);
         }
       }
 
@@ -85,19 +79,15 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
       for (ClassModel classObj in classes) {
         this.classes.add(classObj.className);
       }
-      print(this.classes);
 
       // Get available materials
-      items = await getAvailableItems();
-      List<TaskItem> itemsAux = [];
+      List<TaskItem> items = await getAvailableItems();
       for (TaskItem item in items) {
-        bool included = materials.any((material) => item.name == material);
+        bool included = materials.any((material) => item.name == material.name);
         if (!included) {
-          itemsAux.add(item);
-          materials.add(item.name);
+          materials.add(item);
         }
       }
-      items = itemsAux;
 
       initialized = true;
     }
@@ -110,9 +100,11 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
 
   @override
   void dispose() {
-    controllerNombreTarea.dispose();
-    controllerProfesor.dispose();
-    controllerClase.dispose();
+    taskNameController.dispose();
+    teacherController.dispose();
+    classController.dispose();
+    studentController.dispose();
+    dateTimeController.dispose();
 
     super.dispose();
   }
@@ -125,16 +117,25 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
       builder: (BuildContext context) {
         return DialogWithSearchBar(
           title: 'Profesor',
-          elements: teachers
+          elements: getTeachersNames()
         );
       },
     );
 
     if (result != null) {
       setState(() {
-        controllerProfesor.text = result;
+        teacherController.text = result;
       });
     }
+  }
+
+  List<String> getTeachersNames() {
+    List<String> teachersNames = [];
+    for (UserModel teacher in teachers) {
+      teachersNames.add(teacher.userName);
+    }
+
+    return teachersNames;
   }
 
   void showClasePopup() async {
@@ -150,7 +151,7 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
 
     if (result != null) {
       setState(() {
-        controllerClase.text = result;
+        classController.text = result;
       });
     }
   }
@@ -161,32 +162,43 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
       builder: (BuildContext context) {
         return DialogWithSearchBar(
           title: 'Estudiante',
-          elements: students
+          elements: getStudentsNames()
         );
       },
     );
 
     if (result != null) {
       setState(() {
-        controllerEstudiante.text = result;
+        studentController.text = result;
       });
     }
   }
 
-  void onMaterialSelected(String material) {
+  List<String> getStudentsNames() {
+    List<String> studentsNames = [];
+    for (UserModel student in students) {
+      studentsNames.add(student.userName);
+    }
+
+    return studentsNames;
+  }
+
+  void onMaterialSelected(String mat) {
+    TaskItem material = materials.firstWhere((material) => material.name == mat);
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return QuantityDialog(
-          element: material,
-          maxValue: items.firstWhere((item) => item.name == material).count,
+          element: mat,
+          maxValue: material.count,
           onQuantitySelected: (quantity) {
             setState(() {
-              bool exists = selectedMaterials.any((element) => element.name == material);
+              bool exists = selectedMaterials.any((material) => material.name == mat);
               if (!exists) {
                 selectedMaterials.add(TaskItem(
-                  id: -1,
-                  name: material,
+                  id: material.id,
+                  name: mat,
                   count: quantity,
                   idPicto: 0
                 ));
@@ -198,6 +210,15 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
         );
       },
     );
+  }
+
+  List<String> getMaterialsNames() {
+    List<String> matetrialsNames = [];
+    for (TaskItem material in materials) {
+      matetrialsNames.add(material.name);
+    }
+
+    return matetrialsNames;
   }
 
   // Clear array materials
@@ -230,7 +251,7 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
     );
   }
 
-  void _handleConfirmation() {
+  void _handleConfirmation() async {
     showDialog(
       context: context,
       builder: (context) {
@@ -238,6 +259,14 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
       }
     );
 
+    // Create task
+    TaskModel task = TaskModel(
+      id: -1,
+      type: 1,
+      title: taskNameController.text,
+      description: '',
+      idPicto: -1
+    );
     // Add all elements to the task
     task.addElements(selectedMaterials);
 
@@ -247,21 +276,35 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
     }
 
     // Server call
-    createTask(task);
+    task.id = await createTask(task);
+
+    String date = dateTimeController.text.replaceAll(',', '');
+    date = date.replaceAll(':', ' ');
+    await assignTask(AssignModel(
+      idTask: task.id,
+      idStudent: students.firstWhere((student) => student.userName == studentController.text).id,
+      dueDate: date
+    ));
     print("Finished");
 
     Navigator.of(context).pop();
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (context) {
+        return const TaskListInit();
+      }),
+      (route) => false
+    );
   }
 
   // Validate all forms are with content
   bool _validateFormEntries() {
     // Check if all required fields are filled
     if (selectedMaterials.isEmpty ||
-        controllerNombreTarea.text.isEmpty ||
-        controllerProfesor.text.isEmpty ||
-        controllerClase.text.isEmpty ||
-        controllerEstudiante.text.isEmpty ||
-        controllerFecha.text.isEmpty) {
+        taskNameController.text.isEmpty ||
+        teacherController.text.isEmpty ||
+        classController.text.isEmpty ||
+        studentController.text.isEmpty ||
+        dateTimeController.text.isEmpty) {
       return false;
     }
     return true;

@@ -26,7 +26,7 @@ class TaskModel {
       type: type,
       title: json['title'] as String,
       description: json['desc'] as String,
-      idPicto: json[''] as int
+      idPicto: -1 // json[''] as int
     );
   }
 
@@ -80,7 +80,7 @@ class TaskItem extends TaskElement {
       id: json['id'] as int,
       name: json['name'] as String,
       count: json['count'] as int,
-      idPicto: int.parse(json['image'] as String),
+      idPicto: json['image'] as int,
     );
   }
 
