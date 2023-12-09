@@ -4,11 +4,13 @@ import 'package:appcesible/widgets/dialog_button.dart';
 
 class QuantityDialog extends StatefulWidget {
   final String element;
+  final int? maxValue;
   final ValueChanged<int> onQuantitySelected;
 
   const QuantityDialog({
     super.key,
     required this.element,
+    this.maxValue,
     required this.onQuantitySelected,
   });
 
@@ -31,11 +33,11 @@ class _QuantityDialogState extends State<QuantityDialog> {
             children: [
               IconButton(
                 icon: const Icon(Icons.remove),
-                onPressed: () {
+                onPressed: (quantity <= 1)
+                ? null
+                : () {
                   setState(() {
-                    if (quantity > 1) {
-                      quantity--;
-                    }
+                    quantity--;
                   });
                 },
               ),
@@ -45,7 +47,9 @@ class _QuantityDialogState extends State<QuantityDialog> {
               ),
               IconButton(
                 icon: const Icon(Icons.add),
-                onPressed: () {
+                onPressed: (quantity >= (widget.maxValue ?? double.infinity))
+                ? null
+                : () {
                   setState(() {
                     quantity++;
                   });

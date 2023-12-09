@@ -62,6 +62,7 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
   List<String> teachers = [];
   List<String> classes = [];
   List<String> students = [];
+  List<TaskItem> items = [];
   List<String> materials = [];
 
   bool initialized = false;
@@ -87,11 +88,16 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
       print(this.classes);
 
       // Get available materials
-      List<TaskItem> items = await getAvailableItems();
+      items = await getAvailableItems();
+      List<TaskItem> itemsAux = [];
       for (TaskItem item in items) {
         bool included = materials.any((material) => item.name == material);
-        if (!included) materials.add(item.name);
+        if (!included) {
+          itemsAux.add(item);
+          materials.add(item.name);
+        }
       }
+      items = itemsAux;
 
       initialized = true;
     }
@@ -173,6 +179,7 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
       builder: (BuildContext context) {
         return QuantityDialog(
           element: material,
+          maxValue: items.firstWhere((item) => item.name == material).count,
           onQuantitySelected: (quantity) {
             setState(() {
               bool exists = selectedMaterials.any((element) => element.name == material);
