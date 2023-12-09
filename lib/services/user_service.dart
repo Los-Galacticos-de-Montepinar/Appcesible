@@ -44,7 +44,7 @@ Future<List<UserModel>> getAllUsers() async {
   );
 
   if (response.statusCode == 200) {
-    List<dynamic> userList = jsonDecode(response.body);
+    List<dynamic> userList = jsonDecode(utf8.decode(response.bodyBytes));
     return userList.map((json) => UserModel.fromJSON(json)).toList();
   } else {
     throw Exception('Failed to fetch user list');
@@ -64,7 +64,7 @@ Future<UserModel> getUserFromId(int id) async {
   );
 
   if (response.statusCode == 200) {
-    dynamic json = jsonDecode(response.body);
+    dynamic json = jsonDecode(utf8.decode(response.bodyBytes));
     return UserModel.fromJSON(json);
   } else {
     throw Exception('Failed to load User');
@@ -112,7 +112,7 @@ Future<int> countUsers() async {
   );
 
   if (response.statusCode == 200) {
-    List<dynamic> userList = jsonDecode(response.body);
+    List<dynamic> userList = jsonDecode(utf8.decode(response.bodyBytes));
     return userList.length;
   } else {
     throw Exception('Failed to fetch user list');
@@ -155,7 +155,7 @@ void updateUser(UserModel user, String password) async {
 //         'Content-Type': 'application/json; charset=UTF-8'
 //       });
 //   if (response.statusCode == 200) {
-//     dynamic json = jsonDecode(response.body);
+//     dynamic json = jsonDecode(utf8.decode(response.bodyBytes));
 //     UserModel user = UserModel.fromJSON(json);
 //     if (verifyPassword(enteredPassword, user.passwd)) {
 //       print("Contraseña correcta");
@@ -191,7 +191,7 @@ Future<bool> authenticateUser(UserModel user, String enteredPassword) async {
     .timeout(const Duration(seconds: 200));
 
     if (response.statusCode == 200) {
-      var jsonResponse = await json.decode(json.encode(response.body));
+      var jsonResponse = await json.decode(json.encode(utf8.decode(response.bodyBytes)));
       print('Autenticacion exitosa. Token: $jsonResponse');
       return true;
     } else {
@@ -221,7 +221,7 @@ Future<bool> pictoAuthenticateUser0(UserModel user, String enteredPassword) asyn
     .timeout(const Duration(seconds: 200));
 
     if (response.statusCode == 200) {
-      var jsonResponse = await json.decode(json.encode(response.body));
+      var jsonResponse = await json.decode(json.encode(utf8.decode(response.bodyBytes)));
       print('Autenticacion exitosa. Token: $jsonResponse');
       return true;
     } else {

@@ -20,7 +20,7 @@ void createTask(TaskModel task) async {
   );
 
   if (taskResponse.statusCode == 200) {
-    int id = int.parse(taskResponse.body);
+    int id = int.parse(utf8.decode(taskResponse.bodyBytes));
 
     for (TaskElement element in task.elements) {
       final elemResponse = await http.post(
@@ -75,7 +75,7 @@ Future<TaskModel> getFixedTaskFromId(int id) async {
   );
 
   if (response.statusCode == 200) {
-    dynamic json = jsonDecode(response.body);
+    dynamic json = jsonDecode(utf8.decode(response.bodyBytes));
     return TaskModel.fromJSON(json, 0);
   } else {
     throw Exception('Failed to load task');
@@ -93,7 +93,7 @@ Future<List<TaskItem>> getAvailableItems() async {
   );
 
   if (response.statusCode == 200) {
-    List<dynamic> itemList = jsonDecode(response.body);
+    List<dynamic> itemList = jsonDecode(utf8.decode(response.bodyBytes));
     return itemList.map((json) => TaskItem.fromJSON(json)).toList();
   }
   else {

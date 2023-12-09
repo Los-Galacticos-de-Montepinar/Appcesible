@@ -1,3 +1,4 @@
+import 'package:appcesible/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
@@ -60,28 +61,34 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
   List<String> students = [];
   List<String> materials = [];
 
-  void _initializeState() async {
-    // Get users for lists
-    List<UserModel> users = await getAllUsers();
-    for (UserModel user in users) {
-      if (user.userType != 1) {
-        teachers.add(user.userName);
-      }
-      else {
-        students.add(user.userName);
-      }
-    }
+  bool initialized = false;
 
-    // Get available materials
-    List<TaskItem> items = await getAvailableItems();
-    for (TaskItem item in items) {
-      materials.add(item.name);
+  Future<void> initializeState() async {
+    if (!initialized) {
+      // Get users for lists
+      List<UserModel> users = await getAllUsers();
+      for (UserModel user in users) {
+        if (user.userType != 1) {
+          teachers.add(user.userName);
+        }
+        else {
+          students.add(user.userName);
+        }
+      }
+
+      // Get available materials
+      List<TaskItem> items = await getAvailableItems();
+      for (TaskItem item in items) {
+        bool included = materials.any((material) => item.name == material);
+        if (!included) materials.add(item.name);
+      }
+
+      initialized = true;
     }
   }
 
   @override
   void initState() {
-    _initializeState();
     super.initState();
   }
 
@@ -219,6 +226,13 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
   }
 
   void _handleConfirmation() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const LoadingIndicator();
+      }
+    );
+
     // Add all elements to the task
     task.addElements(selectedMaterials);
 
@@ -230,6 +244,8 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
     // Server call
     createTask(task);
     print("Finished");
+
+    Navigator.of(context).pop();
   }
 
   // Validate all forms are with content
