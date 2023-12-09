@@ -41,7 +41,13 @@ class TaskModel {
   }
 }
 
-class TaskElement {}
+class TaskElement {
+  final int idPicto;
+
+  TaskElement({
+    required this.idPicto,
+  });
+}
 
 class Step extends TaskElement {
   final String description;
@@ -51,19 +57,21 @@ class Step extends TaskElement {
   Step({
     required this.description,
     required this.media,
-    required this.stepNumber
+    required this.stepNumber,
+    required super.idPicto,
   });
 }
 
 class TaskItem extends TaskElement {
   final int id;
   String name;
-  int quantity;
+  int count;
 
   TaskItem({
     required this.id,
     required this.name,
-    required this.quantity
+    required this.count,
+    required super.idPicto,
   });
 
   // Factory method that creates a TaskItem instance from a JSON
@@ -71,7 +79,14 @@ class TaskItem extends TaskElement {
     return TaskItem(
       id: json['id'] as int,
       name: json['name'] as String,
-      quantity: 0 // json[''] as int
+      count: json['count'] as int,
+      idPicto: int.parse(json['image'] as String),
     );
+  }
+
+  // toString
+  @override
+  String toString() {
+    return 'id: $id\nname: $name\ncount: $count\nidPicto: $idPicto\n';
   }
 }

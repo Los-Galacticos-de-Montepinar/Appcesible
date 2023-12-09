@@ -180,10 +180,11 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
                 selectedMaterials.add(TaskItem(
                   id: -1,
                   name: material,
-                  quantity: quantity
+                  count: quantity,
+                  idPicto: 0
                 ));
               }
-              selectedMaterials.last.quantity = quantity;
+              selectedMaterials.last.count = quantity;
               showSelectedMaterials = true;
             });
           },
@@ -235,7 +236,7 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
 
     // Logic to create the order
     for (var material in selectedMaterials) {
-      print("Material: ${material.name}, Quantity: ${material.quantity}");
+      print("Material: ${material.name}, Quantity: ${material.count}");
     }
 
     // Server call

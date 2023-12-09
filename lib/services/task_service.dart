@@ -38,12 +38,14 @@ void createTask(TaskModel task) async {
               'taskId': id,
               'description': (element as Step).description,
               'media': element.media,
-              'order': element.stepNumber
+              'order': element.stepNumber,
+              'image': element.idPicto
             })
           : jsonEncode(<String, dynamic>{
               'taskId': id,
               'item': (element as TaskItem).id,
-              'count': element.quantity
+              'count': element.count,
+              'image': element.idPicto
             })
       );
 
@@ -102,18 +104,18 @@ Future<List<TaskItem>> getAvailableItems() async {
 }
 
 void main() async {
-  final taskResponse = await http.post(
-    Uri.http(_baseAddress, '/task/new'),
+  final response = await http.get(
+    Uri.http(_baseAddress, '/item'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8'
     },
-    body: jsonEncode(<String, dynamic>{'title': 'prueba1', 'desc': 'prueba1'}),
   );
 
-  if (taskResponse.statusCode == 200) {
-    int id = int.parse(taskResponse.body);
-    print('RES - ${taskResponse.body}');
-    print('ID - $id');
+  if (response.statusCode == 200) {
+    List<dynamic> items = jsonDecode(utf8.decode(response.bodyBytes));
+    print(items);
+    List<TaskItem> materials = items.map((json) => TaskItem.fromJSON(json)).toList();
+    print(materials);
   } else {
     print('ERROR');
   }

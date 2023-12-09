@@ -152,7 +152,7 @@ class _MaterialTaskTabState extends MaterialTaskState<MaterialTaskTab> {
                             ),
                             const SizedBox(height: 5),
                             for (var material in selectedMaterials)
-                              Text('Material: ${material.name}\nCantidad: ${material.quantity}\n'),
+                              Text('Material: ${material.name}\nCantidad: ${material.count}\n'),
                             const SizedBox(height: 20.0),
                           ],
                         ),
