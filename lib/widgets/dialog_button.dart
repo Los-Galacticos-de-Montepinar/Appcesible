@@ -12,12 +12,12 @@ class DialogButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        surfaceTintColor: (type == 0) ? Colors.red : Colors.white,
-        backgroundColor: (type == 0) ? Colors.red : Colors.white, // Color de fondo
+        surfaceTintColor: (type == 0) ? const Color(0xFFBF1717) : Colors.white,
+        backgroundColor: (type == 0) ? const Color(0xFFBF1717) : Colors.white, // Color de fondo
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(4.0), // Bordes redondos
           side: const BorderSide(
-            color: Colors.red,
+            color: Color(0xFFBF1717),
             width: 2.0
           )
         ),
@@ -25,7 +25,7 @@ class DialogButton extends StatelessWidget {
       child: Text(
         text,
         style: TextStyle(
-          color: (type == 0) ? Colors.white : Colors.red, // Color del texto blanco
+          color: (type == 0) ? Colors.white : const Color(0xFFBF1717), // Color del texto blanco
         ),
       ),
     );

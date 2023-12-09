@@ -1,7 +1,7 @@
 import 'package:appcesible/widgets/top_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:appcesible/services/user_service.dart';
-import 'package:appcesible/widgets/alert_dialog.dart';
+import 'package:appcesible/widgets/alert_dialog_DEPRECATED.dart';
 import 'package:appcesible/widgets/local_photo.dart';
 import 'package:appcesible/models/user_model.dart';
 

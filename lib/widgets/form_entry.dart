@@ -1,5 +1,7 @@
+import 'package:appcesible/widgets/error.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 class MaterialFormEntry extends StatefulWidget {
   final String name;
@@ -20,17 +22,81 @@ class MaterialFormEntry extends StatefulWidget {
 }
 
 class _MaterialFormEntryState extends State<MaterialFormEntry> {
-  Future<void> _selectDate(BuildContext context) async {
+  Future<void> _selectDateTime(BuildContext context) async {
+    DateTime? date = await _selectDate(context);
+    if (date == null) return;
+
+    TimeOfDay? time = await _selectTime(context);
+    if (time == null) return;
+
+    String dateStr = DateFormat.yMEd('es_ES').format(date);
+    dateStr = '${dateStr[0].toUpperCase()}${dateStr.substring(1)}';
+    String timeStr = time.format(context);
+
+    widget.controller.text = '$dateStr $timeStr';
+  }
+
+  Future<DateTime?> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(2000),
       lastDate: DateTime(2101),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: const ColorScheme.light(
+              primary: Color(0xFF9E9E9E),
+              onSurface: Colors.black,
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.black
+              )
+            )
+          ),
+          child: child!
+        );
+      },
     );
 
-    if (picked != null && picked != DateTime.now()) {
-      widget.controller.text = picked.toLocal().toString();
+    if (picked!.compareTo(DateTime.now()) >= 0) {
+      return picked;
     }
+    else {
+      ErrorWindow.showErrorDialog(
+        context,
+        'La fecha debe ser, al menos, igual al día de hoy'
+      );
+      print('Fecha inválida');
+    }
+
+    return null;
+  }
+
+  Future<TimeOfDay?> _selectTime(BuildContext context) async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: const ColorScheme.light(
+              primary: Color(0xFF9E9E9E),
+              onSurface: Colors.black,
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.black
+              )
+            )
+          ),
+          child: child!
+        );
+      },
+    );
+
+    return picked;
   }
 
   @override
@@ -66,6 +132,9 @@ class _MaterialFormEntryState extends State<MaterialFormEntry> {
                   child: TextFormField(
                     controller: widget.controller,
                     enabled: false,
+                    style: const TextStyle(
+
+                    ),
                     decoration: InputDecoration(
                       labelText: widget.name,
                       border: const OutlineInputBorder(),
@@ -74,7 +143,9 @@ class _MaterialFormEntryState extends State<MaterialFormEntry> {
                 ),
                 IconButton(
                   icon: const Icon(Icons.calendar_today),
-                  onPressed: () => _selectDate(context),
+                  onPressed: () {
+                    _selectDateTime(context);
+                  },
                 ),
               ],
             ),

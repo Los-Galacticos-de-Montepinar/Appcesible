@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 
 class DialogWithSearchBar extends StatefulWidget {
+  final String title;
   final List<String> elements;
   
-  const DialogWithSearchBar({super.key, required this.elements});
+  const DialogWithSearchBar({
+    super.key,
+    required this.title,
+    required this.elements
+  });
 
   @override
   State<DialogWithSearchBar> createState() => _DialogWithSearchBarState();
@@ -28,12 +33,12 @@ class _DialogWithSearchBarState extends State<DialogWithSearchBar> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Expanded(
+              Expanded(
                 child: Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    'Buscar Estudiante',
-                    style: TextStyle(
+                    'Buscar ${widget.title}',
+                    style: const TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold,
                     ),
@@ -62,10 +67,10 @@ class _DialogWithSearchBarState extends State<DialogWithSearchBar> {
                     .toList();
               });
             },
-            decoration: const InputDecoration(
-              labelText: 'Buscar Estudiante',
-              border: OutlineInputBorder(),
-              prefixIcon: Icon(Icons.search), // Agrega el icono de lupa
+            decoration: InputDecoration(
+              labelText: 'Buscar ${widget.title}',
+              border: const OutlineInputBorder(),
+              prefixIcon: const Icon(Icons.search), // Agrega el icono de lupa
             ),
           ),
           const SizedBox(

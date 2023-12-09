@@ -1,4 +1,6 @@
-import 'package:appcesible/widgets/loading_indicator.dart';
+import 'package:appcesible/models/class_model.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
@@ -16,6 +18,7 @@ import 'package:appcesible/widgets/dialog_with_search_bar.dart';
 import 'package:appcesible/widgets/quantity_dialog.dart';
 import 'package:appcesible/widgets/error.dart';
 import 'package:appcesible/widgets/confirmation_window.dart';
+import 'package:appcesible/widgets/loading_indicator.dart';
 
 class MaterialTask extends StatelessWidget {
   const MaterialTask({super.key});
@@ -76,6 +79,13 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
         }
       }
 
+      // Get classes
+      List<ClassModel> classes = await getClasses();
+      for (ClassModel classObj in classes) {
+        this.classes.add(classObj.className);
+      }
+      print(this.classes);
+
       // Get available materials
       List<TaskItem> items = await getAvailableItems();
       for (TaskItem item in items) {
@@ -108,6 +118,7 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
       context: context,
       builder: (BuildContext context) {
         return DialogWithSearchBar(
+          title: 'Profesor',
           elements: teachers
         );
       },
@@ -124,25 +135,10 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
     final result = await showDialog(
       context: context,
       builder: (BuildContext context) {
-        return const DialogWithSearchBar(
-          elements: [
-          'Clase1',
-          'Clase2',
-          'Clase3',
-          'Clase4',
-          'Clase5',
-          'Clase6',
-          'Clase7',
-          'Clase8',
-          'Clase9',
-          'Clase10',
-          'Clase11',
-          'Clase12',
-          'Clase13',
-          'Clase14',
-          'Clase15',
-          'Clase16',
-        ]);
+        return DialogWithSearchBar(
+          title: 'Clase',
+          elements: classes
+        );
       },
     );
 
@@ -158,6 +154,7 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
       context: context,
       builder: (BuildContext context) {
         return DialogWithSearchBar(
+          title: 'Estudiante',
           elements: students
         );
       },
@@ -263,8 +260,17 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
   }
 }
 
-void main() {
+void main() async {
   runApp(const MaterialApp(
+    localizationsDelegates: [
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
+    ],
+    supportedLocales: [
+      Locale('en'), // English
+      Locale('es', 'ES'), // Spanish
+    ],
     home: MaterialTask(),
   ));
 }
