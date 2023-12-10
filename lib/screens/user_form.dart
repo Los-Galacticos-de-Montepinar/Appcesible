@@ -90,7 +90,6 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
         this.user = user;
         _updateData('', {'Texto':false, 'Audio':false, 'Imagenes':false});
       });
-      // _updateData('', {'Texto':false, 'Audio':false, 'Imagenes':false});
     }
 
       _initialized = true;
@@ -137,15 +136,12 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
   }
 
   Widget passwdText(){
-    return Padding(
-      padding: const EdgeInsets.all(8),
-      child: TextField(
-        controller: _passwdController,
-        decoration: const InputDecoration(
-          labelText: 'Contraseña',
-          border: OutlineInputBorder(),
-        ),
-      )
+    return TextField(
+      controller: _passwdController,
+      decoration: const InputDecoration(
+        labelText: 'Contraseña',
+        border: OutlineInputBorder(),
+      ),
     );
   }
 
@@ -172,7 +168,7 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
           child: Text('Seleccionados: $choosedTypes'),
         ),
         Padding(
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
           child: DropdownButtonFormField(
             items: content.keys.map((e) => 
               DropdownMenuItem(
@@ -213,18 +209,31 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
             body: (_initialized || snapshot.connectionState == ConnectionState.done)
             ? Center(
                 child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(8.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Text(
-                          widget.title,
-                          textScaler: const TextScaler.linear(2.0),
-                        )
+                      Container(
+                        width: double.maxFinite,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFD9D9D9),
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: Center(
+                          child: Text(
+                            widget.title,
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(12),
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
                         child: DropdownButtonFormField(
                           items: userTypes.map((e) => 
                             DropdownMenuItem(
@@ -251,7 +260,7 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
                         child: TextField(
                           controller: _nameController,
                           decoration: const InputDecoration(
@@ -264,7 +273,7 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                       show ? Container(child: pictoCheckWid()):const SizedBox.shrink(),
                       show ? Container(child: contentW(context)):const SizedBox.shrink(),
                       Padding(
-                        padding: const EdgeInsets.all(12),
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
                         child: DropdownButtonFormField(
                           items: classes.map((e) => 
                             DropdownMenuItem(
@@ -290,11 +299,11 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                         ),
                       ),
                       const Padding(
-                        padding: EdgeInsets.all(22),
+                        padding: EdgeInsets.symmetric(vertical: 10.0),
                         child: UploadPicture()                        
                         ),
                       Padding(
-                      padding: const EdgeInsets.all(22),
+                      padding: const EdgeInsets.symmetric(vertical: 10.0),
                       child: TextButton(
                           onPressed: () {
                             int cont = 0;

@@ -19,9 +19,9 @@ void test() async {
   );
 
   if (response.statusCode == 200) {
-    print("Received message:");
+    print('Received message:');
     print(response.body);
-    print("Decrypted:");
+    print('Decrypted:');
     print(Encrypt.decrypt(response.body));
     
   } else {
@@ -30,10 +30,10 @@ void test() async {
 }
 
 void main() {
-  print("START");
+  print('START');
   RSAKeypair rsaKeypair = RSAKeypair.fromRandom(); 
   String pem = rsaKeypair.publicKey.toPEM();
   print(pem);
   test();
-  print("SENDED");
+  print('SENDED');
 }

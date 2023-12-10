@@ -47,7 +47,7 @@ class _MaterialFormEntryWithDropdownState extends State<MaterialFormEntryWithDro
   }
 
   List<DropdownMenuItem<String>> _buildDropdownItems() {
-    List<String> materialTypes = ["Material 1", "Material 2", "Material 3"];
+    List<String> materialTypes = ['Material 1', 'Material 2', 'Material 3'];
 
     return materialTypes.map((type) {
       return DropdownMenuItem<String>(

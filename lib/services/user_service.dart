@@ -37,12 +37,10 @@ Future createUser(UserModel user, String password) async {
 
 // Returns all users information
 Future<List<UserModel>> getAllUsers() async {
-  final response = await http.get(
-    Uri.http(_baseAddress, '/user'),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8'
-    }
-  );
+  final response = await http.get(Uri.http(_baseAddress, '/user'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8'
+      });
 
   if (response.statusCode == 200) {
     List<dynamic> userList = jsonDecode(utf8.decode(response.bodyBytes));
@@ -60,13 +58,10 @@ Future<List<UserModel>> getAllUsers() async {
 
 // Makes a HTTP request to get a User from the server DB
 Future<UserModel> getUserFromId(int id) async {
-  print('id - $id');
-  final response = await http.get(
-    Uri.http(_baseAddress, '/user/$id'),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8'
-    }
-  );
+  final response = await http.get(Uri.http(_baseAddress, '/user/$id'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8'
+      });
 
   if (response.statusCode == 200) {
     dynamic json = jsonDecode(utf8.decode(response.bodyBytes));
@@ -90,7 +85,7 @@ Future<UserModel> getUserFromId(int id) async {
 // Returns the list of users in the DB (id and profile picture url)
 Future<List> getInfoUsers() async {
   List<MapEntry<UserModel, String>> profileList = [];
-  
+
   try {
     List<UserModel> users = await getAllUsers();
 
@@ -109,12 +104,10 @@ Future<List> getInfoUsers() async {
 
 // Returns the number of users in the DB
 Future<int> countUsers() async {
-  final response = await http.get(
-    Uri.http(_baseAddress, '/user'),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8'
-    }
-  );
+  final response = await http.get(Uri.http(_baseAddress, '/user'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8'
+      });
 
   if (response.statusCode == 200) {
     List<dynamic> userList = jsonDecode(utf8.decode(response.bodyBytes));
@@ -125,18 +118,15 @@ Future<int> countUsers() async {
 }
 
 Future<List<ClassModel>> getClasses() async {
-  final response = await http.get(
-    Uri.http(_baseAddress, '/class'),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8'
-    }
-  );
+  final response = await http.get(Uri.http(_baseAddress, '/class'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8'
+      });
 
   if (response.statusCode == 200) {
     List<dynamic> classList = jsonDecode(utf8.decode(response.bodyBytes));
     return classList.map((json) => ClassModel.fromJSON(json)).toList();
-  }
-  else {
+  } else {
     throw Exception('Failed to fetch classes');
   }
 }
@@ -199,21 +189,23 @@ Future updateUser(UserModel user, String password) async {
 
 Future<bool> authenticateUser(UserModel user, String enteredPassword) async {
   try {
-    final response = await http.post(
-      Uri.http(_baseAddress, '/session/login'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8'
-      },
-      body: jsonEncode(<String, dynamic>{
-        'userName': user.userName,
-        'passwd': enteredPassword,
-        'publicKey': 123,
-      }),
-    )
-    .timeout(const Duration(seconds: 200));
+    final response = await http
+        .post(
+          Uri.http(_baseAddress, '/session/login'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8'
+          },
+          body: jsonEncode(<String, dynamic>{
+            'userName': user.userName,
+            'passwd': enteredPassword,
+            'publicKey': 123,
+          }),
+        )
+        .timeout(const Duration(seconds: 200));
 
     if (response.statusCode == 200) {
-      var jsonResponse = await json.decode(json.encode(utf8.decode(response.bodyBytes)));
+      var jsonResponse =
+          await json.decode(json.encode(utf8.decode(response.bodyBytes)));
       print('Autenticacion exitosa. Token: $jsonResponse');
       return true;
     } else {
@@ -227,23 +219,26 @@ Future<bool> authenticateUser(UserModel user, String enteredPassword) async {
   }
 }
 
-Future<bool> pictoAuthenticateUser0(UserModel user, String enteredPassword) async {
+Future<bool> pictoAuthenticateUser0(
+    UserModel user, String enteredPassword) async {
   try {
-    final response = await http.post(
-      Uri.http(_baseAddress, '/session/login'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8'
-      },
-      body: jsonEncode(<String, dynamic>{
-        'userName': user.userName,
-        'passPart0': enteredPassword,
-        'publicKey': 123,
-      }),
-    )
-    .timeout(const Duration(seconds: 200));
+    final response = await http
+        .post(
+          Uri.http(_baseAddress, '/session/login'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8'
+          },
+          body: jsonEncode(<String, dynamic>{
+            'userName': user.userName,
+            'passPart0': enteredPassword,
+            'publicKey': 123,
+          }),
+        )
+        .timeout(const Duration(seconds: 200));
 
     if (response.statusCode == 200) {
-      var jsonResponse = await json.decode(json.encode(utf8.decode(response.bodyBytes)));
+      var jsonResponse =
+          await json.decode(json.encode(utf8.decode(response.bodyBytes)));
       print('Autenticacion exitosa. Token: $jsonResponse');
       return true;
     } else {
