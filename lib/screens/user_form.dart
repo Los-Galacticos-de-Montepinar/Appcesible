@@ -1,3 +1,4 @@
+import 'package:appcesible/screens/form_drop_down.dart';
 import 'package:appcesible/widgets/error.dart';
 import 'package:appcesible/widgets/loading_indicator.dart';
 import 'package:appcesible/widgets/top_menu.dart';
@@ -164,20 +165,15 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
   Widget contentW(BuildContext context){
     return Column(
       children: [Padding(
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.symmetric(vertical: 12.0),
           child: Text('Seleccionados: $choosedTypes'),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10.0),
-          child: DropdownButtonFormField(
-            items: content.keys.map((e) => 
-              DropdownMenuItem(
-                value: e,
-                child: Text(e)
-              )
-            ).toList(),
-            onChanged: (value) => {
-              if (value != null && content.containsKey(value))
+          padding: const EdgeInsets.only(top: 10.0),
+          child: FormEntryWithDropdown(
+            name: 'Tipo de contenido',
+            onElementSelected: (value) => {
+              if (content.containsKey(value))
                 content[value] = !(content[value] ?? false),
               choosedTypes = '',
               content.forEach((key, value) {
@@ -187,10 +183,8 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
               }),
               setState(() {})
             },
-            decoration: const InputDecoration(
-              labelText: 'Tipo de contenido'
-            ),
-          ),
+            elements: content.keys.toList(),
+          )
         ),
       ],
     );
@@ -205,6 +199,7 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
       builder: (content, snapshot) {
         return MaterialApp(
           home: Scaffold(
+            backgroundColor: Colors.white,
             appBar: const TopMenu(),
             body: (_initialized || snapshot.connectionState == ConnectionState.done)
             ? Center(
@@ -232,17 +227,13 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                           ),
                         ),
                       ),
+                      const SizedBox(height: 10.0),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10.0),
-                        child: DropdownButtonFormField(
-                          items: userTypes.map((e) => 
-                            DropdownMenuItem(
-                              value: e,
-                              child: Text(e)
-                            )
-                          ).toList(),
-                          onChanged: (value) {
-                            if (value != null && value != '') {
+                        child: FormEntryWithDropdown(
+                          name: 'Tipo de usuario',
+                          onElementSelected: (value) {
+                            if (value != '') {
                               user.userType = userTypes.indexOf(value);
                               if (userTypes.contains('')) {
                                 userTypes.remove('');
@@ -253,11 +244,8 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                               setState(() {});
                             }
                           },
-                          value: userTypes[user.userType],
-                          decoration: const InputDecoration(
-                            labelText: 'Tipo de usuario'
-                          ),
-                        ),
+                          elements: userTypes,
+                        )
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10.0),
@@ -274,15 +262,10 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                       show ? Container(child: contentW(context)):const SizedBox.shrink(),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10.0),
-                        child: DropdownButtonFormField(
-                          items: classes.map((e) => 
-                            DropdownMenuItem(
-                              value: e,
-                              child: Text(e)
-                            )
-                          ).toList(),
-                          onChanged: (value) {
-                            if (value != null && value != '') {
+                        child: FormEntryWithDropdown(
+                          name: 'Clase',
+                          onElementSelected: (value) {
+                            if (value != '') {
                               classIndex = classes.indexOf(value);
                               if(classes.contains('')) {
                                 classes.remove('');
@@ -292,11 +275,8 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                               setState(() {});
                             }
                           },
-                          value: classes[classIndex],
-                          decoration: const InputDecoration(
-                            labelText: 'Clase'
-                          ),
-                        ),
+                          elements: classes,
+                        )
                       ),
                       const Padding(
                         padding: EdgeInsets.symmetric(vertical: 10.0),

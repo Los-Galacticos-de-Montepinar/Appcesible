@@ -1,60 +1,58 @@
 import 'package:flutter/material.dart';
 
-class MaterialFormEntryWithDropdown extends StatefulWidget {
+class FormEntryWithDropdown extends StatefulWidget {
   final String name;
-  final Function(String) onMaterialSelected;
+  final Function(String) onElementSelected;
+  final List<String> elements;
 
-  const MaterialFormEntryWithDropdown({
+  const FormEntryWithDropdown({
     super.key,
     required this.name,
-    required this.onMaterialSelected,
+    required this.onElementSelected,
+    required this.elements
   });
 
   @override
-  State<MaterialFormEntryWithDropdown> createState() => _MaterialFormEntryWithDropdownState();
+  State<FormEntryWithDropdown> createState() => _FormEntryWithDropdownState();
 }
 
-class _MaterialFormEntryWithDropdownState extends State<MaterialFormEntryWithDropdown> {
-  String? selectedMaterial;
+class _FormEntryWithDropdownState extends State<FormEntryWithDropdown> {
+  String? selectedElement;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(5.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          DropdownButtonFormField<String>(
-            decoration: InputDecoration(
-              labelText: widget.name,
-              border: const OutlineInputBorder(),
-            ),
-            value: selectedMaterial,
-            items: _buildDropdownItems(),
-            onChanged: (value) {
-              setState(() {
-                if (selectedMaterial != value) {
-                  selectedMaterial = value;
-                  widget.onMaterialSelected(value!);
-                }
-              });
-            },
-            isExpanded: true,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        DropdownButtonFormField<String>(
+          decoration: InputDecoration(
+            labelText: widget.name,
+            border: const OutlineInputBorder(),
           ),
-        ],
-      ),
+          value: selectedElement,
+          dropdownColor: Colors.white,
+          items: _buildDropdownItems(widget.elements),
+          onChanged: (value) {
+            setState(() {
+              if (selectedElement != value) {
+                selectedElement = value!;
+                widget.onElementSelected(selectedElement!);
+              }
+            });
+          },
+          isExpanded: true,
+        ),
+      ],
     );
   }
 
-  List<DropdownMenuItem<String>> _buildDropdownItems() {
-    List<String> materialTypes = ['Material 1', 'Material 2', 'Material 3'];
-
-    return materialTypes.map((type) {
+  List<DropdownMenuItem<String>> _buildDropdownItems(List<String> elements) {
+    return elements.map((element) {
       return DropdownMenuItem<String>(
-        value: type,
-        child: SizedBox(
-          width: 200,
-          child: Text(type),
+        value: element,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Text(element),
         ),
       );
     }).toList();
