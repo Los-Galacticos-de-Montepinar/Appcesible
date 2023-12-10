@@ -68,8 +68,7 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
       for (UserModel user in users) {
         if (user.userType != 1) {
           teachers.add(user);
-        }
-        else {
+        } else {
           students.add(user);
         }
       }
@@ -116,9 +115,7 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
       context: context,
       builder: (BuildContext context) {
         return DialogWithSearchBar(
-          title: 'Profesor',
-          elements: getTeachersNames()
-        );
+            title: 'Profesor', elements: getTeachersNames());
       },
     );
 
@@ -142,10 +139,7 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
     final result = await showDialog(
       context: context,
       builder: (BuildContext context) {
-        return DialogWithSearchBar(
-          title: 'Clase',
-          elements: classes
-        );
+        return DialogWithSearchBar(title: 'Clase', elements: classes);
       },
     );
 
@@ -161,9 +155,7 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
       context: context,
       builder: (BuildContext context) {
         return DialogWithSearchBar(
-          title: 'Estudiante',
-          elements: getStudentsNames()
-        );
+            title: 'Estudiante', elements: getStudentsNames());
       },
     );
 
@@ -184,7 +176,8 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
   }
 
   void onMaterialSelected(String mat) {
-    TaskItem material = materials.firstWhere((material) => material.name == mat);
+    TaskItem material =
+        materials.firstWhere((material) => material.name == mat);
 
     showDialog(
       context: context,
@@ -194,14 +187,11 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
           maxValue: material.count,
           onQuantitySelected: (quantity) {
             setState(() {
-              bool exists = selectedMaterials.any((material) => material.name == mat);
+              bool exists =
+                  selectedMaterials.any((material) => material.name == mat);
               if (!exists) {
                 selectedMaterials.add(TaskItem(
-                  id: material.id,
-                  name: mat,
-                  count: quantity,
-                  idPicto: 0
-                ));
+                    id: material.id, name: mat, count: quantity, idPicto: 0));
               }
               selectedMaterials.last.count = quantity;
               showSelectedMaterials = true;
@@ -241,32 +231,28 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
 
     // Show ConfirmationWindow when all fields are filled
     showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return ConfirmationWindow(
-          message: 'Se va a crear una tarea pedido. ¿Continuar?',
-          onConfirm: _handleConfirmation
-        );
-      }
-    );
+        context: context,
+        builder: (BuildContext context) {
+          return ConfirmationWindow(
+              message: 'Se va a crear una tarea pedido. ¿Continuar?',
+              onConfirm: _handleConfirmation);
+        });
   }
 
   void _handleConfirmation() async {
     showDialog(
-      context: context,
-      builder: (context) {
-        return const LoadingIndicator();
-      }
-    );
+        context: context,
+        builder: (context) {
+          return const LoadingIndicator();
+        });
 
     // Create task
     TaskModel task = TaskModel(
-      id: -1,
-      type: 1,
-      title: taskNameController.text,
-      description: '',
-      idPicto: -1
-    );
+        id: -1,
+        type: 1,
+        title: taskNameController.text,
+        description: '',
+        idPicto: -1);
     // Add all elements to the task
     task.addElements(selectedMaterials);
 
@@ -281,19 +267,18 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
     String date = dateTimeController.text.replaceAll(',', '');
     date = date.replaceAll(':', ' ');
     await assignTask(AssignModel(
-      idTask: task.id,
-      idStudent: students.firstWhere((student) => student.userName == studentController.text).id,
-      dueDate: date
-    ));
+        idTask: task.id,
+        idStudent: students
+            .firstWhere((student) => student.userName == studentController.text)
+            .id,
+        dueDate: date));
     print("Finished");
 
     Navigator.of(context).pop();
     Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (context) {
-        return const TaskListInit();
-      }),
-      (route) => false
-    );
+        MaterialPageRoute(builder: (context) {
+      return const TaskListInit();
+    }), (route) => false);
   }
 
   // Validate all forms are with content
