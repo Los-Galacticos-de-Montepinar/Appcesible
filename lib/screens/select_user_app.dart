@@ -170,7 +170,7 @@ class _SelectUserAppState extends State<SelectUserApp> {
                             else {
                               Navigator.of(context)
                                 .push(MaterialPageRoute(builder: (BuildContext context) {
-                                  return const Login();
+                                  return Login(user: selUser);
                                 })
                               );
                             }

@@ -24,16 +24,16 @@ class TeacherHome extends StatelessWidget {
               padding: const EdgeInsets.only(left: 8, right: 8),
               child: ElevatedButton(
                 onPressed: () { // AQUI !!!!!!!
-                  int userType = -1;
+                  int userId = -1;
                   getSessionInformation().then((value) {
-                    userType = value.getInt('userType')!;
+                    userId = value.getInt('id')!;
                   });
 
                   Navigator.of(context)
                     .push(MaterialPageRoute(builder: (BuildContext context) {
                       return FormularioUsuarios(
                         'Editar perfil',
-                        userType
+                        userId
                       );
                     })
                   );

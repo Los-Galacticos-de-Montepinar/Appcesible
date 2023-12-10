@@ -1,3 +1,4 @@
+import 'package:appcesible/models/class_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -7,7 +8,9 @@ import 'package:appcesible/models/user_model.dart';
 // String _baseAddress = 'localhost:8080';
 String _baseAddress = '192.168.1.42:8080';  // IP ordenador
 
-void createUser(UserModel user, String password) async {
+// CREATE
+
+Future createUser(UserModel user, String password) async {
   final response = await http.post(
     Uri.http(_baseAddress, '/user/new'),
     headers: <String, String>{
@@ -30,41 +33,9 @@ void createUser(UserModel user, String password) async {
   }
 }
 
-// Function that makes a HTTP request to get a User from the server DB
-Future<UserModel> getUserFromId(int id) async {
-  final response = await http.get(
-    Uri.http(_baseAddress, '/user/$id'),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8'
-    }
-  );
+// GET INFO
 
-  if (response.statusCode == 200) {
-    dynamic json = jsonDecode(response.body);
-    return UserModel.fromJSON(json);
-  } else {
-    throw Exception('Failed to load User');
-  }
-}
-
-// Return the number of users in the DB
-Future<int> countUsers() async {
-  final response = await http.get(
-    Uri.http(_baseAddress, '/user'),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8'
-    }
-  );
-
-  if (response.statusCode == 200) {
-    List<dynamic> userList = jsonDecode(response.body);
-    return userList.length;
-  } else {
-    throw Exception('Failed to fetch user list');
-  }
-}
-
-// Return all users information
+// Returns all users information
 Future<List<UserModel>> getAllUsers() async {
   final response = await http.get(
     Uri.http(_baseAddress, '/user'),
@@ -74,15 +45,106 @@ Future<List<UserModel>> getAllUsers() async {
   );
 
   if (response.statusCode == 200) {
-    List<dynamic> userList = jsonDecode(response.body);
+    List<dynamic> userList = jsonDecode(utf8.decode(response.bodyBytes));
     return userList.map((json) => UserModel.fromJSON(json)).toList();
   } else {
     throw Exception('Failed to fetch user list');
   }
 }
 
-// Function that makes a HTTP request to update a User in the server DB
-void updateUser(UserModel user, String password) async {
+// Makes a HTTP request to get all teachers
+//TODO: función para pedir profesores (ahora mismo no hace falta)
+
+// Makes a HTTP request to get all students
+//TODO: función para pedir alumnos (ahora mismo no hace falta)
+
+// Makes a HTTP request to get a User from the server DB
+Future<UserModel> getUserFromId(int id) async {
+  print('id - $id');
+  final response = await http.get(
+    Uri.http(_baseAddress, '/user/$id'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8'
+    }
+  );
+
+  if (response.statusCode == 200) {
+    dynamic json = jsonDecode(utf8.decode(response.bodyBytes));
+    return UserModel.fromJSON(json);
+  } else {
+    throw Exception('Failed to load User');
+  }
+}
+
+// Returns the url of the user profile picture
+// Future getUserPhoto(int id) async {
+//   try {
+//     UserModel user = await getPhotoUser(id);
+//     return user.idProfileImg;
+//   } catch (e) {
+//     print('Error loading user: $e');
+//     // Manejar el error según sea necesario
+//   }
+// }
+
+// Returns the list of users in the DB (id and profile picture url)
+Future<List> getInfoUsers() async {
+  List<MapEntry<UserModel, String>> profileList = [];
+  
+  try {
+    List<UserModel> users = await getAllUsers();
+
+    for (var user in users) {
+      String photoUrl = "faltaUrl"; /*_getUserPhoto(user.idProfileImg);*/
+
+      profileList.add(MapEntry(user, photoUrl));
+    }
+  } catch (e) {
+    // Manejar el error según sea necesario
+    throw Exception('Error fetching user list: $e');
+  }
+
+  return profileList;
+}
+
+// Returns the number of users in the DB
+Future<int> countUsers() async {
+  final response = await http.get(
+    Uri.http(_baseAddress, '/user'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8'
+    }
+  );
+
+  if (response.statusCode == 200) {
+    List<dynamic> userList = jsonDecode(utf8.decode(response.bodyBytes));
+    return userList.length;
+  } else {
+    throw Exception('Failed to fetch user list');
+  }
+}
+
+Future<List<ClassModel>> getClasses() async {
+  final response = await http.get(
+    Uri.http(_baseAddress, '/class'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8'
+    }
+  );
+
+  if (response.statusCode == 200) {
+    List<dynamic> classList = jsonDecode(utf8.decode(response.bodyBytes));
+    return classList.map((json) => ClassModel.fromJSON(json)).toList();
+  }
+  else {
+    throw Exception('Failed to fetch classes');
+  }
+}
+
+// UPDATE
+
+// Makes a HTTP request to update a User in the server DB
+Future updateUser(UserModel user, String password) async {
   int id = user.id;
   final response = await http.post(
     Uri.http(_baseAddress, '/user/$id'),
@@ -103,13 +165,19 @@ void updateUser(UserModel user, String password) async {
   }
 }
 
+// DELETE
+
+// TODO: función para eliminar usuarios
+
+// AUTHENTICATION
+
 // Future<UserModel> authenticateUser(int id, String enteredPassword) async {
 //   final response = await http.get(Uri.http(_baseAddress, '/user/$id'),
 //       headers: <String, String>{
 //         'Content-Type': 'application/json; charset=UTF-8'
 //       });
 //   if (response.statusCode == 200) {
-//     dynamic json = jsonDecode(response.body);
+//     dynamic json = jsonDecode(utf8.decode(response.bodyBytes));
 //     UserModel user = UserModel.fromJSON(json);
 //     if (verifyPassword(enteredPassword, user.passwd)) {
 //       print("Contraseña correcta");
@@ -145,7 +213,7 @@ Future<bool> authenticateUser(UserModel user, String enteredPassword) async {
     .timeout(const Duration(seconds: 200));
 
     if (response.statusCode == 200) {
-      var jsonResponse = await json.decode(json.encode(response.body));
+      var jsonResponse = await json.decode(json.encode(utf8.decode(response.bodyBytes)));
       print('Autenticacion exitosa. Token: $jsonResponse');
       return true;
     } else {
@@ -175,7 +243,7 @@ Future<bool> pictoAuthenticateUser0(UserModel user, String enteredPassword) asyn
     .timeout(const Duration(seconds: 200));
 
     if (response.statusCode == 200) {
-      var jsonResponse = await json.decode(json.encode(response.body));
+      var jsonResponse = await json.decode(json.encode(utf8.decode(response.bodyBytes)));
       print('Autenticacion exitosa. Token: $jsonResponse');
       return true;
     } else {
@@ -187,4 +255,9 @@ Future<bool> pictoAuthenticateUser0(UserModel user, String enteredPassword) asyn
     print('Error durante la solicitud: $e');
     return false;
   }
+}
+
+void main() async {
+  List<dynamic> classes = await getClasses();
+  print(classes);
 }
