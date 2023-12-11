@@ -2,17 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:appcesible/widgets/top_menu.dart';
 
 class TaskInformationTablet extends StatelessWidget{
-  TaskInformationTablet ({super.key});
+  const TaskInformationTablet ({super.key});
 
-  final TextScaler titlesSize=TextScaler.linear(3);
-  final TextScaler textSize=TextScaler.linear(2);
+  final TextScaler titlesSize=const TextScaler.linear(3);
+  final TextScaler textSize=const TextScaler.linear(2);
+  final EdgeInsetsGeometry myPad=const EdgeInsets.all(12);
+
 
   /**
    * Container en el que guardo un texto para que se pegue a la izquierda del column
    */
   Padding textContainer(String text,TextScaler fontSize){
     return Padding(
-      padding: EdgeInsets.all(12),
+      padding: myPad,
       child: Container(
       alignment: Alignment.topLeft,
       child: Text(text,textAlign: TextAlign.left,textScaler: fontSize),
@@ -23,18 +25,18 @@ class TaskInformationTablet extends StatelessWidget{
   /**
    * Container de la derecha de la barra
    */
-  Container bigContainer(BuildContext context, Size ScreenSize, bool delayed,String state ,String date, String hour, String delay){
+  Container bigContainer(BuildContext context, Size screenSize, bool delayed,String state ,String date, String hour, String delay){
     return Container(
-      margin: EdgeInsets.all(12),
-      width: ScreenSize.width*0.5,
+      margin: myPad,
+      width: screenSize.width*0.5,
       alignment: Alignment.topLeft,
       child: Wrap(
         children: [
           textContainer("Detalles", titlesSize),
           textContainer("Estado - "+state,textSize),
-          delayed ? textContainer("Fecha de Realizacion "+date,textSize):Container(),
-          delayed ? textContainer("Hora de realizacion "+hour,textSize):Container(),
-          !delayed ? textContainer("Retraso "+delay,textSize):Container()
+          !delayed ? textContainer("Fecha de Realizacion "+date,textSize):Container(),
+          !delayed ? textContainer("Hora de realizacion "+hour,textSize):Container(),
+          delayed ? textContainer("Retraso "+delay,textSize):Container()
         ],
       ),
     );
@@ -43,9 +45,9 @@ class TaskInformationTablet extends StatelessWidget{
   /**
    * La parte izquierda de la barra esta formada por un column que tiene 2 de estos
    */
-  Container litlleContainer(BuildContext context, Size ScreenSize, String title, String text){
+  Container litlleContainer(BuildContext context, Size screenSize, String title, String text){
     return Container(
-      height: ScreenSize.height*0.3,
+      height: screenSize.height*0.3,
       alignment: Alignment.topLeft,
       child: Wrap(
         children: [
@@ -58,7 +60,7 @@ class TaskInformationTablet extends StatelessWidget{
 
   @override
   Widget build(BuildContext context){
-    var ScreenSize=MediaQuery.of(context).size;
+    var screenSize=MediaQuery.of(context).size;
 
     bool delayed=false;
 
@@ -67,7 +69,7 @@ class TaskInformationTablet extends StatelessWidget{
         appBar: TopMenu(),
         body: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.all(12),
+            padding: myPad,
             child: Column(
               children: [
                 /**
@@ -79,15 +81,15 @@ class TaskInformationTablet extends StatelessWidget{
                     color: Colors.grey[400],
                     border: Border.all(color: Colors.black)
                   ),
-                  child: Text("Información Tarea",textScaler: TextScaler.linear(3)),
+                  child: const Text("Información Tarea",textScaler: TextScaler.linear(3)),
                 ),
                 /**
                  * Informacion de la tarea
                  */
                 Padding(
-                  padding: EdgeInsets.all(12),
-                  child: Container(
-                    height: ScreenSize.height*0.7,
+                  padding: myPad,
+                  child: SizedBox(
+                    height: screenSize.height*0.7,
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       /**
@@ -100,8 +102,8 @@ class TaskInformationTablet extends StatelessWidget{
                           /**
                            * Parte izquierda
                            */
-                          Container(
-                            width: ScreenSize.width*0.4,
+                          SizedBox(
+                            width: screenSize.width*0.4,
                             child: SingleChildScrollView(
                               /**
                                * Column con los 2 container de la derecha
@@ -109,14 +111,14 @@ class TaskInformationTablet extends StatelessWidget{
                               child: Column(
                                 children: [
                                   Padding(
-                                    padding: EdgeInsets.all(12),
+                                    padding: myPad,
                                     //------------ CAMBIAR NOMBRE ------------
-                                    child: litlleContainer(context,ScreenSize,"Tarea","Nombre Tarea")
+                                    child: litlleContainer(context,screenSize,"Tarea","Nombre Tarea")
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.all(12),
+                                    padding: myPad,
                                     //------------ CAMBIAR NOMBRE ------------
-                                    child: litlleContainer(context,ScreenSize,"Estudiante", "Nombre estudiante")
+                                    child: litlleContainer(context,screenSize,"Estudiante", "Nombre estudiante")
                                   ),
                                 ],
                               ),
@@ -126,15 +128,15 @@ class TaskInformationTablet extends StatelessWidget{
                            * Barra del medio
                            */
                           Container(
-                            decoration: BoxDecoration(color: Colors.black),
-                            width: ScreenSize.width*0.001,
+                            decoration: const BoxDecoration(color: Colors.black),
+                            width: screenSize.width*0.001,
                           ),
                           /**
                            * Parte de la derecha
                            */
                           Padding(
-                            padding: EdgeInsets.all(20),
-                            child: bigContainer(context, ScreenSize ,delayed, "Completada","","","3 dias"),
+                            padding: const EdgeInsets.all(20),
+                            child: bigContainer(context, screenSize ,delayed, "Completada","","","3 dias"),
                           )
                         ],
                       ),
@@ -145,17 +147,17 @@ class TaskInformationTablet extends StatelessWidget{
                  * Boton de volver
                  */
                 Padding(
-                  padding: EdgeInsets.all(12),
+                  padding: myPad,
                   child: FilledButton(
-                    onPressed: (){}, 
-                    child: Text("Volver",textScaler: titlesSize),
+                    onPressed: (){},
                     style: FilledButton.styleFrom(
                       backgroundColor: Colors.red[900],
-                      minimumSize: Size(ScreenSize.width*0.6, ScreenSize.height*0.1),
+                      minimumSize: Size(screenSize.width*0.6, screenSize.height*0.1),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(0)
                       )
                     ),
+                    child: Text("Volver",textScaler: titlesSize),
                   ),
                 )
               ],
