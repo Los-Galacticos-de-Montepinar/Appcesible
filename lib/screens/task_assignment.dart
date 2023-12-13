@@ -1,3 +1,7 @@
+import 'package:appcesible/models/user_model.dart';
+import 'package:appcesible/widgets/confirmation_window.dart';
+import 'package:appcesible/widgets/dialog_with_search_bar.dart';
+import 'package:appcesible/widgets/loading_indicator.dart';
 import 'package:appcesible/widgets/my_button.dart';
 import 'package:appcesible/widgets/seleccionar_estudiante_window.dart';
 import 'package:appcesible/widgets/top_menu.dart';
@@ -16,6 +20,8 @@ class _TaskAssignmentState extends State<TaskAssignment> {
   String taskTitle = 'Poner Lavadora';
 
   String studentName = " ";
+
+  List<UserModel> students = [];
 
   @override
   Widget build(BuildContext context) {
@@ -95,9 +101,7 @@ class _TaskAssignmentState extends State<TaskAssignment> {
 
                 // GestureDetector con imagen
                 GestureDetector(
-                  onTap: () {
-                    _showEstudiantePopup();
-                  },
+                  onTap: showEstudiantePopup,
                   child: Container(
                     margin: const EdgeInsets.only(top: 50),
                     width: MediaQuery.of(context).size.width * 0.25,
@@ -130,28 +134,48 @@ class _TaskAssignmentState extends State<TaskAssignment> {
     );
   }
 
+  List<String> getStudentsNames() {
+    List<String> studentsNames = [];
+    for (UserModel student in students) {
+      studentsNames.add(student.userName);
+    }
+
+    return studentsNames;
+  }
+
   // On tap function for "selection student" field
-  void _showEstudiantePopup() async {
+  void showEstudiantePopup() async {
     final result = await showDialog(
       context: context,
       builder: (BuildContext context) {
-        return SeleccionarEstudianteWindow();
+        return DialogWithSearchBar(
+            title: 'Estudiante', elements: getStudentsNames());
       },
     );
+
+    // Show ConfirmationWindow when all fields are filled
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return ConfirmationWindow(
+              message: 'Se va a crear una tarea pedido. ¿Continuar?',
+              onConfirm: _handleConfirmation);
+        });
 
     if (result != null) {
       setState(() {
         studentName = result;
       });
-
-      final result1 = await showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return SeleccionarEstudianteWindow();
-        },
-      );
     }
 
     print(studentName);
+  }
+
+  void _handleConfirmation() async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return const LoadingIndicator();
+        });
   }
 }

@@ -1,4 +1,3 @@
-import 'package:appcesible/screens/create_task_material.dart';
 import 'package:appcesible/screens/task_assignment.dart';
 import 'package:appcesible/screens/task_list_init.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +19,7 @@ class MainApp extends StatelessWidget {
       builder: (context, child) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          home: MaterialTask(),
+          home: TaskAssignment(),
         );
       },
     );
