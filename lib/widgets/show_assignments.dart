@@ -6,8 +6,13 @@ import 'package:appcesible/widgets/dialog_button.dart';
 
 class ShowAssignmentsWidget extends StatelessWidget {
   final AssignmentsUser assignmentUser;
+  final Function() newAssignment;
 
-  const ShowAssignmentsWidget(this.assignmentUser, {super.key});
+  const ShowAssignmentsWidget({
+    super.key,
+    required this.assignmentUser,
+    required this.newAssignment
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -93,15 +98,25 @@ class ShowAssignmentsWidget extends StatelessWidget {
           backgroundColor: Colors.white,
           surfaceTintColor: Colors.white,
           actions: <Widget>[
-            Container(
-              alignment: Alignment.center,
-              child: DialogButton(
-                text: 'Cerrar',
-                type: 0, // Rojo
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                DialogButton(
+                  text: 'Cerrar',
+                  type: 0,
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  }
+                ),
+                const SizedBox(width: 8.0,),
+                DialogButton(
+                  text: 'Añadir',
+                  type: 1,
+                  onPressed: () {
+                    newAssignment();
+                  }
+                ),
+              ],
             ),
           ],
         );

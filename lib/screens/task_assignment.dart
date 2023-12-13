@@ -138,12 +138,15 @@ class _TaskAssignmentState extends State<TaskAssignment> {
                         children: [
                           // Display Assignments content
                           ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemCount: selectedAssignments.length,
                             itemBuilder: (BuildContext context, int index) {
                               AssignmentsUser assignmentUser =
                                   selectedAssignments[index];
-                              return ShowAssignmentsWidget(assignmentUser);
+                              return ShowAssignmentsWidget(
+                                assignmentUser: assignmentUser,
+                                newAssignment: _selectDateTime,);
                             },
                           ),
                         ],
@@ -173,7 +176,7 @@ class _TaskAssignmentState extends State<TaskAssignment> {
                 const SizedBox(height: 60),
                 // Button 'Guardar'
                 DialogButton(
-                  text: 'Guardar',
+                  text: 'Confirmar',
                   type: 1,
                   onPressed: () {}
                 ),

@@ -10,31 +10,16 @@ Future<bool?> showConfirmationDialog(BuildContext context, Pair<UserModel, DateT
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
+        title: Text(
+          selectedAssignment.key.userName,
+          textAlign: TextAlign.center,
+        ),
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
         content: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Name student
-            Container(
-              padding: const EdgeInsets.all(10),
-              margin: EdgeInsets.only(
-                left: MediaQuery.of(context).size.width * 0.01,
-                right: MediaQuery.of(context).size.width * 0.01,
-              ),
-              width: MediaQuery.of(context).size.width * 0.9,
-              child: Center(
-                child: Text(
-                  selectedAssignment.key.userName,
-                  style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.width * 0.05,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ),
-
             // lIST VIEW DE TODAS LAS ASIGNACIONES A UN ESTUDIANTE CON NOMBRE selectedAssignment.key
             Container(
               padding: const EdgeInsets.all(10),
@@ -77,31 +62,30 @@ Future<bool?> showConfirmationDialog(BuildContext context, Pair<UserModel, DateT
                 ),
               ),
             ),
-
-            const SizedBox(height: 15),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                DialogButton(
-                  text: 'No',
-                  type: 0,
-                  onPressed: () {
-                    Navigator.pop(context, false);
-                  }
-                ),
-                const SizedBox(width: 8.0,),
-                DialogButton(
-                  text: 'Sí',
-                  type: 1,
-                  onPressed: () {
-                    Navigator.pop(context, true);
-                  }
-                ),
-              ],
-            )
           ],
         ),
+        actions: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              DialogButton(
+                text: 'No',
+                type: 0,
+                onPressed: () {
+                  Navigator.pop(context, false);
+                }
+              ),
+              const SizedBox(width: 8.0,),
+              DialogButton(
+                text: 'Sí',
+                type: 1,
+                onPressed: () {
+                  Navigator.pop(context, true);
+                }
+              ),
+            ],
+          ),
+        ],
       );
     },
   );
