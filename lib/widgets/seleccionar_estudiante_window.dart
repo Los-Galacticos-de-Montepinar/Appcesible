@@ -4,10 +4,12 @@ class SeleccionarEstudianteWindow extends StatefulWidget {
   const SeleccionarEstudianteWindow({super.key});
 
   @override
-  State<SeleccionarEstudianteWindow> createState() => _SeleccionarEstudianteWindowState();
+  State<SeleccionarEstudianteWindow> createState() =>
+      _SeleccionarEstudianteWindowState();
 }
 
-class _SeleccionarEstudianteWindowState extends State<SeleccionarEstudianteWindow> {
+class _SeleccionarEstudianteWindowState
+    extends State<SeleccionarEstudianteWindow> {
   List<String> estudiantes = [
     'Estudiante1',
     'Estudiante2',

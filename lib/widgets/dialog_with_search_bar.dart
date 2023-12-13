@@ -3,12 +3,9 @@ import 'package:flutter/material.dart';
 class DialogWithSearchBar extends StatefulWidget {
   final String title;
   final List<String> elements;
-  
-  const DialogWithSearchBar({
-    super.key,
-    required this.title,
-    required this.elements
-  });
+
+  const DialogWithSearchBar(
+      {super.key, required this.title, required this.elements});
 
   @override
   State<DialogWithSearchBar> createState() => _DialogWithSearchBarState();
@@ -53,17 +50,14 @@ class _DialogWithSearchBarState extends State<DialogWithSearchBar> {
               ),
             ],
           ),
-          const SizedBox(
-            height: 8.0
-          ),
+          const SizedBox(height: 8.0),
           TextField(
             controller: searchController,
             onChanged: (value) {
               setState(() {
                 filteredElements = widget.elements
-                    .where((estudiante) => estudiante
-                        .toLowerCase()
-                        .contains(value.toLowerCase()))
+                    .where((estudiante) =>
+                        estudiante.toLowerCase().contains(value.toLowerCase()))
                     .toList();
               });
             },
@@ -73,9 +67,7 @@ class _DialogWithSearchBarState extends State<DialogWithSearchBar> {
               prefixIcon: const Icon(Icons.search), // Agrega el icono de lupa
             ),
           ),
-          const SizedBox(
-            height: 8.0
-          ),
+          const SizedBox(height: 8.0),
         ],
       ),
       contentPadding: EdgeInsets.zero, // Ajuste el espacio interno

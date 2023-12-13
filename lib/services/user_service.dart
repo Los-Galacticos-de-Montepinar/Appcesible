@@ -60,7 +60,7 @@ Future<int> countUsers() async {
   }
 }
 
-// Return all users information
+// Returns all users information
 Future<List<UserModel>> getAllUsers() async {
   final response = await http.get(Uri.http(_baseAddress, '/user'),
       headers: <String, String>{
@@ -68,7 +68,7 @@ Future<List<UserModel>> getAllUsers() async {
       });
 
   if (response.statusCode == 200) {
-    List<dynamic> userList = jsonDecode(response.body);
+    List<dynamic> userList = jsonDecode(utf8.decode(response.bodyBytes));
     return userList.map((json) => UserModel.fromJSON(json)).toList();
   } else {
     throw Exception('Failed to fetch user list');

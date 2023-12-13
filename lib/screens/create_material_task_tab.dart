@@ -183,7 +183,9 @@ class _MaterialTaskTabState extends State<MaterialTaskTab> {
     showDialog(
         context: context,
         builder: (BuildContext context) {
-          return ConfirmationWindow(onConfirm: _handleConfirmation);
+          return ConfirmationWindow(
+              message: 'Se va a crear una tarea pedido. ¿Continuar?',
+              onConfirm: _handleConfirmation);
         });
   }
 
