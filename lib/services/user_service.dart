@@ -4,8 +4,8 @@ import 'dart:convert';
 import 'package:appcesible/models/user_model.dart';
 
 // String _baseAddress = '10.0.2.2:8080';      // IP emulador
-// String _baseAddress = 'localhost:8080';
-String _baseAddress = '192.168.1.42:8080';  // IP ordenador
+// String _baseAddress = '192.168.1.42:8080';
+String _baseAddress = 'localhost:8080'; // IP ordenador
 
 void createUser(UserModel user, String password) async {
   final response = await http.post(
@@ -32,12 +32,10 @@ void createUser(UserModel user, String password) async {
 
 // Function that makes a HTTP request to get a User from the server DB
 Future<UserModel> getUserFromId(int id) async {
-  final response = await http.get(
-    Uri.http(_baseAddress, '/user/$id'),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8'
-    }
-  );
+  final response = await http.get(Uri.http(_baseAddress, '/user/$id'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8'
+      });
 
   if (response.statusCode == 200) {
     dynamic json = jsonDecode(response.body);
@@ -49,12 +47,10 @@ Future<UserModel> getUserFromId(int id) async {
 
 // Return the number of users in the DB
 Future<int> countUsers() async {
-  final response = await http.get(
-    Uri.http(_baseAddress, '/user'),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8'
-    }
-  );
+  final response = await http.get(Uri.http(_baseAddress, '/user'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8'
+      });
 
   if (response.statusCode == 200) {
     List<dynamic> userList = jsonDecode(response.body);
@@ -66,12 +62,10 @@ Future<int> countUsers() async {
 
 // Return all users information
 Future<List<UserModel>> getAllUsers() async {
-  final response = await http.get(
-    Uri.http(_baseAddress, '/user'),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8'
-    }
-  );
+  final response = await http.get(Uri.http(_baseAddress, '/user'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8'
+      });
 
   if (response.statusCode == 200) {
     List<dynamic> userList = jsonDecode(response.body);
@@ -131,18 +125,19 @@ void updateUser(UserModel user, String password) async {
 
 Future<bool> authenticateUser(UserModel user, String enteredPassword) async {
   try {
-    final response = await http.post(
-      Uri.http(_baseAddress, '/session/login'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8'
-      },
-      body: jsonEncode(<String, dynamic>{
-        'userName': user.userName,
-        'passwd': enteredPassword,
-        'publicKey': 123,
-      }),
-    )
-    .timeout(const Duration(seconds: 200));
+    final response = await http
+        .post(
+          Uri.http(_baseAddress, '/session/login'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8'
+          },
+          body: jsonEncode(<String, dynamic>{
+            'userName': user.userName,
+            'passwd': enteredPassword,
+            'publicKey': 123,
+          }),
+        )
+        .timeout(const Duration(seconds: 200));
 
     if (response.statusCode == 200) {
       var jsonResponse = await json.decode(json.encode(response.body));
@@ -159,20 +154,22 @@ Future<bool> authenticateUser(UserModel user, String enteredPassword) async {
   }
 }
 
-Future<bool> pictoAuthenticateUser0(UserModel user, String enteredPassword) async {
+Future<bool> pictoAuthenticateUser0(
+    UserModel user, String enteredPassword) async {
   try {
-    final response = await http.post(
-      Uri.http(_baseAddress, '/session/login'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8'
-      },
-      body: jsonEncode(<String, dynamic>{
-        'userName': user.userName,
-        'passPart0': enteredPassword,
-        'publicKey': 123,
-      }),
-    )
-    .timeout(const Duration(seconds: 200));
+    final response = await http
+        .post(
+          Uri.http(_baseAddress, '/session/login'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8'
+          },
+          body: jsonEncode(<String, dynamic>{
+            'userName': user.userName,
+            'passPart0': enteredPassword,
+            'publicKey': 123,
+          }),
+        )
+        .timeout(const Duration(seconds: 200));
 
     if (response.statusCode == 200) {
       var jsonResponse = await json.decode(json.encode(response.body));

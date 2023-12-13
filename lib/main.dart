@@ -1,3 +1,6 @@
+import 'package:appcesible/screens/create_task_material.dart';
+import 'package:appcesible/screens/task_assignment.dart';
+import 'package:appcesible/screens/task_list_init.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -10,16 +13,14 @@ void main() {
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
-  // SELECCION DE USUARIO
-  
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(412, 570), // ?
       builder: (context, child) {
-        return const MaterialApp(
+        return MaterialApp(
           debugShowCheckedModeBanner: false,
-          home: SelectUser(),
+          home: MaterialTask(),
         );
       },
     );
