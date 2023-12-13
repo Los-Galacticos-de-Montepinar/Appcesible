@@ -1,14 +1,17 @@
-import 'package:appcesible/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pair/pair.dart';
 
-Future<bool?> showConfirmationDialog(
-    BuildContext context, Pair<UserModel, DateTime> selectedAssignment) async {
+import 'package:appcesible/models/user_model.dart';
+import 'package:appcesible/widgets/dialog_button.dart';
+
+Future<bool?> showConfirmationDialog(BuildContext context, Pair<UserModel, DateTime> selectedAssignment) async {
   return showDialog<bool>(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.white,
         content: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -78,52 +81,22 @@ Future<bool?> showConfirmationDialog(
             const SizedBox(height: 15),
 
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(
-                  child: Container(
-                    height: MediaQuery.of(context).size.width * 0.1,
-                    decoration: BoxDecoration(
-                      color: Colors.red, // Color de fondo del primer botón
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    child: TextButton(
-                      onPressed: () {
-                        // Cerrar el diálogo y confirmar la asignación
-                        Navigator.pop(context, true);
-                      },
-                      child: Text(
-                        'Sí',
-                        style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.04,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
+                DialogButton(
+                  text: 'No',
+                  type: 0,
+                  onPressed: () {
+                    Navigator.pop(context, false);
+                  }
                 ),
-                const SizedBox(width: 10), // Espacio entre los contenedores
-                Expanded(
-                  child: Container(
-                    height: MediaQuery.of(context).size.width * 0.1,
-                    decoration: BoxDecoration(
-                      color:
-                          Colors.grey[900], // Color de fondo del segundo botón
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    child: TextButton(
-                      onPressed: () {
-                        // Cerrar el diálogo sin realizar ninguna acción
-                        Navigator.pop(context, false);
-                      },
-                      child: Text(
-                        'No',
-                        style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.04,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
+                const SizedBox(width: 8.0,),
+                DialogButton(
+                  text: 'Sí',
+                  type: 1,
+                  onPressed: () {
+                    Navigator.pop(context, true);
+                  }
                 ),
               ],
             )

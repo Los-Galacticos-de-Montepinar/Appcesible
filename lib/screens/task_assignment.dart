@@ -1,28 +1,31 @@
-import 'package:appcesible/models/assigments_user.dart';
-import 'package:appcesible/models/task_model.dart';
-import 'package:appcesible/models/user_model.dart';
-import 'package:appcesible/services/task_service.dart';
-import 'package:appcesible/services/user_service.dart';
-import 'package:appcesible/widgets/more_assignments_task.dart';
-import 'package:appcesible/widgets/dialog_with_search_bar.dart';
-import 'package:appcesible/widgets/loading_indicator.dart';
-import 'package:appcesible/widgets/my_button.dart';
-import 'package:appcesible/widgets/show_assignments.dart';
-import 'package:appcesible/widgets/top_menu.dart';
+import 'package:appcesible/widgets/dialog_button.dart';
 import 'package:flutter/material.dart';
 import 'package:pair/pair.dart';
 
+import 'package:appcesible/models/assigments_user.dart';
+import 'package:appcesible/models/task_model.dart';
+import 'package:appcesible/models/user_model.dart';
+
+import 'package:appcesible/services/task_service.dart';
+import 'package:appcesible/services/user_service.dart';
+
+import 'package:appcesible/widgets/more_assignments_task.dart';
+import 'package:appcesible/widgets/dialog_with_search_bar.dart';
+import 'package:appcesible/widgets/loading_indicator.dart';
+import 'package:appcesible/widgets/show_assignments.dart';
+import 'package:appcesible/widgets/top_menu.dart';
+
 class TaskAssignment extends StatefulWidget {
-  const TaskAssignment({Key? key}) : super(key: key);
+  const TaskAssignment({super.key});
 
   @override
-  _TaskAssignmentState createState() => _TaskAssignmentState();
+  State<TaskAssignment> createState() => _TaskAssignmentState();
 }
 
 class _TaskAssignmentState extends State<TaskAssignment> {
   // Variables para la tarea
-  String taskImageUrl = "assets/images/lavadora.png"; // Image url task default
-  String taskTitle = "Poner Lavadora";
+  String taskImageUrl = 'assets/images/lavadora.png'; // Image url task default
+  String taskTitle = 'Poner Lavadora';
 
   UserModel? selectedUser;
 
@@ -48,7 +51,7 @@ class _TaskAssignmentState extends State<TaskAssignment> {
       // NO LO HE HECHO, ERROR EN DATOS DE BD, NULL EN ID_PICTO. En taskmodel es required
       //TaskModel task = await getFixedTaskFromId(1);
 
-      //taskImageUrl = "assets/images/lavadora.png";
+      //taskImageUrl = 'assets/images/lavadora.png';
       //taskTitle = task.title;
 
       setState(() {
@@ -65,6 +68,7 @@ class _TaskAssignmentState extends State<TaskAssignment> {
         backgroundColor: Colors.white,
         appBar: const TopMenu(),
         body: SingleChildScrollView(
+          padding: const EdgeInsets.all(8.0),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -102,7 +106,7 @@ class _TaskAssignmentState extends State<TaskAssignment> {
 
                 const SizedBox(height: 50),
 
-                // "Sin asignar alumnos" or Display Assignments
+                // 'Sin asignar alumnos' or Display Assignments
                 selectedAssignments.isEmpty
                     ? Container(
                         padding: const EdgeInsets.all(20),
@@ -167,11 +171,11 @@ class _TaskAssignmentState extends State<TaskAssignment> {
                   ),
                 ),
                 const SizedBox(height: 60),
-                // Button "Guardar"
-                MyButton(
-                  buttonText: 'Guardar',
-                  colorBackground: Colors.grey[800], // Gris oscuro
-                  onPressed: () {},
+                // Button 'Guardar'
+                DialogButton(
+                  text: 'Guardar',
+                  type: 1,
+                  onPressed: () {}
                 ),
 
                 const SizedBox(height: 20),
@@ -192,13 +196,15 @@ class _TaskAssignmentState extends State<TaskAssignment> {
     return studentsNames;
   }
 
-  // On tap function for "selection student" field
+  // On tap function for 'selection student' field
   void showEstudiantePopup() async {
     final result = await showDialog(
       context: context,
       builder: (BuildContext context) {
         return DialogWithSearchBar(
-            title: 'Estudiante', elements: getStudentsNames());
+          title: 'Estudiante',
+          elements: getStudentsNames()
+        );
       },
     );
 
@@ -206,8 +212,7 @@ class _TaskAssignmentState extends State<TaskAssignment> {
       setState(() {
         selectedUser = students.firstWhere((user) => user.userName == result);
 
-        print("Acabas de seleccionar el usuario con id: " +
-            selectedUser!.id.toString());
+        print('Acabas de seleccionar el usuario con id: ' + selectedUser!.id.toString());
 
         // Una vez he elegido el estudiante, me sale el popup de un calendario para elegir la fecha y la hora
         _selectDateTime();
@@ -291,8 +296,7 @@ class _TaskAssignmentState extends State<TaskAssignment> {
       );
 
       // Mostrar un popup para confirmar la asignación
-      bool? confirmed =
-          await showConfirmationDialog(context, selectedAssignment);
+      bool? confirmed = await showConfirmationDialog(context, selectedAssignment);
 
       // Añadir al array solo si se confirmó
       if (confirmed == true) {

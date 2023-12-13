@@ -1,12 +1,13 @@
-import 'package:appcesible/models/assigments_user.dart';
-import 'package:appcesible/widgets/my_button.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+import 'package:appcesible/models/assigments_user.dart';
+import 'package:appcesible/widgets/dialog_button.dart';
 
 class ShowAssignmentsWidget extends StatelessWidget {
   final AssignmentsUser assignmentUser;
 
-  ShowAssignmentsWidget(this.assignmentUser);
+  const ShowAssignmentsWidget(this.assignmentUser, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +67,7 @@ class ShowAssignmentsWidget extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                "Horas",
+                'Horas',
                 style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width * 0.06,
                   fontWeight: FontWeight.bold,
@@ -89,12 +90,14 @@ class ShowAssignmentsWidget extends StatelessWidget {
               ),
             ],
           ),
+          backgroundColor: Colors.white,
+          surfaceTintColor: Colors.white,
           actions: <Widget>[
             Container(
               alignment: Alignment.center,
-              child: MyButton(
-                buttonText: 'Cerrar',
-                colorBackground: Colors.red, // Rojo
+              child: DialogButton(
+                text: 'Cerrar',
+                type: 0, // Rojo
                 onPressed: () {
                   Navigator.of(context).pop();
                 },

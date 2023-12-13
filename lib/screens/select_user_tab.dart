@@ -49,7 +49,7 @@ class _SelectUserTabState extends State<SelectUserTab> {
       List<UserModel> users = await getAllUsers();
 
       for (var user in users) {
-        String photoUrl = "faltaUrl"; /*_getUserPhoto(user.idProfileImg);*/
+        String photoUrl = 'faltaUrl'; /*_getUserPhoto(user.idProfileImg);*/
 
         profileList.add(MapEntry(user, photoUrl));
       }
@@ -72,7 +72,7 @@ class _SelectUserTabState extends State<SelectUserTab> {
 
   // Function that returns a user from the DB
   Future<void> _loadUserById(int userId) async {
-    print("hola");
+    print('hola');
 
     try {
       UserModel user = await getUserFromId(userId);

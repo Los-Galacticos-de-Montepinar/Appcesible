@@ -135,7 +135,7 @@ class _MaterialTaskAppState extends State<MaterialTaskApp> {
                         const SizedBox(height: 5),
                         for (var entry in materialQuantities.entries)
                           Text(
-                              "Tipo: ${entry.key}. \nCantidad: ${entry.value}\n"),
+                              'Tipo: ${entry.key}. \nCantidad: ${entry.value}\n'),
                         const SizedBox(height: 30),
                       ],
                     ),
@@ -191,9 +191,9 @@ class _MaterialTaskAppState extends State<MaterialTaskApp> {
 
   void _handleConfirmation() {
     // Logic to create the order
-    print("Pedido Creado: ");
+    print('Pedido Creado: ');
     for (var entry in materialQuantities.entries) {
-      print("Material: ${entry.key}, Quantity: ${entry.value}");
+      print('Material: ${entry.key}, Quantity: ${entry.value}');
     }
   }
 

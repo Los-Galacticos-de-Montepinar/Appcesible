@@ -4,8 +4,8 @@ import 'dart:convert';
 import 'package:appcesible/models/user_model.dart';
 
 // String _baseAddress = '10.0.2.2:8080';      // IP emulador
-// String _baseAddress = '192.168.1.42:8080';
-String _baseAddress = 'localhost:8080'; // IP ordenador
+// String _baseAddress = 'localhost:8080';
+String _baseAddress = '192.168.1.42:8080'; // IP ordenador
 
 void createUser(UserModel user, String password) async {
   final response = await http.post(
@@ -24,7 +24,7 @@ void createUser(UserModel user, String password) async {
   );
 
   if (response.statusCode == 200) {
-    print("Updated user");
+    print('Updated user');
   } else {
     throw Exception('Failed to update User');
   }
@@ -91,7 +91,7 @@ void updateUser(UserModel user, String password) async {
   );
 
   if (response.statusCode == 200) {
-    print("Updated user");
+    print('Updated user');
   } else {
     throw Exception('Failed to update User');
   }
@@ -106,7 +106,7 @@ void updateUser(UserModel user, String password) async {
 //     dynamic json = jsonDecode(response.body);
 //     UserModel user = UserModel.fromJSON(json);
 //     if (verifyPassword(enteredPassword, user.passwd)) {
-//       print("Contraseña correcta");
+//       print('Contraseña correcta');
 //       return UserModel.fromJSON(json);
 //     } else {
 //       print(enteredPassword.toString());

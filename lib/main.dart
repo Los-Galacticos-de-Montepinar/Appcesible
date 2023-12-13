@@ -17,7 +17,7 @@ class MainApp extends StatelessWidget {
     return ScreenUtilInit(
       designSize: const Size(412, 570), // ?
       builder: (context, child) {
-        return MaterialApp(
+        return const MaterialApp(
           debugShowCheckedModeBanner: false,
           home: TaskAssignment(),
         );

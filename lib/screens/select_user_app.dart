@@ -46,7 +46,7 @@ class _SelectUserAppState extends State<SelectUserApp> {
       List<UserModel> users = await getAllUsers();
 
       for (var user in users) {
-        String photoUrl = "faltaUrl"; /*_getUserPhoto(user.idProfileImg);*/
+        String photoUrl = 'faltaUrl'; /*_getUserPhoto(user.idProfileImg);*/
 
         profileList.add(MapEntry(user, photoUrl));
       }
