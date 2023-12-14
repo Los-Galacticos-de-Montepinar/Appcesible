@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 
+import 'package:appcesible/widgets/dialog_button.dart';
+
 class QuantityDialog extends StatefulWidget {
-  final String material;
+  final String element;
+  final int? maxValue;
   final ValueChanged<int> onQuantitySelected;
 
   const QuantityDialog({
     super.key,
-    required this.material,
+    required this.element,
+    this.maxValue,
     required this.onQuantitySelected,
   });
 
@@ -25,23 +29,27 @@ class _QuantityDialogState extends State<QuantityDialog> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Row(
-            mainAxisAlignment:
-                MainAxisAlignment.center, // Centra los botones horizontalmente
+            mainAxisAlignment: MainAxisAlignment.center, // Centra los botones horizontalmente
             children: [
               IconButton(
                 icon: const Icon(Icons.remove),
-                onPressed: () {
+                onPressed: (quantity <= 1)
+                ? null
+                : () {
                   setState(() {
-                    if (quantity > 1) {
-                      quantity--;
-                    }
+                    quantity--;
                   });
                 },
               ),
-              Text('$quantity'),
+              Text(
+                '$quantity',
+                textScaler: const TextScaler.linear(2.0),
+              ),
               IconButton(
                 icon: const Icon(Icons.add),
-                onPressed: () {
+                onPressed: (quantity >= (widget.maxValue ?? double.infinity))
+                ? null
+                : () {
                   setState(() {
                     quantity++;
                   });
@@ -49,52 +57,24 @@ class _QuantityDialogState extends State<QuantityDialog> {
               ),
             ],
           ),
-          const SizedBox(
-            height: 20.0,
-          ), // Añade espacio entre los botones y el texto
         ],
+      ),
+      backgroundColor: Colors.white,
+      surfaceTintColor: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
       ),
       actions: [
         Row(
-          mainAxisAlignment:
-              MainAxisAlignment.center, // Centra los botones horizontalmente
+          mainAxisAlignment: MainAxisAlignment.spaceBetween, // Centra los botones horizontalmente
           children: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red, // Color de fondo rojo
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0), // Bordes redondos
-                ),
-              ),
-              child: const Text(
-                'Cancelar',
-                style: TextStyle(
-                  color: Colors.white, // Color del texto blanco
-                ),
-              ),
-            ),
-            const SizedBox(width: 10.0), // Añade espacio entre los botones
-            ElevatedButton(
-              onPressed: () {
-                widget.onQuantitySelected(quantity);
-                Navigator.of(context).pop();
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green, // Color de fondo verde
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0), // Bordes redondos
-                ),
-              ),
-              child: const Text(
-                'Aceptar',
-                style: TextStyle(
-                  color: Colors.white, // Color del texto blanco
-                ),
-              ),
-            ),
+            DialogButton(text: 'Cancelar', type: 1, onPressed: () {
+              Navigator.of(context).pop();
+            },),
+            DialogButton(text: 'Aceptar', type: 0, onPressed: () {
+              widget.onQuantitySelected(quantity);
+              Navigator.of(context).pop();
+            }),
           ],
         ),
       ],

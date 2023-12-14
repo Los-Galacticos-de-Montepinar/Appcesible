@@ -44,23 +44,30 @@ class _MaterialFormEntryState extends State<MaterialFormEntry> {
       lastDate: DateTime(2101),
       builder: (context, child) {
         return Theme(
-            data: Theme.of(context).copyWith(
-                colorScheme: const ColorScheme.light(
-                  primary: Color(0xFF9E9E9E),
-                  onSurface: Colors.black,
-                ),
-                textButtonTheme: TextButtonThemeData(
-                    style:
-                        TextButton.styleFrom(foregroundColor: Colors.black))),
-            child: child!);
+          data: Theme.of(context).copyWith(
+            colorScheme: const ColorScheme.light(
+              primary: Color(0xFF9E9E9E),
+              onSurface: Colors.black,
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.black
+              )
+            )
+          ),
+          child: child!
+        );
       },
     );
 
     if (picked!.compareTo(DateTime.now()) >= 0) {
       return picked;
-    } else {
+    }
+    else {
       ErrorWindow.showErrorDialog(
-          context, 'La fecha debe ser, al menos, igual al día de hoy');
+        context,
+        'La fecha debe ser, al menos, igual al día de hoy'
+      );
       print('Fecha inválida');
     }
 
@@ -73,15 +80,19 @@ class _MaterialFormEntryState extends State<MaterialFormEntry> {
       initialTime: TimeOfDay.now(),
       builder: (context, child) {
         return Theme(
-            data: Theme.of(context).copyWith(
-                colorScheme: const ColorScheme.light(
-                  primary: Color(0xFF9E9E9E),
-                  onSurface: Colors.black,
-                ),
-                textButtonTheme: TextButtonThemeData(
-                    style:
-                        TextButton.styleFrom(foregroundColor: Colors.black))),
-            child: child!);
+          data: Theme.of(context).copyWith(
+            colorScheme: const ColorScheme.light(
+              primary: Color(0xFF9E9E9E),
+              onSurface: Colors.black,
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.black
+              )
+            )
+          ),
+          child: child!
+        );
       },
     );
 
@@ -121,7 +132,9 @@ class _MaterialFormEntryState extends State<MaterialFormEntry> {
                   child: TextFormField(
                     controller: widget.controller,
                     enabled: false,
-                    style: const TextStyle(),
+                    style: const TextStyle(
+
+                    ),
                     decoration: InputDecoration(
                       labelText: widget.name,
                       border: const OutlineInputBorder(),
