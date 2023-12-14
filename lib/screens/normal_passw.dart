@@ -8,7 +8,12 @@ import 'package:appcesible/services/user_service.dart';
 import 'package:appcesible/widgets/top_menu.dart';
 
 class Login extends StatefulWidget {
-  const Login({super.key});
+  final UserModel user;
+  
+  const Login({
+    super.key,
+    required this.user
+  });
 
   @override
   State<Login> createState() => _LoginState();
@@ -18,13 +23,6 @@ class _LoginState extends State<Login> {
   TextEditingController password = TextEditingController();
   bool _authenticationFailed = false;
   bool visible = false;
-  UserModel user = UserModel(
-    id: 3,
-    userName: 'Diego Brando',
-    idProfileImg: 5,
-    userType: 5,
-    idClass: 1,
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -118,23 +116,21 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                   onPressed: () async {
-                    bool correct = await authenticateUser(user, password.text);
+                    bool correct = await authenticateUser(widget.user, password.text);
                     setState(() {
                       _authenticationFailed = !correct;
                     });
                     if (true /*correct*/) { // CAMBIAR !!!!!!!
-                      Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (BuildContext context) {
-                          userLogin(user.id, user.userName, user.userType, -1);
+                      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
+                        userLogin(widget.user.id, widget.user.userName, widget.user.userType, -1);
 
-                          if (user.userType == 1) {
-                            return const HomeStudentInit();
-                          }
-                          else {
-                            return const TeacherHome();
-                          }
-                        })
-                      );
+                        if (widget.user.userType == 1) {
+                          return const HomeStudentInit();
+                        }
+                        else {
+                          return const TeacherHome();
+                        }
+                      }));
                     }
                   },
                   child: const Text(

@@ -1,9 +1,7 @@
-import 'package:appcesible/models/user_model.dart';
-import 'package:appcesible/screens/normal_passw.dart';
-import 'package:appcesible/screens/pictograms_passw.dart';
-import 'package:appcesible/services/user_service.dart';
-import 'package:appcesible/widgets/top_menu.dart';
 import 'package:flutter/material.dart';
+
+import 'package:appcesible/screens/select_user.dart';
+import 'package:appcesible/widgets/top_menu.dart';
 
 class SelectUserApp extends StatefulWidget {
   const SelectUserApp({super.key});
@@ -12,50 +10,7 @@ class SelectUserApp extends StatefulWidget {
   State<SelectUserApp> createState() => _SelectUserAppState();
 }
 
-class _SelectUserAppState extends State<SelectUserApp> {
-  List<String> imagenes = [
-    'assets/images/ronaldo.png',
-    'assets/images/alonso.png',
-  ];
-
-  // List with the Id user and the profile picture url
-  int currentIndex = 0;
-  List<MapEntry<UserModel, String>> profileList = [];
-
-  @override
-  void initState() {
-    _getInfoUsers();
-    super.initState();
-    // Llamar a la función para obtener un usuario específico cuando el widget se inicie
-  }
-
-  /*// Function that returns the url of the user profile picture
-  Future _getUserPhoto(int id) async {
-    try {
-      UserModel user = await getPhotoUser(id);
-      return user.idProfileImg;
-    } catch (e) {
-      print('Error loading user: $e');
-      // Manejar el error según sea necesario
-    }
-  }*/
-
-  // Function that returns the list of users in the DB (id and profile picture url)
-  Future _getInfoUsers() async {
-    try {
-      List<UserModel> users = await getAllUsers();
-
-      for (var user in users) {
-        String photoUrl = "faltaUrl"; /*_getUserPhoto(user.idProfileImg);*/
-
-        profileList.add(MapEntry(user, photoUrl));
-      }
-    } catch (e) {
-      // Manejar el error según sea necesario
-      throw Exception('Error fetching user list: $e');
-    }
-  }
-
+class _SelectUserAppState extends SelectionState<SelectUserApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,8 +19,7 @@ class _SelectUserAppState extends State<SelectUserApp> {
       body: Center(
         child: Container(
           width: 1024, // Ajusta según tus necesidades
-          alignment: Alignment
-              .topCenter, // Alinea el contenido en la parte superior del contenedor
+          alignment: Alignment.topCenter, // Alinea el contenido en la parte superior del contenedor
           child: FittedBox(
             child: Column(
               children: <Widget>[
@@ -74,7 +28,9 @@ class _SelectUserAppState extends State<SelectUserApp> {
                   width: 160,
                   height: 50,
                   child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        returnPage();
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor:
                             Colors.grey[500], // Cambia el color de fondo
@@ -109,9 +65,7 @@ class _SelectUserAppState extends State<SelectUserApp> {
                     child: Center(
                       child: FittedBox(
                         child: Text(
-                          profileList.isNotEmpty
-                              ? profileList[currentIndex].key.userName
-                              : ' ', // No users avaliable
+                          profileList.isNotEmpty ? profileList[currentIndex].key.userName : ' ',
                           style: const TextStyle(
                             fontSize: 35,
                             fontWeight: FontWeight.bold,
@@ -130,9 +84,7 @@ class _SelectUserAppState extends State<SelectUserApp> {
                         // Elevated Button to the previous user
                         ElevatedButton(
                           onPressed: () {
-                            setState(() {
-                              currentIndex = (currentIndex - 1) % (profileList.length);
-                            });
+                            previousUser();
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.black,
@@ -156,24 +108,7 @@ class _SelectUserAppState extends State<SelectUserApp> {
                         // Profile Picture box
                         InkWell(
                           onTap: () {
-                            UserModel selUser = profileList[currentIndex].key;
-                            // Maneja la acción al hacer clic en la imagen.
-                            print('Usuario clickado, número: ${selUser.id}');
-
-                            if (selUser.userType == 1) {  // Falta la condición para modo de visualización
-                              Navigator.of(context)
-                                .push(MaterialPageRoute(builder: (BuildContext context) {
-                                  return const PictoPassw();
-                                })
-                              );
-                            }
-                            else {
-                              Navigator.of(context)
-                                .push(MaterialPageRoute(builder: (BuildContext context) {
-                                  return const Login();
-                                })
-                              );
-                            }
+                            selectUser();
                           },
                           child: Container(
                             width: 200,
@@ -185,8 +120,7 @@ class _SelectUserAppState extends State<SelectUserApp> {
                               ),
                             ),
                             child: ClipOval(
-                              child:
-                                  _imageWidget(image: imagenes[currentIndex]),
+                              child: _imageWidget(image: imagenes[currentIndex]),
                             ),
                           ),
                         ),
@@ -197,9 +131,7 @@ class _SelectUserAppState extends State<SelectUserApp> {
                         // Elevated Button to the next user
                         ElevatedButton(
                           onPressed: () {
-                            setState(() {
-                              currentIndex = (currentIndex + 1) % (profileList.length);
-                            });
+                            nextUser();
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.black,
@@ -225,7 +157,7 @@ class _SelectUserAppState extends State<SelectUserApp> {
             ),
           ),
         ),
-      ),
+      )
     );
   }
 
