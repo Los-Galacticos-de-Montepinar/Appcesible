@@ -1,7 +1,9 @@
+import 'package:appcesible/screens/form_drop_down.dart';
+import 'package:appcesible/widgets/error.dart';
+import 'package:appcesible/widgets/loading_indicator.dart';
 import 'package:appcesible/widgets/top_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:appcesible/services/user_service.dart';
-import 'package:appcesible/widgets/alert_dialog_DEPRECATED.dart';
 import 'package:appcesible/widgets/local_photo.dart';
 import 'package:appcesible/models/user_model.dart';
 
@@ -58,8 +60,8 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
     idClass: 0
   );
   
-  TextEditingController nameController = TextEditingController();
-  TextEditingController passwdController = TextEditingController();
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _passwdController = TextEditingController();
   
   Map<String,bool> content = {'Texto':false,'Audio':false,'Imagenes':false};
   final List<String> classes = ['','1A','2A','3A'];
@@ -77,27 +79,33 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
     fit: BoxFit.fill
   );
 
-  @override
-  void initState() {
-    super.initState();
-
-    actionCall = (widget.id == -1) ? createUser : updateUser;
+  bool _initialized = false;
+  Future _initializeState() async {
+    if (!_initialized) {
+      actionCall = (widget.id == -1) ? createUser : updateUser;
 
     if (widget.id!=-1) {
       user.id = widget.id;
 
-      getUserFromId(user.id).then((value) {
-        user = value;
-        updateData(user.userName, {'Texto':false, 'Audio':false, 'Imagenes':false});
-      })
-      .catchError((e) { throw Exception(e); });
+      await getUserFromId(user.id).then((user) {
+        this.user = user;
+        _updateData('', {'Texto':false, 'Audio':false, 'Imagenes':false});
+      });
+    }
+
+      _initialized = true;
     }
   }
+
+  @override
+  void initState() {
+    super.initState();
+  }
   
-  void updateData(String uPass, Map<String, bool> contentType) {
+  void _updateData(String uPass, Map<String, bool> contentType) {
     setState(() {
-      nameController = TextEditingController(text: user.userName);
-      passwdController = TextEditingController(text: uPass);      
+      _nameController.text = user.userName;
+      _passwdController.text = uPass;
 
       content = contentType;
 
@@ -117,8 +125,8 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
 
   @override
   void dispose () {
-    nameController.dispose();
-    passwdController.dispose();
+    _nameController.dispose();
+    _passwdController.dispose();
 
     super.dispose();
   }
@@ -129,15 +137,12 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
   }
 
   Widget passwdText(){
-    return Padding(
-      padding: const EdgeInsets.all(8),
-      child: TextField(
-        controller: passwdController,
-        decoration: const InputDecoration(
-          labelText: 'Contraseña',
-          border: OutlineInputBorder(),
-        ),
-      )
+    return TextField(
+      controller: _passwdController,
+      decoration: const InputDecoration(
+        labelText: 'Contraseña',
+        border: OutlineInputBorder(),
+      ),
     );
   }
 
@@ -160,36 +165,26 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
   Widget contentW(BuildContext context){
     return Column(
       children: [Padding(
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.symmetric(vertical: 12.0),
           child: Text('Seleccionados: $choosedTypes'),
         ),
         Padding(
-          padding: const EdgeInsets.all(12),
-          child: DropdownButtonFormField(
-            items: content.keys.map((e) => 
-              DropdownMenuItem(
-                value: e,
-                child: Text(e)
-              )
-            ).toList(),
-            onChanged: (value) => {
-              if (value != null && content.containsKey(value))
-                content[value] = !(content[value] ?? false)
-              ,
-              choosedTypes = ''
-              ,
+          padding: const EdgeInsets.only(top: 10.0),
+          child: FormEntryWithDropdown(
+            name: 'Tipo de contenido',
+            onElementSelected: (value) => {
+              if (content.containsKey(value))
+                content[value] = !(content[value] ?? false),
+              choosedTypes = '',
               content.forEach((key, value) {
                 if(value) {
                   choosedTypes += ' $key ';
                 }
-              })
-              ,
+              }),
               setState(() {})
             },
-            decoration: const InputDecoration(
-              labelText: 'Tipo de contenido'
-            ),
-          ),
+            elements: content.keys.toList(),
+          )
         ),
       ],
     );
@@ -199,138 +194,144 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
   Widget build(BuildContext context){
     Image defaultImage=Image.asset('assets/images/addPicture.png');
 
-    return MaterialApp(
-      home: Scaffold(
-        appBar: const TopMenu(),
-        body: Center(
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Text(
-                      widget.title,
-                      textScaler: const TextScaler.linear(2.0),
-                    )
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: DropdownButtonFormField(
-                      items: userTypes.map((e) => 
-                        DropdownMenuItem(
-                          value: e,
-                          child: Text(e)
-                        )
-                      ).toList(),
-                      onChanged: (value) {
-                        if (value != null && value != '') {
-                          user.userType = userTypes.indexOf(value);
-                          if (userTypes.contains('')) {
-                            userTypes.remove('');
-                            user.userType--;
-                          }
+    return FutureBuilder(
+      future: _initializeState(),
+      builder: (content, snapshot) {
+        return MaterialApp(
+          home: Scaffold(
+            backgroundColor: Colors.white,
+            appBar: const TopMenu(),
+            body: (_initialized || snapshot.connectionState == ConnectionState.done)
+            ? Center(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        width: double.maxFinite,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFD9D9D9),
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: Center(
+                          child: Text(
+                            widget.title,
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10.0),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
+                        child: FormEntryWithDropdown(
+                          name: 'Tipo de usuario',
+                          onElementSelected: (value) {
+                            if (value != '') {
+                              user.userType = userTypes.indexOf(value);
+                              if (userTypes.contains('')) {
+                                userTypes.remove('');
+                                user.userType--;
+                              }
 
-                          show = user.userType==userTypes.indexOf('Estudiante');
-                          setState(() {});
-                        }
-                      },
-                      value: userTypes[user.userType],
-                      decoration: const InputDecoration(
-                        labelText: 'Tipo de usuario'
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: TextField(
-                      controller: nameController,
-                      decoration: const InputDecoration(
-                        labelText: 'Nombre Completo',
-                        border: OutlineInputBorder(),
-                      ),
-                    )
-                  ),
-                  (picto && userTypes[user.userType]=='Estudiante') ? passwdPic() : passwdText(),
-                  show ? Container(child: pictoCheckWid()):const SizedBox.shrink(),
-                  show ? Container(child: contentW(context)):const SizedBox.shrink(),
-                  Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: DropdownButtonFormField(
-                      items: classes.map((e) => 
-                        DropdownMenuItem(
-                          value: e,
-                          child: Text(e)
+                              show = user.userType==userTypes.indexOf('Estudiante');
+                              setState(() {});
+                            }
+                          },
+                          elements: userTypes,
                         )
-                      ).toList(),
-                      onChanged: (value) {
-                        if (value != null && value != '') {
-                          classIndex = classes.indexOf(value);
-                          if(classes.contains('')) {
-                            classes.remove('');
-                            classIndex--;
-                          }
-
-                          setState(() {});
-                        }
-                      },
-                      value: classes[classIndex],
-                      decoration: const InputDecoration(
-                        labelText: 'Clase'
                       ),
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.all(22),
-                    child: UploadPicture()                        
-                    ),
-                  Padding(
-                  padding: const EdgeInsets.all(22),
-                  child: TextButton(
-                      onPressed: () {
-                        int cont = 0;
-                        String msg = '';
-                        if (nameController.value.text.isEmpty) {
-                          cont++;
-                          msg = 'Rellene el campo nombre';
-                        }
-                        if (passwdController.value.text.isEmpty) {
-                          cont++;
-                          msg = 'Rellene el campo contraseña';
-                        }
-                        if (userTypes[user.userType]=='') {
-                          cont++;
-                          msg = 'Rellene el campo tipo usuario';
-                        }
-                        if ((choosedTypes.isEmpty && userTypes[user.userType]=='Estudiante')) {
-                          cont++;
-                          msg = 'Rellene el campo contenidos';
-                        }
-                        if (classes[classIndex]=='') {
-                          cont++;
-                          msg = 'Rellene el campo clase';
-                        }
-                        if (UploadPicture.of(context)!=null && defaultImage==UploadPicture.of(context)?.photo) {
-                            cont++;
-                            msg = 'Rellene el campo foto';
-                        }
-                        
-                        if (cont > 0) {
-                          if (cont > 1) msg = 'Faltan campos por rellenar';
-                          dialogBuilder(context, msg);
-                        }
-                        else {
-                          actionCall(user, passwdController.value.text);
-                        }
-                      }, 
-                      child: const Text('Finalizar')
-                    )
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
+                        child: TextField(
+                          controller: _nameController,
+                          decoration: const InputDecoration(
+                            labelText: 'Nombre Completo',
+                            border: OutlineInputBorder(),
+                          ),
+                        )
+                      ),
+                      (picto && userTypes[user.userType]=='Estudiante') ? passwdPic() : passwdText(),
+                      show ? Container(child: pictoCheckWid()):const SizedBox.shrink(),
+                      show ? Container(child: contentW(context)):const SizedBox.shrink(),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
+                        child: FormEntryWithDropdown(
+                          name: 'Clase',
+                          onElementSelected: (value) {
+                            if (value != '') {
+                              classIndex = classes.indexOf(value);
+                              if(classes.contains('')) {
+                                classes.remove('');
+                                classIndex--;
+                              }
+
+                              setState(() {});
+                            }
+                          },
+                          elements: classes,
+                        )
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10.0),
+                        child: UploadPicture()                        
+                        ),
+                      Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10.0),
+                      child: TextButton(
+                          onPressed: () {
+                            int cont = 0;
+                            String msg = '';
+                            if (_nameController.value.text.isEmpty) {
+                              cont++;
+                              msg = 'Rellene el campo nombre';
+                            }
+                            if (_passwdController.value.text.isEmpty) {
+                              cont++;
+                              msg = 'Rellene el campo contraseña';
+                            }
+                            if (userTypes[user.userType]=='') {
+                              cont++;
+                              msg = 'Rellene el campo tipo usuario';
+                            }
+                            if ((choosedTypes.isEmpty && userTypes[user.userType]=='Estudiante')) {
+                              cont++;
+                              msg = 'Rellene el campo contenidos';
+                            }
+                            if (classes[classIndex]=='') {
+                              cont++;
+                              msg = 'Rellene el campo clase';
+                            }
+                            if (UploadPicture.of(context)!=null && defaultImage==UploadPicture.of(context)?.photo) {
+                                cont++;
+                                msg = 'Rellene el campo foto';
+                            }
+                            
+                            if (cont > 0) {
+                              if (cont > 1) msg = 'Faltan campos por rellenar';
+                              ErrorWindow.showErrorDialog(context, msg);
+                            }
+                            else {
+                              actionCall(user, _passwdController.value.text);
+                            }
+                          }, 
+                          child: const Text('Finalizar')
+                        )
+                      )
+                    ],
                   )
-                ],
               )
+            )
+            : const LoadingIndicator(),
           )
-        ) 
-      )
+        );
+      }
     );
   }
 }

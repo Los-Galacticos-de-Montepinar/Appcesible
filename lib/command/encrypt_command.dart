@@ -18,7 +18,7 @@ class Encrypt {
 /*
 import 'package:pointycastle/pointycastle.dart';
 import 'package:pointycastle/src/platform_check/platform_check.dart';
-import "package:pointycastle/export.dart";
+import 'package:pointycastle/export.dart';
 
 bool serverKeyReceived = false;
 RSAPublicKey _serverPublicKey = getServerPublicKey();
@@ -80,7 +80,7 @@ String _encodePublicKeyToPemPKCS1(RSAPublicKey publicKey) {
     topLevel.encode();
 
     var dataBase64 = base64.encode(topLevel.encodedBytes as List<int>);
-    return """-----BEGIN PUBLIC KEY-----\r\n$dataBase64\r\n-----END PUBLIC KEY-----""";
+    return '''-----BEGIN PUBLIC KEY-----\r\n$dataBase64\r\n-----END PUBLIC KEY-----''';
 }
 
 // ECNRYPT methods

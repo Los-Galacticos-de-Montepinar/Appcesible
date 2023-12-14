@@ -28,4 +28,10 @@ class UserModel {
       idClass: json['idClass'] as int
     );
   }
+
+  // toString
+  @override
+  String toString() {
+    return 'id: $id\nuserName: $userName\npfp: $idProfileImg\nuserType: $userType\n idClass: $idClass\n';
+  }
 }

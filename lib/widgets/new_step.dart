@@ -63,7 +63,7 @@ class NewStep extends StatelessWidget {
                   maxLines: null,
                   decoration: InputDecoration(
                     labelText: 'Descripción del paso',
-                    hintText: "Descripción del paso",
+                    hintText: 'Descripción del paso',
                     //errorText: 'contraseña incorrecta',
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5),

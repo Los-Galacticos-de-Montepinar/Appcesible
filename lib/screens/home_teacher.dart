@@ -23,17 +23,17 @@ class TeacherHome extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 8, right: 8),
               child: ElevatedButton(
-                onPressed: () { // AQUI !!!!!!!
-                  int userType = -1;
+                onPressed: () {
+                  int userId = -1;
                   getSessionInformation().then((value) {
-                    userType = value.getInt('userType')!;
+                    userId = value.getInt('id')!;
                   });
 
                   Navigator.of(context)
                     .push(MaterialPageRoute(builder: (BuildContext context) {
                       return FormularioUsuarios(
-                        'Editar perfil',
-                        userType
+                        'Editar Perfil',
+                        userId
                       );
                     })
                   );
@@ -65,7 +65,7 @@ class TeacherHome extends StatelessWidget {
                       width: 10,
                     ),
                     Text(
-                      'Perfil',
+                      'Mi Perfil',
                       style: TextStyle(color: Colors.black, fontSize: 20),
                     ),
                   ],
@@ -221,7 +221,7 @@ class TeacherHome extends StatelessWidget {
                   Navigator.of(context)
                     .push(MaterialPageRoute(builder: (BuildContext context) {
                       return const FormularioUsuarios(
-                        'Añadir alumno',
+                        'Añadir Usuario',
                         -1
                       );
                     })
@@ -254,7 +254,7 @@ class TeacherHome extends StatelessWidget {
                       width: 10,
                     ),
                     Text(
-                      'Añadir Alumno',
+                      'Añadir Usuario',
                       style: TextStyle(color: Colors.black, fontSize: 20),
                     ),
                   ],
@@ -275,7 +275,7 @@ class TeacherHome extends StatelessWidget {
                   Navigator.of(context)
                     .push(MaterialPageRoute(builder: (BuildContext context) {
                       return const FormularioUsuarios(
-                        'Modificar alumno',
+                        'Modificar Usuario',
                         1
                       );
                     })
@@ -308,7 +308,7 @@ class TeacherHome extends StatelessWidget {
                       width: 10,
                     ),
                     Text(
-                      'Modificar Alumno',
+                      'Modificar Usuario',
                       style: TextStyle(color: Colors.black, fontSize: 20),
                     ),
                   ],
