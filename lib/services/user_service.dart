@@ -4,9 +4,9 @@ import 'dart:convert';
 
 import 'package:appcesible/models/user_model.dart';
 
-// String _baseAddress = '10.0.2.2:8080';      // IP emulador
+String _baseAddress = '10.0.2.2:8080';      // IP emulador
 // String _baseAddress = 'localhost:8080';
-String _baseAddress = '192.168.1.42:8080';  // IP ordenador
+// String _baseAddress = '192.168.1.42:8080';  // IP ordenador
 
 // CREATE
 
@@ -67,7 +67,7 @@ Future<UserModel> getUserFromId(int id) async {
     dynamic json = jsonDecode(utf8.decode(response.bodyBytes));
     return UserModel.fromJSON(json);
   } else {
-    throw Exception('Failed to load User');
+    throw Exception('Failed to fetch user list');
   }
 }
 
@@ -113,7 +113,7 @@ Future<int> countUsers() async {
     List<dynamic> userList = jsonDecode(utf8.decode(response.bodyBytes));
     return userList.length;
   } else {
-    throw Exception('Failed to fetch user list');
+    throw Exception('Failed to load User');
   }
 }
 
