@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:pair/pair.dart';
 
 import 'package:appcesible/models/user_model.dart';
-import 'package:appcesible/widgets/dialog_button.dart';
+import 'package:appcesible/widgets/button.dart';
 
 Future<bool?> showConfirmationDialog(BuildContext context, Pair<UserModel, DateTime> selectedAssignment) async {
   return showDialog<bool>(
@@ -68,7 +68,7 @@ Future<bool?> showConfirmationDialog(BuildContext context, Pair<UserModel, DateT
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              DialogButton(
+              ActionButton(
                 text: 'No',
                 type: 0,
                 onPressed: () {
@@ -76,7 +76,7 @@ Future<bool?> showConfirmationDialog(BuildContext context, Pair<UserModel, DateT
                 }
               ),
               const SizedBox(width: 8.0,),
-              DialogButton(
+              ActionButton(
                 text: 'Sí',
                 type: 1,
                 onPressed: () {

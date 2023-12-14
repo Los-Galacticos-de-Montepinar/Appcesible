@@ -1,9 +1,9 @@
 // SCREEEN TO CREATE A TASK - Tablet Version
 // Autor: Alejandro Sanchez Rodríguez
 
-import 'package:appcesible/widgets/top_menu.dart';
+import 'package:appcesible/widgets/widget_top_teacher.dart';
 import 'package:flutter/material.dart';
-import 'package:appcesible/screens/create_step_task_mobile.dart';
+import 'package:appcesible/screens/create_step_app.dart';
 
 class CreateTaskTablet extends StatefulWidget {
   const CreateTaskTablet({super.key});

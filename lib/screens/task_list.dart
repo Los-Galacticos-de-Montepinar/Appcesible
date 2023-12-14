@@ -1,6 +1,6 @@
-import 'package:appcesible/screens/screen_util_breakpoints.dart';
-import 'package:appcesible/screens/task_list_mobile.dart';
-import 'package:appcesible/screens/task_list_tablet.dart';
+import 'package:appcesible/screens/screenutil_init.dart';
+import 'package:appcesible/screens/task_list_app.dart';
+import 'package:appcesible/screens/task_list_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 

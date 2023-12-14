@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:appcesible/widgets/dialog_button.dart';
+import 'package:appcesible/widgets/button.dart';
 
 class QuantityDialog extends StatefulWidget {
   final String element;
@@ -68,10 +68,10 @@ class _QuantityDialogState extends State<QuantityDialog> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween, // Centra los botones horizontalmente
           children: [
-            DialogButton(text: 'Cancelar', type: 1, onPressed: () {
+            ActionButton(text: 'Cancelar', type: 1, onPressed: () {
               Navigator.of(context).pop();
             },),
-            DialogButton(text: 'Aceptar', type: 0, onPressed: () {
+            ActionButton(text: 'Aceptar', type: 0, onPressed: () {
               widget.onQuantitySelected(quantity);
               Navigator.of(context).pop();
             }),

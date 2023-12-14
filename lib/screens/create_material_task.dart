@@ -1,4 +1,4 @@
-import 'package:appcesible/screens/task_list_init.dart';
+import 'package:appcesible/screens/task_list.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:flutter/material.dart';
@@ -14,13 +14,13 @@ import 'package:appcesible/services/user_service.dart';
 
 import 'package:appcesible/screens/create_material_task_app.dart';
 import 'package:appcesible/screens/create_material_task_tab.dart';
-import 'package:appcesible/screens/screen_util_breakpoints.dart';
+import 'package:appcesible/screens/screenutil_init.dart';
 
-import 'package:appcesible/widgets/dialog_with_search_bar.dart';
-import 'package:appcesible/widgets/quantity_dialog.dart';
-import 'package:appcesible/widgets/error.dart';
-import 'package:appcesible/widgets/confirmation_window.dart';
-import 'package:appcesible/widgets/loading_indicator.dart';
+import 'package:appcesible/widgets/dialog_list_search.dart';
+import 'package:appcesible/widgets/dialog_quantity.dart';
+import 'package:appcesible/widgets/dialog_error.dart';
+import 'package:appcesible/widgets/dialog_confirm.dart';
+import 'package:appcesible/widgets/dialog_loading.dart';
 
 class MaterialTask extends StatelessWidget {
   const MaterialTask({super.key});
@@ -229,11 +229,11 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
       return;
     }
 
-    // Show ConfirmationWindow when all fields are filled
+    // Show ConfirmationDialog when all fields are filled
     showDialog(
         context: context,
         builder: (BuildContext context) {
-          return ConfirmationWindow(
+          return ConfirmationDialog(
               message: 'Se va a crear una tarea pedido. ¿Continuar?',
               onConfirm: _handleConfirmation);
         });
@@ -243,7 +243,7 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
     showDialog(
         context: context,
         builder: (context) {
-          return const LoadingIndicator();
+          return const LoadingDialog();
         });
 
     // Create task

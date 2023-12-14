@@ -1,15 +1,15 @@
-import 'package:appcesible/widgets/error.dart';
+import 'package:appcesible/widgets/dialog_error.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
-class MaterialFormEntry extends StatefulWidget {
+class FormEntry extends StatefulWidget {
   final String name;
   final int typeData; // 0 -> int, 1 -> string, 2 -> fecha, 4 -> especial
   final TextEditingController controller;
   final void Function()? onTap;
 
-  const MaterialFormEntry({
+  const FormEntry({
     super.key,
     required this.name,
     required this.typeData,
@@ -18,10 +18,10 @@ class MaterialFormEntry extends StatefulWidget {
   });
 
   @override
-  State<MaterialFormEntry> createState() => _MaterialFormEntryState();
+  State<FormEntry> createState() => _FormEntryState();
 }
 
-class _MaterialFormEntryState extends State<MaterialFormEntry> {
+class _FormEntryState extends State<FormEntry> {
   Future _selectDateTime(BuildContext context) async {
     DateTime? date = await _selectDate(context);
     if (date == null) return;

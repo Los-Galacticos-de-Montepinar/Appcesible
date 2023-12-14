@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'package:appcesible/models/assigments_user.dart';
-import 'package:appcesible/widgets/dialog_button.dart';
+import 'package:appcesible/widgets/button.dart';
 
 class ShowAssignmentsWidget extends StatelessWidget {
   final AssignmentsUser assignmentUser;
@@ -101,7 +101,7 @@ class ShowAssignmentsWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                DialogButton(
+                ActionButton(
                   text: 'Cerrar',
                   type: 0,
                   onPressed: () {
@@ -109,7 +109,7 @@ class ShowAssignmentsWidget extends StatelessWidget {
                   }
                 ),
                 const SizedBox(width: 8.0,),
-                DialogButton(
+                ActionButton(
                   text: 'Añadir',
                   type: 1,
                   onPressed: () {

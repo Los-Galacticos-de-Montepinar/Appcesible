@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class DialogButton extends StatelessWidget {
+class ActionButton extends StatelessWidget {
   final String text;
   final int type;       // 0 - Relleno | 1 - Sin relleno
   final Function() onPressed;
 
-  const DialogButton({super.key, required this.text, required this.type, required this.onPressed});
+  const ActionButton({super.key, required this.text, required this.type, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {

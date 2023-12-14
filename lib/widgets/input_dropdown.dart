@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class FormEntryWithDropdown extends StatefulWidget {
+class InputDropdown extends StatefulWidget {
   final String name;
   final Function(String) onElementSelected;
   final List<String> elements;
 
-  const FormEntryWithDropdown({
+  const InputDropdown({
     super.key,
     required this.name,
     required this.onElementSelected,
@@ -13,10 +13,10 @@ class FormEntryWithDropdown extends StatefulWidget {
   });
 
   @override
-  State<FormEntryWithDropdown> createState() => _FormEntryWithDropdownState();
+  State<InputDropdown> createState() => _InputDropdownState();
 }
 
-class _FormEntryWithDropdownState extends State<FormEntryWithDropdown> {
+class _InputDropdownState extends State<InputDropdown> {
   String? selectedElement;
 
   @override

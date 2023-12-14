@@ -1,5 +1,5 @@
-import 'package:appcesible/widgets/top_menu.dart';
-import 'package:appcesible/screens/task_list_mobile.dart';
+import 'package:appcesible/widgets/widget_top_teacher.dart';
+import 'package:appcesible/screens/task_list_app.dart';
 import 'package:flutter/material.dart';
 
 class TaskListTablet extends StatefulWidget {

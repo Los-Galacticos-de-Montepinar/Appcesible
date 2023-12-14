@@ -1,11 +1,11 @@
-import 'package:appcesible/widgets/dialog_button.dart';
+import 'package:appcesible/widgets/button.dart';
 import 'package:flutter/material.dart';
 
-class ConfirmationWindow extends StatelessWidget {
+class ConfirmationDialog extends StatelessWidget {
   final String message;
   final VoidCallback onConfirm;
 
-  const ConfirmationWindow({
+  const ConfirmationDialog({
     super.key,
     required this.message,
     required this.onConfirm
@@ -25,14 +25,14 @@ class ConfirmationWindow extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            DialogButton(
+            ActionButton(
               text: 'Cancelar',
               type: 1,
               onPressed: () {
                 Navigator.pop(context); // Cerrar la ventana emergente de confirmación
               }
             ),
-            DialogButton(
+            ActionButton(
               text: 'Confirmar',
               type: 0,
               onPressed: () {

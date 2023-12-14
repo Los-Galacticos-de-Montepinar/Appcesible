@@ -1,6 +1,6 @@
-import 'package:appcesible/widgets/top_menu.dart';
+import 'package:appcesible/widgets/widget_top_teacher.dart';
 import 'package:flutter/material.dart';
-import 'package:appcesible/widgets/dialog_with_search_bar.dart';
+import 'package:appcesible/widgets/dialog_list_search.dart';
 
 class TaskAsignTablet extends StatefulWidget{
   const TaskAsignTablet({super.key});

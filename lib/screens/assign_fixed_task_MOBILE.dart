@@ -1,4 +1,4 @@
-import 'package:appcesible/widgets/dialog_button.dart';
+import 'package:appcesible/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:pair/pair.dart';
 
@@ -9,11 +9,11 @@ import 'package:appcesible/models/user_model.dart';
 import 'package:appcesible/services/task_service.dart';
 import 'package:appcesible/services/user_service.dart';
 
-import 'package:appcesible/widgets/more_assignments_task.dart';
-import 'package:appcesible/widgets/dialog_with_search_bar.dart';
-import 'package:appcesible/widgets/loading_indicator.dart';
-import 'package:appcesible/widgets/show_assignments.dart';
-import 'package:appcesible/widgets/top_menu.dart';
+import 'package:appcesible/widgets/dialog_list_assign.dart';
+import 'package:appcesible/widgets/dialog_list_search.dart';
+import 'package:appcesible/widgets/dialog_loading.dart';
+import 'package:appcesible/widgets/widget_assign.dart';
+import 'package:appcesible/widgets/widget_top_teacher.dart';
 
 class TaskAssignment extends StatefulWidget {
   const TaskAssignment({super.key});
@@ -175,7 +175,7 @@ class _TaskAssignmentState extends State<TaskAssignment> {
                 ),
                 const SizedBox(height: 60),
                 // Button 'Guardar'
-                DialogButton(
+                ActionButton(
                   text: 'Confirmar',
                   type: 1,
                   onPressed: () {}
@@ -215,7 +215,7 @@ class _TaskAssignmentState extends State<TaskAssignment> {
       setState(() {
         selectedUser = students.firstWhere((user) => user.userName == result);
 
-        print('Acabas de seleccionar el usuario con id: ' + selectedUser!.id.toString());
+        print('Acabas de seleccionar el usuario con id: ${selectedUser!.id}');
 
         // Una vez he elegido el estudiante, me sale el popup de un calendario para elegir la fecha y la hora
         _selectDateTime();
@@ -227,7 +227,7 @@ class _TaskAssignmentState extends State<TaskAssignment> {
     showDialog(
       context: context,
       builder: (context) {
-        return const LoadingIndicator();
+        return const LoadingDialog();
       },
     );
   }
@@ -264,12 +264,12 @@ class _TaskAssignmentState extends State<TaskAssignment> {
             builder: (context, child) {
               return Theme(
                 data: ThemeData.light().copyWith(
-                  primaryColor: Color(0xFF9E9E9E),
-                  colorScheme: ColorScheme.light(
+                  primaryColor: const Color(0xFF9E9E9E),
+                  colorScheme: const ColorScheme.light(
                     primary: Color(0xFF9E9E9E),
                     onSurface: Colors.black,
                   ),
-                  textTheme: TextTheme(
+                  textTheme: const TextTheme(
                     labelLarge: TextStyle(color: Colors.black),
                   ),
                 ),

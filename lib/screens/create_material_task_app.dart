@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:appcesible/screens/create_material_task.dart';
-import 'package:appcesible/widgets/top_menu.dart';
-import 'package:appcesible/widgets/form_drop_down.dart';
-import 'package:appcesible/widgets/form_entry.dart';
-import 'package:appcesible/widgets/loading_indicator.dart';
-import 'package:appcesible/widgets/dialog_button.dart';
+import 'package:appcesible/widgets/widget_top_teacher.dart';
+import 'package:appcesible/widgets/input_dropdown.dart';
+import 'package:appcesible/widgets/input_custom.dart';
+import 'package:appcesible/widgets/dialog_loading.dart';
+import 'package:appcesible/widgets/button.dart';
 
 class MaterialTaskApp extends StatefulWidget {
   const MaterialTaskApp({super.key});
@@ -66,24 +66,24 @@ class _MaterialTaskAppState extends MaterialTaskState<MaterialTaskApp> {
                         ),
                       ),
                     ),
-                    MaterialFormEntry(
+                    FormEntry(
                       name: 'Nombre Tarea',
                       typeData: 1,
                       controller: taskNameController
                     ),
-                    MaterialFormEntry(
+                    FormEntry(
                       name: 'Profesor',
                       typeData: 4,
                       controller: teacherController,
                       onTap: showProfesorPopup,
                     ),
-                    MaterialFormEntry(
+                    FormEntry(
                       name: 'Clase',
                       typeData: 4,
                       controller: classController,
                       onTap: showClasePopup,
                     ),
-                    MaterialFormEntry(
+                    FormEntry(
                       name: 'Estudiante',
                       typeData: 4,
                       controller: studentController,
@@ -105,12 +105,12 @@ class _MaterialTaskAppState extends MaterialTaskState<MaterialTaskApp> {
                         ),
                       ),
                     ),
-                    MaterialFormEntry(
+                    FormEntry(
                       name: 'Fecha',
                       typeData: 2,
                       controller: dateTimeController
                     ),
-                    FormEntryWithDropdown(
+                    InputDropdown(
                       name: 'Tipo Material',
                       onElementSelected: onMaterialSelected,
                       elements: getMaterialsNames(),
@@ -158,13 +158,13 @@ class _MaterialTaskAppState extends MaterialTaskState<MaterialTaskApp> {
                         ),
                       ),
                     // MyButton(buttonText: 'Crear Pedido', onPressed: createOrder),
-                    DialogButton(text: 'Crear Pedido', type: 0, onPressed: createOrder),
+                    ActionButton(text: 'Crear Pedido', type: 0, onPressed: createOrder),
                     const SizedBox(height: 20.0),
                   ],
                 ),
               ),
             )
-            : const LoadingIndicator(),
+            : const LoadingDialog(),
           ),
         );
       }

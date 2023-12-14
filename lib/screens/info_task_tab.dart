@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:appcesible/widgets/top_menu.dart';
+import 'package:appcesible/widgets/widget_top_teacher.dart';
 
 class TaskInformationTablet extends StatelessWidget{
   const TaskInformationTablet ({super.key});

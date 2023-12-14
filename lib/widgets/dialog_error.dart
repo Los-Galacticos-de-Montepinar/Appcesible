@@ -1,4 +1,4 @@
-import 'package:appcesible/widgets/dialog_button.dart';
+import 'package:appcesible/widgets/button.dart';
 import 'package:flutter/material.dart';
 
 class ErrorWindow {
@@ -17,7 +17,7 @@ class ErrorWindow {
           actions: [
             SizedBox(
               width: double.infinity,
-              child: DialogButton(text: 'Volver', type: 0, onPressed: () {
+              child: ActionButton(text: 'Volver', type: 0, onPressed: () {
                 Navigator.of(context).pop();
               })
             ),

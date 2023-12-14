@@ -1,10 +1,10 @@
-import 'package:appcesible/widgets/form_drop_down.dart';
-import 'package:appcesible/widgets/error.dart';
-import 'package:appcesible/widgets/loading_indicator.dart';
-import 'package:appcesible/widgets/top_menu.dart';
+import 'package:appcesible/widgets/input_dropdown.dart';
+import 'package:appcesible/widgets/dialog_error.dart';
+import 'package:appcesible/widgets/dialog_loading.dart';
+import 'package:appcesible/widgets/widget_top_teacher.dart';
 import 'package:flutter/material.dart';
 import 'package:appcesible/services/user_service.dart';
-import 'package:appcesible/widgets/local_photo.dart';
+import 'package:appcesible/widgets/upload_img.dart';
 import 'package:appcesible/models/user_model.dart';
 
 // Esto es una plantilla, para que sea la de añadir alumno, le pasais argumentos vacios, es decir, llamais al constructor
@@ -170,7 +170,7 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
         ),
         Padding(
           padding: const EdgeInsets.only(top: 10.0),
-          child: FormEntryWithDropdown(
+          child: InputDropdown(
             name: 'Tipo de contenido',
             onElementSelected: (value) => {
               if (content.containsKey(value))
@@ -230,7 +230,7 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                       const SizedBox(height: 10.0),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10.0),
-                        child: FormEntryWithDropdown(
+                        child: InputDropdown(
                           name: 'Tipo de usuario',
                           onElementSelected: (value) {
                             if (value != '') {
@@ -262,7 +262,7 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                       show ? Container(child: contentW(context)):const SizedBox.shrink(),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10.0),
-                        child: FormEntryWithDropdown(
+                        child: InputDropdown(
                           name: 'Clase',
                           onElementSelected: (value) {
                             if (value != '') {
@@ -328,7 +328,7 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                   )
               )
             )
-            : const LoadingIndicator(),
+            : const LoadingDialog(),
           )
         );
       }

@@ -1,8 +1,8 @@
-// SCREEEN TO ADD A STEP TO THE TASK - Phone Version
+// SCREEEN TO ADD A STEP TO THE TASK - Tablet Version
 // Autor: Alejandro Sanchez Rodríguez
 
 import 'package:flutter/material.dart';
-import 'package:appcesible/widgets/top_menu.dart';
+import 'package:appcesible/widgets/widget_top_teacher.dart';
 
 class CreateStepMobile extends StatefulWidget {
   const CreateStepMobile({super.key});
