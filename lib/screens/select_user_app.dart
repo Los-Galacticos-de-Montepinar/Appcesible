@@ -14,8 +14,8 @@ class SelectUserApp extends StatefulWidget {
 
 class _SelectUserAppState extends State<SelectUserApp> {
   List<String> imagenes = [
-    'assets/images/ronaldo.png',
-    'assets/images/alonso.png',
+    'assets/images/niño.jpeg',
+    'assets/images/niña.jpeg',
   ];
 
   // List with the Id user and the profile picture url

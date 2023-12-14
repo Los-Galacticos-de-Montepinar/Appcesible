@@ -12,8 +12,8 @@ class SelectUserTab extends StatefulWidget {
 
 class _SelectUserTabState extends State<SelectUserTab> {
   List<String> imagenes = [
-    'assets/images/ronaldo.png',
-    'assets/images/alonso.png',
+    'assets/images/niño.jpeg',
+    'assets/images/niña.jpeg',
   ];
 
   // List with the Id user and the profile picture url
