@@ -80,7 +80,7 @@ abstract class SelectionState<T extends StatefulWidget> extends State<T> {
     if (user.userType == 1) {  // Falta la condición para modo de visualización
       Navigator.of(context)
         .push(MaterialPageRoute(builder: (BuildContext context) {
-          return PictoPassw();
+          return const PictoPassw();
         })
       );
     }

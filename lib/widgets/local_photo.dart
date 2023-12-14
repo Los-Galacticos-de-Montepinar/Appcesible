@@ -17,9 +17,9 @@ class UploadPicture extends StatefulWidget{
 class UploadPictureState extends State<UploadPicture>{
 
   late XFile? imageFile;
-  Image photo=Image.asset('assets/images/bellingol.jpg', fit: BoxFit.fill);
+  Image photo=Image.asset("assets/images/addPicture.png", fit: BoxFit.fill);
 
-Future<void> pickImage() async {
+Future pickImage() async {
     final ImagePicker picker = ImagePicker();
     try {
       XFile? image = await picker.pickImage(source: ImageSource.gallery);
