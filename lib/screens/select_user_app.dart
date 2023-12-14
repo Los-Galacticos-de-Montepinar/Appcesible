@@ -163,7 +163,7 @@ class _SelectUserAppState extends State<SelectUserApp> {
                             if (selUser.userType == 1) {  // Falta la condición para modo de visualización
                               Navigator.of(context)
                                 .push(MaterialPageRoute(builder: (BuildContext context) {
-                                  return const PictoPassw();
+                                  return PictoPassw();
                                 })
                               );
                             }
