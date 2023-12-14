@@ -1,6 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<SharedPreferences> getSessionInformation() {
+Future<SharedPreferences> getSessionInformation() async {
   return SharedPreferences.getInstance();
 }
 

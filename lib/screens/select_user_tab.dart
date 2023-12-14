@@ -1,7 +1,7 @@
-import 'package:appcesible/models/user_model.dart';
-import 'package:appcesible/services/user_service.dart';
-import 'package:appcesible/widgets/top_menu.dart';
 import 'package:flutter/material.dart';
+
+import 'package:appcesible/screens/select_user.dart';
+import 'package:appcesible/widgets/top_menu.dart';
 
 class SelectUserTab extends StatefulWidget {
   const SelectUserTab({super.key});
@@ -10,85 +10,7 @@ class SelectUserTab extends StatefulWidget {
   State<SelectUserTab> createState() => _SelectUserTabState();
 }
 
-class _SelectUserTabState extends State<SelectUserTab> {
-  List<String> imagenes = [
-    'assets/images/niño.jpeg',
-    'assets/images/niña.jpeg',
-  ];
-
-  // List with the Id user and the profile picture url
-  List<MapEntry<UserModel, String>> profileList = [];
-
-  int numUsers = 0;
-  UserModel? selectedUser;
-
-  @override
-  void initState() {
-    super.initState();
-    // Llamar a la función para obtener un usuario específico cuando el widget se inicie
-    //_loadUserById(1);
-    //_countNumerUsers();
-
-    _getInfoUsers();
-  }
-
-  /*// Function that returns the url of the user profile picture
-  Future<void> _getUserPhoto(int id) async {
-    try {
-      UserModel user = await getPhotoUser(id);
-      return user.idProfileImg;
-    } catch (e) {
-      print('Error loading user: $e');
-      // Manejar el error según sea necesario
-    }
-  }*/
-
-  // Function that returns the list of users in the DB (id and profile picture url)
-  Future<void> _getInfoUsers() async {
-    try {
-      List<UserModel> users = await getAllUsers();
-
-      for (var user in users) {
-        String photoUrl = "faltaUrl"; /*_getUserPhoto(user.idProfileImg);*/
-
-        profileList.add(MapEntry(user, photoUrl));
-      }
-    } catch (e) {
-      // Manejar el error según sea necesario
-      throw Exception('Error fetching user list: $e');
-    }
-  }
-
-  // Function that returns the number of users in the DB
-  Future<void> _countNumerUsers() async {
-    try {
-      numUsers = await countUsers();
-      print('Number of users: $numUsers');
-    } catch (e) {
-      print('Error loading user: $e');
-      // Manejar el error según sea necesario
-    }
-  }
-
-  // Function that returns a user from the DB
-  Future<void> _loadUserById(int userId) async {
-    print("hola");
-
-    try {
-      UserModel user = await getUserFromId(userId);
-      setState(() {
-        selectedUser = user;
-      });
-
-      print('User loaded: ${selectedUser?.userName}');
-    } catch (e) {
-      print('Error loading user: $e');
-      // Manejar el error según sea necesario
-    }
-  }
-
-  int currentIndex = 0;
-
+class _SelectUserTabState extends SelectionState<SelectUserTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,7 +26,9 @@ class _SelectUserTabState extends State<SelectUserTab> {
               children: [
                 const SizedBox(height: 80),
                 ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      returnPage();
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor:
                           Colors.grey[500], // Cambia el color de fondo
@@ -138,14 +62,9 @@ class _SelectUserTabState extends State<SelectUserTab> {
 
                     // Elevated Button to the previous user
                     ElevatedButton(
-                      onPressed: currentIndex > 0
-                          ? () {
-                              setState(() {
-                                currentIndex = (currentIndex - 6)
-                                    .clamp(0, profileList.length);
-                              });
-                            }
-                          : null,
+                      onPressed: () {
+                        previousUser();
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.black,
                         shape: const RoundedRectangleBorder(
@@ -181,17 +100,13 @@ class _SelectUserTabState extends State<SelectUserTab> {
                           int imageIndex = currentIndex + index;
                           return InkWell(
                             onTap: () {
-                              // Manejar el evento de clic aquí
-                              print(
-                                  'Usuario clickado, número: ${profileList[imageIndex].key.id}');
+                              selectUser();
                             },
                             child: Column(
                               children: [
                                 Center(
                                   child: Text(
-                                    profileList.isNotEmpty
-                                        ? profileList[imageIndex].key.userName
-                                        : ' ', // No users available
+                                    profileList.isNotEmpty ? profileList[currentIndex].key.userName : ' ',
                                     style: const TextStyle(
                                       fontSize: 30,
                                       fontWeight: FontWeight.bold,
@@ -225,14 +140,9 @@ class _SelectUserTabState extends State<SelectUserTab> {
                     const SizedBox(width: 20),
                     // Elevated Button to the next user
                     ElevatedButton(
-                      onPressed: currentIndex + 6 < imagenes.length
-                          ? () {
-                              setState(() {
-                                currentIndex = (currentIndex + 6)
-                                    .clamp(0, imagenes.length);
-                              });
-                            }
-                          : null,
+                      onPressed: () {
+                        nextUser();
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.black,
                         shape: const RoundedRectangleBorder(
