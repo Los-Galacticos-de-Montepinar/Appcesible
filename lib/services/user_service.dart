@@ -220,30 +220,60 @@ Future<bool> authenticateUser(UserModel user, String enteredPassword) async {
 }
 
 Future<bool> pictoAuthenticateUser0(
-    UserModel user, String enteredPassword) async {
+    UserModel user, String enteredPassword, int pos) async {
   try {
-    final response = await http
-        .post(
-          Uri.http(_baseAddress, '/session/login'),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8'
-          },
-          body: jsonEncode(<String, dynamic>{
-            'userName': user.userName,
-            'passPart0': enteredPassword,
-            'publicKey': 123,
-          }),
-        )
-        .timeout(const Duration(seconds: 200));
+    print(pos);
+    final response;
+    if (pos == 0) {
+      response = await http
+          .post(
+            Uri.http(_baseAddress, '/session/login'),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8'
+            },
+            body: jsonEncode(<String, dynamic>{
+              'userName': user.userName,
+              'passPart0': enteredPassword,
+              'publicKey': "rasfDDFSs",
+            }),
+          )
+          .timeout(const Duration(seconds: 200));
+    } else if (pos == 1) {
+      response = await http
+          .post(
+            Uri.http(_baseAddress, '/session/login'),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8'
+            },
+            body: jsonEncode(<String, dynamic>{
+              'userName': user.userName,
+              'passPart1': enteredPassword,
+              'publicKey': "rasfDDFSs",
+            }),
+          )
+          .timeout(const Duration(seconds: 200));
+    } else{
+      response = await http
+          .post(
+            Uri.http(_baseAddress, '/session/login'),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8'
+            },
+            body: jsonEncode(<String, dynamic>{
+              'userName': user.userName,
+              'passPart2': enteredPassword,
+              'publicKey': "rasfDDFSs",
+            }),
+          )
+          .timeout(const Duration(seconds: 200));
+    }
 
-    if (response.statusCode == 200) {
-      var jsonResponse =
-          await json.decode(json.encode(utf8.decode(response.bodyBytes)));
+    if (response.statusCode == 202) {
+      var jsonResponse = await json.decode(json.encode(response.body));
       print('Autenticacion exitosa. Token: $jsonResponse');
       return true;
     } else {
-      print(
-          'Error en la autenticación. Código de estado: ${response.statusCode}');
+      print('Error en la autenticación. Código de estado: ${response.body}');
       return false;
     }
   } catch (e) {
