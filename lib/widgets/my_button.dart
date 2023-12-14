@@ -51,7 +51,7 @@ class _MyButtonState extends State<MyButton> with SingleTickerProviderStateMixin
       },
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white,
-        backgroundColor: Colors.red, // Color del texto blanco
+        backgroundColor: const Color(0xFFBF1717), // Color del texto blanco
       ),
       child: ScaleTransition(
         scale: _scaleAnimation,

@@ -21,7 +21,7 @@ class TopMenu extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       centerTitle: true,
-      backgroundColor: const Color.fromARGB(255, 255, 220, 131),
+      backgroundColor: const Color(0xFFFFDC83),
 
       leading: IconButton(
         padding: const EdgeInsets.only(top: 10, bottom: 2, left: 10),
@@ -68,13 +68,13 @@ class TopMenu extends StatelessWidget implements PreferredSizeWidget {
                   right:
                       15), //* para que tenga espacio por arriba y a la derecha
             ),
-            IconButton(
-              icon: const Icon(Icons.notifications),
-              onPressed: () {},
-              color: const Color.fromARGB(255, 0, 0, 0),
-              //constraints: const BoxConstraints(maxHeight: 0),
-              padding: const EdgeInsets.only(top: 10, right: 15),
-            )
+            // IconButton(
+            //   icon: const Icon(Icons.notifications),
+            //   onPressed: () {},
+            //   color: const Color.fromARGB(255, 0, 0, 0),
+            //   //constraints: const BoxConstraints(maxHeight: 0),
+            //   padding: const EdgeInsets.only(top: 10, right: 15),
+            // )
           ],
         )
       ],
