@@ -87,7 +87,7 @@ abstract class SelectionState<T extends StatefulWidget> extends State<T> {
     else {
       Navigator.of(context)
         .push(MaterialPageRoute(builder: (BuildContext context) {
-          return const Login();
+          return Login(user: user);
         })
       );
     }

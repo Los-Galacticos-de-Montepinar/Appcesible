@@ -120,8 +120,7 @@ class _SelectUserAppState extends SelectionState<SelectUserApp> {
                               ),
                             ),
                             child: ClipOval(
-                              child:
-                                  _imageWidget(image: imagenes[currentIndex]),
+                              child: _imageWidget(image: imagenes[currentIndex]),
                             ),
                           ),
                         ),

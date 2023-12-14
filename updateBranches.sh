@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ehco
+echo
 echo "Actualizando la rama feature/baja-usuario con la rama main local..."
 echo
 git checkout feature/baja-usuario
@@ -10,7 +10,7 @@ echo
 echo "...actualizada"
 echo
 
-ehco
+echo
 echo "Actualizando la rama feature/control-sesion con la rama main local..."
 echo
 git checkout feature/control-sesion
@@ -20,7 +20,7 @@ echo
 echo "...actualizada"
 echo
 
-ehco
+echo
 echo "Actualizando la rama feature/form-usuario con la rama main local..."
 echo
 git checkout feature/form-usuario
@@ -30,7 +30,7 @@ echo
 echo "...actualizada"
 echo
 
-ehco
+echo
 echo "Actualizando la rama feature/seleccionar-tarea con la rama main local..."
 echo
 git checkout feature/seleccionar-tarea
@@ -40,7 +40,7 @@ echo
 echo "...actualizada"
 echo
 
-ehco
+echo
 echo "Actualizando la rama feature/seleccionar-usuario con la rama main local..."
 echo
 git checkout feature/seleccionar-usuario
@@ -50,7 +50,7 @@ echo
 echo "...actualizada"
 echo
 
-ehco
+echo
 echo "Actualizando la rama feature/tarea-fija con la rama main local..."
 echo
 git checkout feature/tarea-fija
@@ -60,7 +60,7 @@ echo
 echo "...actualizada"
 echo
 
-ehco
+echo
 echo "Actualizando la rama feature/tarea-material con la rama main local..."
 echo
 git checkout feature/tarea-material
