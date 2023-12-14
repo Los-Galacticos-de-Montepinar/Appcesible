@@ -1,6 +1,6 @@
 import 'package:appcesible/widgets/top_menu.dart';
 import 'package:flutter/material.dart';
-import 'package:appcesible/widgets/seleccionar_estudiante_window.dart';
+import 'package:appcesible/widgets/dialog_with_search_bar.dart';
 
 class TaskAsignTablet extends StatefulWidget{
   const TaskAsignTablet({super.key});
@@ -208,7 +208,10 @@ class taskAsignTabletState extends State<TaskAsignTablet>{
                          * Lista de alumnos encontrados
                          */
                         //searchResult(screenSize)
-                        SeleccionarEstudianteWindow()
+                        const DialogWithSearchBar(
+                          title: 'Estudiante',
+                          elements: [ 'hola' ],
+                        )
                       ],
                     ),
                   ),
