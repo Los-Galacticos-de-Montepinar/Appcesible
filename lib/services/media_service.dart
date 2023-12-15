@@ -13,6 +13,7 @@ Future uploadImage(File img) async {
     'filedata', 
     bytes, 
     filename: 'test.png',
+    contentType: MediaType("image","png")
     );
 
   var request = http.MultipartRequest(
