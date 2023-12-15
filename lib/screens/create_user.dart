@@ -346,14 +346,13 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                                 msg = 'Rellene el campo foto';
                             }
                             
-                            // if (cont > 0) {
-                            //   if (cont > 1) msg = 'Faltan campos por rellenar';
-                            //   ErrorWindow.showErrorDialog(context, msg);
-                            // }
-                            // else {
-                            //   actionCall(user, _passwdController.value.text);
-                            // }
-                            uploadImage(user.image!);
+                            if (cont > 0) {
+                              if (cont > 1) msg = 'Faltan campos por rellenar';
+                              ErrorWindow.showErrorDialog(context, msg);
+                            }
+                            else {
+                              actionCall(user, _passwdController.value.text);
+                            }
                           },
                         ),
                       )

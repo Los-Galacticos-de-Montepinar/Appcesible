@@ -1,3 +1,4 @@
+import 'package:appcesible/services/media_service.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -12,6 +13,8 @@ String _baseAddress = '100.70.70.131:8080';  // IP privada
 // CREATE
 
 Future createUser(UserModel user, String password) async {
+  user.idProfileImg = await uploadImage(user.image!);
+
   final response = await http.post(
     Uri.http(_baseAddress, '/user/new'),
     headers: <String, String>{
@@ -38,10 +41,12 @@ Future createUser(UserModel user, String password) async {
 
 // Returns all users information
 Future<List<UserModel>> getAllUsers() async {
-  final response = await http.get(Uri.http(_baseAddress, '/user'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8'
-      });
+  final response = await http.get(
+    Uri.http(_baseAddress, '/user'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8'
+    }
+  );
 
   if (response.statusCode == 200) {
     List<dynamic> userList = jsonDecode(utf8.decode(response.bodyBytes));
@@ -71,17 +76,6 @@ Future<UserModel> getUserFromId(int id) async {
     throw Exception('Failed to fetch user list');
   }
 }
-
-// Returns the url of the user profile picture
-// Future getUserPhoto(int id) async {
-//   try {
-//     UserModel user = await getPhotoUser(id);
-//     return user.idProfileImg;
-//   } catch (e) {
-//     print('Error loading user: $e');
-//     // Manejar el error según sea necesario
-//   }
-// }
 
 // Returns the list of users in the DB (id and profile picture url)
 Future<List> getInfoUsers() async {

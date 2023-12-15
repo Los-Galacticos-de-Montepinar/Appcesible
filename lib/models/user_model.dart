@@ -35,6 +35,6 @@ class UserModel {
   // toString
   @override
   String toString() {
-    return 'id: $id\nuserName: $userName\npfp: $idProfileImg\nuserType: $userType\n idClass: $idClass\n';
+    return 'id: $id, userName: $userName, pfp: $idProfileImg, userType: $userType, idClass: $idClass';
   }
 }

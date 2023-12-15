@@ -87,26 +87,27 @@ class _SelectUserTabState extends SelectionState<SelectUserTab> {
                       padding: const EdgeInsets.symmetric(horizontal: 30),
                       child: GridView.builder(
                         shrinkWrap: true,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3, // Mostrar 3 usuarios por fila
                           mainAxisSpacing: 10.0,
                           crossAxisSpacing: 10.0,
                         ),
                         itemCount: currentIndex + 6 > profileList.length
-                            ? imagenes.length - currentIndex
+                            ? images.length - currentIndex
                             : 6,
                         itemBuilder: (context, index) {
                           int imageIndex = currentIndex + index;
                           return InkWell(
                             onTap: () {
-                              selectUser();
+                              selectUser(imageIndex);
                             },
                             child: Column(
                               children: [
                                 Center(
                                   child: Text(
-                                    profileList.isNotEmpty ? profileList[currentIndex].key.userName : ' ',
+                                    profileList.isNotEmpty
+                                        ? profileList[imageIndex].userName
+                                        : ' ',
                                     style: const TextStyle(
                                       fontSize: 30,
                                       fontWeight: FontWeight.bold,
@@ -126,9 +127,7 @@ class _SelectUserTabState extends SelectionState<SelectUserTab> {
                                     ),
                                   ),
                                   child: ClipOval(
-                                    child: _imageWidget(
-                                      image: imagenes[imageIndex]
-                                    ),
+                                    child: imageWidget(imageIndex),
                                   ),
                                 ),
                               ],
@@ -137,6 +136,7 @@ class _SelectUserTabState extends SelectionState<SelectUserTab> {
                         },
                       ),
                     ),
+
                     // Box transparent between the button and the profile picture
                     const SizedBox(width: 20),
                     // Elevated Button to the next user
@@ -167,15 +167,6 @@ class _SelectUserTabState extends SelectionState<SelectUserTab> {
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _imageWidget({required String image}) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        image: DecorationImage(image: AssetImage(image), fit: BoxFit.cover),
       ),
     );
   }
