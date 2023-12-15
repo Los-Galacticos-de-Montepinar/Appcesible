@@ -9,7 +9,6 @@ import 'dart:typed_data';
 import 'dart:io';
 
 import 'package:path/path.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 // String _baseAddress = '10.0.2.2:8080';      // IP emulador
 // String _baseAddress = 'localhost:8080';
@@ -18,7 +17,7 @@ String _baseAddress = '100.70.70.131:8080';  // IP privada
 
 Future<int> uploadImage(File img) async {
   print(img.readAsBytesSync());
-  
+
   List<String> mimeType = lookupMimeType(img.path)!.split('/');
   List<String> imgPath = split(img.path);
   String imgName = imgPath[imgPath.length-1];
@@ -39,8 +38,6 @@ Future<int> uploadImage(File img) async {
   request.headers.addAll(<String, String> {
     'Content-Type': 'multipart/form-data'
   });
-
-  print(request.headers);
   
   final streamedResponse = await request.send();
   final response = await streamedResponse.stream.bytesToString();

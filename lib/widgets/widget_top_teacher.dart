@@ -1,3 +1,4 @@
+import 'package:appcesible/screens/create_user.dart';
 import 'package:appcesible/screens/select_user.dart';
 import 'package:flutter/material.dart';
 
@@ -22,14 +23,15 @@ class TopMenu extends StatelessWidget implements PreferredSizeWidget {
       ),
       centerTitle: true,
       backgroundColor: const Color(0xFFFFDC83),
-
+      leadingWidth: 65.0,
       leading: IconButton(
-        padding: const EdgeInsets.only(top: 10, bottom: 2, left: 10),
+        alignment: Alignment.center,
+        // padding: const EdgeInsets.only(left: 12),
         icon: Column(
-          children: <Widget>[
+          children: [
             const Icon(
               Icons.home_filled,
-              size: 35.0,
+              size: 32.0,
               color: Color.fromARGB(255, 0, 0, 0),
             ),
             Transform.translate(
@@ -38,7 +40,7 @@ class TopMenu extends StatelessWidget implements PreferredSizeWidget {
                 'Inicio',
                 style: TextStyle(color: Colors.black),
               ),
-            )
+            ),
           ],
         ),
         onPressed: () {
@@ -51,11 +53,25 @@ class TopMenu extends StatelessWidget implements PreferredSizeWidget {
           padding: const EdgeInsets.symmetric(horizontal: 12.0),
           child: PopupMenuButton(
             onSelected: (value) {
-              if (value == "profile") {
+              if (value == 'profile') {
+                int userId = -1;
+                getSessionInformation().then((value) {
+                  userId = value.getInt('id')!;
+                });
+
+                Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (BuildContext context) {
+                    return FormularioUsuarios(
+                      'Editar Perfil',
+                      userId
+                    );
+                  })
+                );
+              }
+              else if (value == 'notifications'){
                 // add desired output
-              }else if(value == "notifications"){
-                // add desired output
-              }else if(value == "logout"){
+              }
+              else if (value == 'logout'){
                 userLogout();
 
                 Navigator.of(context).pushAndRemoveUntil(
@@ -71,7 +87,7 @@ class TopMenu extends StatelessWidget implements PreferredSizeWidget {
             position: PopupMenuPosition.under,
             itemBuilder: (BuildContext context) => <PopupMenuEntry>[
               const PopupMenuItem(
-                value: "profile",
+                value: 'profile',
                 child: Row(
                   children: [
                     Padding(
@@ -86,7 +102,7 @@ class TopMenu extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ),
               const PopupMenuItem(
-                value: "notifications",
+                value: 'notifications',
                 child: Row(
                   children: [
                     Padding(
@@ -101,7 +117,7 @@ class TopMenu extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ),
               const PopupMenuItem(
-                value: "logout",
+                value: 'logout',
                 child: Row(
                   children: [
                     Padding(

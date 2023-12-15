@@ -1,7 +1,7 @@
-import 'package:appcesible/command/session_command.dart';
+import 'package:flutter/material.dart';
+
 import 'package:appcesible/screens/create_user.dart';
 import 'package:appcesible/widgets/widget_top_teacher.dart';
-import 'package:flutter/material.dart';
 
 class TeacherHome extends StatelessWidget {
   const TeacherHome({super.key});
@@ -24,19 +24,7 @@ class TeacherHome extends StatelessWidget {
               padding: const EdgeInsets.only(left: 8, right: 8),
               child: ElevatedButton(
                 onPressed: () {
-                  int userId = -1;
-                  getSessionInformation().then((value) {
-                    userId = value.getInt('id')!;
-                  });
-
-                  Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (BuildContext context) {
-                      return FormularioUsuarios(
-                        'Editar Perfil',
-                        userId
-                      );
-                    })
-                  );
+                  
                 },
                 style: ButtonStyle(
                   elevation: MaterialStateProperty.all(5),

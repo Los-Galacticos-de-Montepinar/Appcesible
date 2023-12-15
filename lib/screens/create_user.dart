@@ -1,3 +1,4 @@
+import 'package:appcesible/models/class_model.dart';
 import 'package:appcesible/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
@@ -66,10 +67,9 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
   TextEditingController _passwdController = TextEditingController();
   
   Map<String,bool> content = {'Texto':false,'Audio':false,'Imagenes':false};
-  final List<String> classes = ['1A','2A','3A'];
+  List<ClassModel> classes = [];
   final List<String> userTypes = ['Profesor','Estudiante','Administrador'];
   
-  int classIndex = 0;
   String choosedTypes = '';
 
   //bool firstExe=true;
@@ -86,7 +86,7 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
     if (!_initialized) {
       actionCall = (widget.id == -1) ? createUser : updateUser;
 
-    if (widget.id!=-1) {
+    if (widget.id != -1) {
       user.id = widget.id;
 
       await getUserFromId(user.id).then((user) {
@@ -94,6 +94,8 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
         _updateData('', {'Texto':false, 'Audio':false, 'Imagenes':false});
       });
     }
+
+    classes = await getClasses();
 
       _initialized = true;
     }
@@ -111,13 +113,6 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
 
       content = contentType;
 
-      if (user.idClass!=-1 && classes.contains('')) {
-        classes.remove('');
-      }
-      if(user.userType!=-1 && userTypes.contains('')) {
-        userTypes.remove('');
-      }
-
       show = userTypes[user.userType]=='Estudiante';
       content.forEach((key, value) {
         if(value) choosedTypes+=' $key ';
@@ -131,6 +126,25 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
     _passwdController.dispose();
 
     super.dispose();
+  }
+
+  List<String> _getClassesNames() {
+    List<String> classesNames = [];
+    for (ClassModel classModel in classes) {
+      classesNames.add(classModel.className);
+    }
+
+    return classesNames;
+  }
+
+  int _getClassId(String name) {
+    for (ClassModel classModel in classes) {
+      if (classModel.className == name) {
+        return classModel.id;
+      }
+    }
+
+    return -1;
   }
 
   Widget passwdPic(){
@@ -174,16 +188,18 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
           padding: const EdgeInsets.only(top: 10.0),
           child: InputDropdown(
             name: 'Tipo de contenido',
-            onElementSelected: (value) => {
-              if (content.containsKey(value))
-                content[value] = !(content[value] ?? false),
-              choosedTypes = '',
-              content.forEach((key, value) {
-                if(value) {
-                  choosedTypes += ' $key ';
+            onElementSelected: (value) {
+              setState(() {
+                if (content.containsKey(value)) {
+                  content[value] = !(content[value] ?? false);
                 }
-              }),
-              setState(() {})
+                choosedTypes = '';
+                content.forEach((key, value) {
+                  if(value) {
+                    choosedTypes += ' $key ';
+                  }
+                });
+              });
             },
             elements: content.keys.toList(),
           )
@@ -259,7 +275,7 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                           ),
                         )
                       ),
-                      (picto && userTypes[user.userType]=='Estudiante') ? passwdPic() : passwdText(),
+                      (picto && userTypes[user.userType] == 'Estudiante') ? passwdPic() : passwdText(),
                       show ? Container(child: pictoCheckWid()):const SizedBox.shrink(),
                       show ? Container(child: contentW(context)):const SizedBox.shrink(),
                       Padding(
@@ -267,17 +283,11 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                         child: InputDropdown(
                           name: 'Clase',
                           onElementSelected: (value) {
-                            if (value != '') {
-                              classIndex = classes.indexOf(value);
-                              if(classes.contains('')) {
-                                classes.remove('');
-                                classIndex--;
-                              }
-
-                              setState(() {});
-                            }
+                            setState(() {
+                              user.idClass = _getClassId(value);
+                            });
                           },
-                          elements: classes,
+                          elements: _getClassesNames(),
                         )
                       ),
                       Padding(
@@ -301,12 +311,6 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                             setState(() {
                               user.image = pickedImage;
                             });
-                            // pickImage().then((value) {
-                            //   setState(() {
-                            //     photo = Image.file(file!);
-                            //     print('photo - $photo');
-                            //   });
-                            // });
                           },
                           style: ButtonStyle(
                             shape: MaterialStateProperty.all<CircleBorder>(const CircleBorder()),
@@ -321,11 +325,11 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                           onPressed: () {
                             int cont = 0;
                             String msg = '';
-                            if (_nameController.value.text.isEmpty) {
+                            if (_nameController.text.isEmpty) {
                               cont++;
                               msg = 'Rellene el campo nombre';
                             }
-                            if (_passwdController.value.text.isEmpty) {
+                            if (_passwdController.text.isEmpty) {
                               cont++;
                               msg = 'Rellene el campo contraseña';
                             }
@@ -337,7 +341,7 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                               cont++;
                               msg = 'Rellene el campo contenidos';
                             }
-                            if (classes[classIndex]=='') {
+                            if (user.idClass == -1) {
                               cont++;
                               msg = 'Rellene el campo clase';
                             }
@@ -351,6 +355,7 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                               ErrorWindow.showErrorDialog(context, msg);
                             }
                             else {
+                              user.userName = _nameController.text;
                               actionCall(user, _passwdController.value.text);
                             }
                           },

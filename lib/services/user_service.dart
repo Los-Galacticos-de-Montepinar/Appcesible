@@ -26,7 +26,6 @@ Future createUser(UserModel user, String password) async {
       'pfp': user.idProfileImg,
       'idClass': user.idClass,
       'userType': user.userType,
-      'date': '20/20/20'
     }),
   );
 

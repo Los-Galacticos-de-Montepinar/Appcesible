@@ -38,6 +38,7 @@ abstract class SelectionState<T extends StatefulWidget> extends State<T> {
   // List with the user id and the profile picture url
   int currentIndex = 0;
   List<UserModel> profileList = [];
+  // Image defaultImg = Image.file(file)
   List<Image> images = [];
 
   bool initialized = false;

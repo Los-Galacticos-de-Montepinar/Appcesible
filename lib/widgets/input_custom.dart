@@ -112,8 +112,7 @@ class _FormEntryState extends State<FormEntry> {
                 widget.onTap?.call(); // Llama a onTap si no es nulo
               },
               child: AbsorbPointer(
-                absorbing:
-                    widget.typeData == 4, // Absorbe clics si typeData es 4
+                absorbing: widget.typeData == 4, // Absorbe clics si typeData es 4
                 child: TextFormField(
                   controller: widget.controller,
                   decoration: InputDecoration(
