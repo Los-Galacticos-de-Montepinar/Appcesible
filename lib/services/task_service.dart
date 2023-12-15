@@ -6,7 +6,7 @@ import 'package:appcesible/models/assign_model.dart';
 
 // String _baseAddress = '10.0.2.2:8080';      // IP emulador
 // String _baseAddress = 'localhost:8080';
-String _baseAddress = '192.168.1.42:8080';  // IP ordenador
+String _baseAddress = '100.99.220.41:8080';  // IP ordenador
 
 // CREATE
 

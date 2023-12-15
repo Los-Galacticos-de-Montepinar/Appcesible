@@ -1,28 +1,29 @@
-import 'dart:convert';
+import 'dart:ffi';
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
-import 'package:crypton/crypton.dart';
+import 'dart:convert';
 
-import 'package:appcesible/command/encrypt_command.dart';
+import 'package:crypton/crypton.dart';
 
 String _baseAddress = '100.99.220.41:8080';
 
-void test() async {
+void test(String pem,RSAPrivateKey privateKey) async {
   final response = await http.post(
     Uri.http(_baseAddress, '/session/public'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8'
     },
     body: jsonEncode(<String, dynamic>{
-      'pem': Encrypt.publicKeyPem
+      'pem': pem
     }),
   );
 
   if (response.statusCode == 200) {
-    print('Received message:');
+    print("Received message:");
     print(response.body);
-    print('Decrypted:');
-    print(Encrypt.decrypt(response.body));
+    print("Decrypted:");
+    print(privateKey.decrypt(response.body));
     
   } else {
     throw Exception('Failed to update User');
@@ -30,10 +31,10 @@ void test() async {
 }
 
 void main() {
-  print('START');
+  print("START");
   RSAKeypair rsaKeypair = RSAKeypair.fromRandom(); 
   String pem = rsaKeypair.publicKey.toPEM();
   print(pem);
-  test();
-  print('SENDED');
+  test(pem,rsaKeypair.privateKey);
+  print("SENDED");
 }
