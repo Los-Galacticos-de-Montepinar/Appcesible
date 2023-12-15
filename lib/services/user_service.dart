@@ -1,12 +1,12 @@
-import 'package:appcesible/models/class_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:appcesible/models/user_model.dart';
+import 'package:appcesible/models/class_model.dart';
 
-String _baseAddress = '10.0.2.2:8080';      // IP emulador
+// String _baseAddress = '10.0.2.2:8080';      // IP emulador
 // String _baseAddress = 'localhost:8080';
-// String _baseAddress = '192.168.1.42:8080';  // IP ordenador
+String _baseAddress = '192.168.1.42:8080';  // IP ordenador
 
 // CREATE
 

@@ -21,31 +21,28 @@ class _InputDropdownState extends State<InputDropdown> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(5.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          DropdownButtonFormField<String>(
-            decoration: InputDecoration(
-              labelText: widget.name,
-              border: const OutlineInputBorder(),
-            ),
-            value: selectedElement,
-            dropdownColor: Colors.white,
-            items: _buildDropdownItems(widget.elements),
-            onChanged: (value) {
-              setState(() {
-                if (selectedElement != value) {
-                  selectedElement = value!;
-                  widget.onElementSelected(selectedElement!);
-                }
-              });
-            },
-            isExpanded: true,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        DropdownButtonFormField<String>(
+          decoration: InputDecoration(
+            labelText: widget.name,
+            border: const OutlineInputBorder(),
           ),
-        ],
-      ),
+          value: selectedElement,
+          dropdownColor: Colors.white,
+          items: _buildDropdownItems(widget.elements),
+          onChanged: (value) {
+            setState(() {
+              if (selectedElement != value) {
+                selectedElement = value!;
+                widget.onElementSelected(selectedElement!);
+              }
+            });
+          },
+          isExpanded: true,
+        ),
+      ],
     );
   }
 

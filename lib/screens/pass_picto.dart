@@ -118,7 +118,7 @@ class _FirstGridState extends State<FirstGrid> {
       crossAxisCount: 3,
       crossAxisSpacing: crossAxisSpacing + 5,
       mainAxisSpacing: 20,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.all(8),
       children: List.generate(9, (index) {
         return GestureDetector(
@@ -137,14 +137,12 @@ class _FirstGridState extends State<FirstGrid> {
                 pos=0;
               }
           },
-          child: Container(
-            child: Center(
-              child: Image.network(
-                images[index],
-                width: imageWidth,
-                height: imageHeight,
-                fit: BoxFit.cover,
-              ),
+          child: Center(
+            child: Image.network(
+              images[index],
+              width: imageWidth,
+              height: imageHeight,
+              fit: BoxFit.cover,
             ),
           ),
         );

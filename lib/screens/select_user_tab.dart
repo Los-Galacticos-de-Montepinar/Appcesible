@@ -127,7 +127,8 @@ class _SelectUserTabState extends SelectionState<SelectUserTab> {
                                   ),
                                   child: ClipOval(
                                     child: _imageWidget(
-                                        image: imagenes[imageIndex]),
+                                      image: imagenes[imageIndex]
+                                    ),
                                   ),
                                 ),
                               ],

@@ -35,6 +35,7 @@ abstract class SelectionState<T extends StatefulWidget> extends State<T> {
   List<String> imagenes = [
     'assets/images/ronaldo.png',
     'assets/images/alonso.png',
+    'assets/images/bellingol.jpg',
   ];
 
   // List with the user id and the profile picture url

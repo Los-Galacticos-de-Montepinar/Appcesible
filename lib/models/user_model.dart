@@ -1,3 +1,5 @@
+import 'dart:io';
+
 class UserModel {
   int id;
 
@@ -5,7 +7,8 @@ class UserModel {
   String userName;
 
   // Profile information
-  int idProfileImg;
+  File? image;
+  int? idProfileImg;
   int userType;
   int idClass;
   
@@ -13,7 +16,7 @@ class UserModel {
   UserModel({
     required this.id,
     required this.userName,
-    required this.idProfileImg,
+    this.idProfileImg,
     required this.userType,
     required this.idClass
   });

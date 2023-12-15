@@ -1,11 +1,16 @@
+import 'package:appcesible/widgets/button.dart';
+import 'package:flutter/material.dart';
+import 'dart:io';
+
+import 'package:appcesible/services/user_service.dart';
+import 'package:appcesible/services/media_service.dart';
+import 'package:appcesible/models/user_model.dart';
+
 import 'package:appcesible/widgets/input_dropdown.dart';
 import 'package:appcesible/widgets/dialog_error.dart';
 import 'package:appcesible/widgets/dialog_loading.dart';
 import 'package:appcesible/widgets/widget_top_teacher.dart';
-import 'package:flutter/material.dart';
-import 'package:appcesible/services/user_service.dart';
 import 'package:appcesible/widgets/upload_img.dart';
-import 'package:appcesible/models/user_model.dart';
 
 // Esto es una plantilla, para que sea la de añadir alumno, le pasais argumentos vacios, es decir, llamais al constructor
 // FormularioAlumnos('','','',{},[],,'')
@@ -16,8 +21,6 @@ import 'package:appcesible/models/user_model.dart';
 // El mapa es basicamente, si tenemos como tipos de contenido audio, texto y pictogramas, y el alumno solo usa el texto,
 // su mapa será {'Audio':false,'Pictogramas':false,'Texto':true}, el índice es dentro de la lista que le pasamos,
 // la lista de clases es ['3A','2A','1A'] y el alumno esta en 2A, el indice que pasamos es 1
-
-  
 
 void main() {
   runApp( 
@@ -55,7 +58,6 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
   UserModel user = UserModel(
     id: -1,
     userName: '',
-    idProfileImg: -1,
     userType: 0,
     idClass: 0
   );
@@ -64,8 +66,8 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
   TextEditingController _passwdController = TextEditingController();
   
   Map<String,bool> content = {'Texto':false,'Audio':false,'Imagenes':false};
-  final List<String> classes = ['','1A','2A','3A'];
-  final List<String> userTypes = ['','Profesor','Estudiante','Administrador'];
+  final List<String> classes = ['1A','2A','3A'];
+  final List<String> userTypes = ['Profesor','Estudiante','Administrador'];
   
   int classIndex = 0;
   String choosedTypes = '';
@@ -278,13 +280,44 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                           elements: classes,
                         )
                       ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10.0),
-                        child: UploadPicture()                        
-                        ),
                       Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10.0),
-                      child: TextButton(
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
+                        child: IconButton(
+                          iconSize: 20,
+                          icon: Container(
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  image: (user.image != null) ? Image.file(user.image!).image : defaultImage.image,
+                                  fit: BoxFit.fill)
+                              ),
+                              height: 192,
+                              width: 192,
+                              child: const ClipOval(),
+                          ),
+                          onPressed: () async {
+                            var pickedImage = await UploadPicture.pickImage();
+
+                            setState(() {
+                              user.image = pickedImage;
+                            });
+                            // pickImage().then((value) {
+                            //   setState(() {
+                            //     photo = Image.file(file!);
+                            //     print('photo - $photo');
+                            //   });
+                            // });
+                          },
+                          style: ButtonStyle(
+                            shape: MaterialStateProperty.all<CircleBorder>(const CircleBorder()),
+                          ),
+                        )
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
+                        child: ActionButton(
+                          text: 'Confirmar',
+                          type: 1,
                           onPressed: () {
                             int cont = 0;
                             String msg = '';
@@ -308,21 +341,21 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                               cont++;
                               msg = 'Rellene el campo clase';
                             }
-                            if (UploadPicture.of(context)!=null && defaultImage==UploadPicture.of(context)?.photo) {
+                            if (user.image == null) {
                                 cont++;
                                 msg = 'Rellene el campo foto';
                             }
                             
-                            if (cont > 0) {
-                              if (cont > 1) msg = 'Faltan campos por rellenar';
-                              ErrorWindow.showErrorDialog(context, msg);
-                            }
-                            else {
-                              actionCall(user, _passwdController.value.text);
-                            }
-                          }, 
-                          child: const Text('Finalizar')
-                        )
+                            // if (cont > 0) {
+                            //   if (cont > 1) msg = 'Faltan campos por rellenar';
+                            //   ErrorWindow.showErrorDialog(context, msg);
+                            // }
+                            // else {
+                            //   actionCall(user, _passwdController.value.text);
+                            // }
+                            uploadImage(user.image!);
+                          },
+                        ),
                       )
                     ],
                   )
