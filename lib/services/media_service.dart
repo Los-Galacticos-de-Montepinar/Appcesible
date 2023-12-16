@@ -1,21 +1,24 @@
-import 'package:appcesible/models/gallery_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:mime/mime.dart';
+import 'package:path/path.dart';
 
 import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:io';
 
-import 'package:path/path.dart';
+import 'package:appcesible/command/session_command.dart';
+import 'package:appcesible/models/gallery_model.dart';
 
-// String _baseAddress = '10.0.2.2:8080';      // IP emulador
-// String _baseAddress = 'localhost:8080';
-String _baseAddress = '100.70.70.131:8080';  // IP privada
-// String _baseAddress = '100.99.220.41:8080';  // IP ordenador
+// String baseAddress = '10.0.2.2:8080';      // IP emulador
+// String baseAddress = 'localhost:8080';
+// String baseAddress = '100.70.70.131:8080';  // IP privada
+// String baseAddress = '100.99.220.41:8080';  // IP ordenador
 
 Future<int> uploadImage(File img) async {
+  String baseAddress = await getBaseAddress();
+
   List<String> mimeType = lookupMimeType(img.path)!.split('/');
   List<String> imgPath = split(img.path);
   String imgName = imgPath[imgPath.length-1];
@@ -30,7 +33,7 @@ Future<int> uploadImage(File img) async {
 
   var request = http.MultipartRequest(
     'POST',
-    Uri.http(_baseAddress, '/gallery/new'),
+    Uri.http(baseAddress, '/gallery/new'),
   );
   request.files.add(multipartFile);
   request.headers.addAll(<String, String> {
@@ -50,8 +53,10 @@ Future<int> uploadImage(File img) async {
 }
 
 Future<Image> downloadImage(int id) async {
+  String baseAddress = await getBaseAddress();
+
   final response = await http.get(
-    Uri.http(_baseAddress, '/gallery/$id'),
+    Uri.http(baseAddress, '/gallery/$id'),
     headers: <String, String> {
       'Content-Type': 'application/octet-stream'
     },
@@ -66,8 +71,10 @@ Future<Image> downloadImage(int id) async {
 }
 
 Future<List<GalleryModel>> getGallery() async {
+  String baseAddress = await getBaseAddress();
+
   final response = await http.get(
-    Uri.http(_baseAddress, '/gallery'),
+    Uri.http(baseAddress, '/gallery'),
     headers:  <String, String> {
       'Content-Type': 'application/json; charset=UTF-8'
     },

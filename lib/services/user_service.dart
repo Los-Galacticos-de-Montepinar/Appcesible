@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'dart:convert';
@@ -38,7 +37,7 @@ Future createUser(UserModel user, String password, File image) async {
   if (response.statusCode == 200) {
     print("Created user!");
   } else {
-    throw Exception('Failed to create User');
+    throw Exception('Failed to create User: ${response.statusCode}');
   }
 }
 
@@ -59,7 +58,7 @@ Future<List<UserModel>> getAllUsers() async {
     List<dynamic> userList = jsonDecode(utf8.decode(response.bodyBytes));
     
     List<UserModel> users = userList.map((json) => UserModel.userFromJSON(json)).toList();
-    for (int i = 0; i < users.length-1; i++) {
+    for (int i = 0; i < users.length; i++) {
       users[i].image = await downloadImage(users[i].idProfileImg!);
     }
 

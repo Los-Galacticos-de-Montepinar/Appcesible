@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:appcesible/screens/home_teacher.dart';
 import 'package:flutter/material.dart';
 
 import 'package:appcesible/services/user_service.dart';
@@ -94,11 +95,16 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
   bool _initialized = false;
   Future _initializeState() async {
     if (!_initialized) {
-      actionCall = (widget.id == null) ? createUser : updateUser;
+      actionCall = (widget.newUser && widget.id == null) ? createUser : updateUser;
+      classes = await getClasses();
 
       if (!widget.newUser && widget.id != null) {
+        userSelected = true;
+
         user = await getUserFromId(widget.id!);
         isUserStudent();
+
+        _nameController.text = user.userName;
 
         _defaultTypeValue = _getDefaultTypeValue();
         _defaultClassValue = _getDefaultClassValue();
@@ -108,7 +114,6 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
         users = await getAllUsers();
       }
 
-      classes = await getClasses();
       _initialized = true;
     }
   }
@@ -134,15 +139,6 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
     }
 
     return usersNames;
-  }
-
-  List<String> _getClassesNames() {
-    List<String> classesNames = [];
-    for (ClassModel classModel in classes) {
-      classesNames.add(classModel.className);
-    }
-
-    return classesNames;
   }
 
   int _getClassId(String name) {
@@ -220,7 +216,7 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
       setState(() {
         userSelected = true;
         
-        user = users.firstWhere((user) => (user.userName == result));
+        user = users.firstWhere((element) => (element.userName == result),);
         isUserStudent();
         
         _userController.text = user.userName;
@@ -228,9 +224,7 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
         
         _defaultTypeValue = _getDefaultTypeValue();
         _defaultClassValue = _getDefaultClassValue();
-
-        // print('image - ${user.image}');
-        // _defaultImage = user.image!;
+        _defaultImage = user.image!;
       });
     }
   }
@@ -442,7 +436,8 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                               _pickedImage = await UploadPicture.pickImage();
 
                               setState(() {
-                                user.image = Image.file(_pickedImage!);
+                                _defaultImage = Image.file(_pickedImage!);
+                                user.image = _defaultImage;
                               });
                             },
                             style: ButtonStyle(
@@ -455,7 +450,7 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                           child: ActionButton(
                             text: 'Confirmar',
                             type: 1,
-                            onPressed: () {
+                            onPressed: () async {
                               int cont = 0;
                               String msg = '';
                               if (_nameController.text.isEmpty) {
@@ -488,8 +483,21 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                                 ErrorWindow.showErrorDialog(context, msg);
                               }
                               else {
+                                // showDialog(
+                                //   context: context,
+                                //   builder: (context) {
+                                //     return const LoadingDialog();
+                                //   }
+                                // );
+                                
                                 user.userName = _nameController.text;
-                                actionCall(user, _passwdController.value.text, _pickedImage!);
+                                await actionCall(user, _passwdController.value.text, _pickedImage!);
+
+                                // Navigator.of(context).pop();
+                                Navigator.of(context).pushAndRemoveUntil(
+                                    MaterialPageRoute(builder: (context) {
+                                  return const TeacherHome();
+                                }), (route) => false);
                               }
                             },
                           ),

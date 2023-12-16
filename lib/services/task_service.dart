@@ -1,19 +1,22 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:appcesible/command/session_command.dart';
 import 'package:appcesible/models/task_model.dart';
 import 'package:appcesible/models/assign_model.dart';
 
-// String _baseAddress = '10.0.2.2:8080';      // IP emulador
-// String _baseAddress = 'localhost:8080';
-String _baseAddress = '100.70.70.131:8080';  // IP privada
-// String _baseAddress = '100.99.220.41:8080';  // IP ordenador
+// String baseAddress = '10.0.2.2:8080';      // IP emulador
+// String baseAddress = 'localhost:8080';
+// String baseAddress = '100.70.70.131:8080';  // IP privada
+// String baseAddress = '100.99.220.41:8080';  // IP ordenador
 
 // CREATE
 
 Future<int> createTask(TaskModel task) async {
+  String baseAddress = await getBaseAddress();
+
   final taskResponse = await http.post(
-    Uri.http(_baseAddress, (task.type == 0) ? '/task/new' : '/task/petition/new'),
+    Uri.http(baseAddress, (task.type == 0) ? '/task/new' : '/task/petition/new'),
     headers: <String, String> {
       'Content-Type': 'application/json; charset=UTF-8'
     },
@@ -30,7 +33,7 @@ Future<int> createTask(TaskModel task) async {
     for (TaskElement element in task.elements) {
       final elemResponse = await http.post(
         Uri.http(
-          _baseAddress,
+          baseAddress,
           (task.type == 0)
             ? 'task/step/new'
             : 'task/petition/$id/item/new'
@@ -68,8 +71,10 @@ Future<int> createTask(TaskModel task) async {
 // ASSIGN
 
 Future assignTask(AssignModel assignment) async {
+  String baseAddress = await getBaseAddress();
+
   final response = await http.post(
-    Uri.http(_baseAddress, '/task/${assignment.idTask}/assign'),
+    Uri.http(baseAddress, '/task/${assignment.idTask}/assign'),
     headers: <String, String> {
       'Content-Type': 'application/json; charset=UTF-8'
     },
@@ -94,8 +99,10 @@ Future assignTask(AssignModel assignment) async {
 Future getAllFixedTasks(TaskModel task) async {}
 
 Future<TaskModel> getFixedTaskFromId(int id) async {
+  String baseAddress = await getBaseAddress();
+
   final response = await http.get(
-    Uri.http(_baseAddress, '/task/$id'),
+    Uri.http(baseAddress, '/task/$id'),
     headers: <String, String> {
       'Content-Type': 'application/json; charset=UTF-8'
     }
@@ -112,8 +119,10 @@ Future<TaskModel> getFixedTaskFromId(int id) async {
 // MATERIAL petition tasks
 
 Future<List<TaskItem>> getAvailableItems() async {
+  String baseAddress = await getBaseAddress();
+
   final response = await http.get(
-    Uri.http(_baseAddress, '/item'),
+    Uri.http(baseAddress, '/item'),
     headers: <String, String> {
       'Content-Type': 'application/json; charset=UTF-8'
     }
