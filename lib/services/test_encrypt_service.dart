@@ -5,7 +5,7 @@ import 'package:crypton/crypton.dart';
 
 import 'package:appcesible/command/encrypt_command.dart';
 
-String _baseAddress = '100.99.220.41:8080';
+String _baseAddress = 'localhost:8080';
 
 void test() async {
   final response = await http.post(
@@ -13,9 +13,7 @@ void test() async {
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8'
     },
-    body: jsonEncode(<String, dynamic>{
-      'pem': Encrypt.publicKeyPem
-    }),
+    body: jsonEncode(<String, dynamic>{'pem': Encrypt.publicKeyPem}),
   );
 
   if (response.statusCode == 200) {
@@ -23,7 +21,6 @@ void test() async {
     print(response.body);
     print('Decrypted:');
     print(Encrypt.decrypt(response.body));
-    
   } else {
     throw Exception('Failed to update User');
   }
@@ -31,7 +28,7 @@ void test() async {
 
 void main() {
   print('START');
-  RSAKeypair rsaKeypair = RSAKeypair.fromRandom(); 
+  RSAKeypair rsaKeypair = RSAKeypair.fromRandom();
   String pem = rsaKeypair.publicKey.toPEM();
   print(pem);
   test();

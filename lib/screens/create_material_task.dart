@@ -115,7 +115,10 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
       context: context,
       builder: (BuildContext context) {
         return DialogWithSearchBar(
-            title: 'Profesor', elements: getTeachersNames());
+            title: 'Profesor',
+            elements: getTeachersNames(),
+            showSearchBar: true,
+            showCloseIcon: true);
       },
     );
 
@@ -155,7 +158,10 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
       context: context,
       builder: (BuildContext context) {
         return DialogWithSearchBar(
-            title: 'Estudiante', elements: getStudentsNames());
+            title: 'Estudiante',
+            elements: getStudentsNames(),
+            showSearchBar: true,
+            showCloseIcon: true);
       },
     );
 
