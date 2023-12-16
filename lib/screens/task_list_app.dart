@@ -1,8 +1,6 @@
-// SCREEEN TASK LIST - Phone Version
-// Autor: Alejandro Sanchez Rodríguez
+import 'package:flutter/material.dart';
 
 import 'package:appcesible/widgets/widget_top_teacher.dart';
-import 'package:flutter/material.dart';
 
 class TaskListMobile extends StatefulWidget {
   final List<MyTaskData> tasks;
@@ -232,7 +230,7 @@ class MyTask extends StatelessWidget {
 
               }
               else {
-                
+
               }
             },
           ),
