@@ -14,7 +14,7 @@ String _baseAddress = '10.0.2.2:8080';
 void getKeyFromServer() async {
   final response = await http.get(
     Uri.http('localhost:8080', '/session/public'),
-    //headers: <String, String>{
+    //headers: <String, String> {
     //  'Content-Type': 'application/octet-stream'
     //},
   );
@@ -29,10 +29,10 @@ void getKeyFromServer() async {
 void sendPublicKey() async {
   final response = await http.post(
     Uri.http(_baseAddress, '/session/test'),
-    headers: <String, String>{
+    headers: <String, String> {
       'Content-Type': 'application/json; charset=UTF-8'
     },
-    body: jsonEncode(<String, String>{
+    body: jsonEncode(<String, String> {
       'data': generatePem()
     }),
   );
@@ -44,7 +44,7 @@ void sendEncryptedMessage(String message) async {
   Uint8List data = stringToUint8List(message);
   Uint8List dataEncrypted = rsaEncrypt(getServerPublicKey(), data);
   //print(dataEncrypted);
-  //String json = jsonEncode(<String, dynamic>{
+  //String json = jsonEncode(<String, dynamic> {
   //  'data': dataEncrypted
   //});
   //print(json);
@@ -69,10 +69,10 @@ void sendEncryptedMessage(String message) async {
   //  'POST',
   //  Uri.http('localhost:8080', '/session/test')
   //);
-  //request.headers.addAll(<String, String>{
+  //request.headers.addAll(<String, String> {
   //  'Content-Type': 'application/json; charset=UTF-8'
   //});
-  //request.body = jsonEncode(<String, dynamic>{
+  //request.body = jsonEncode(<String, dynamic> {
   //  'data': dataEncrypted
   //});
 
@@ -81,7 +81,7 @@ void sendEncryptedMessage(String message) async {
 
   final response = await http.post(
     Uri.http('localhost:8080', '/session/test'),
-    headers: <String, String>{
+    headers: <String, String> {
       'Content-Type': 'text/plain; charset=UTF-8'
     },
     body: uint8ListToString(dataEncrypted),

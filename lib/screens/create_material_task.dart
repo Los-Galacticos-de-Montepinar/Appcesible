@@ -247,10 +247,11 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
 
   void _handleConfirmation() async {
     showDialog(
-        context: context,
-        builder: (context) {
-          return const LoadingDialog();
-        });
+      context: context,
+      builder: (context) {
+        return const LoadingDialog();
+      }
+    );
 
     // Create task
     TaskModel task = TaskModel(

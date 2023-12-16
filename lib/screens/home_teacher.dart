@@ -173,8 +173,8 @@ class TeacherHome extends StatelessWidget {
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (BuildContext context) {
                       return const FormularioUsuarios(
-                        'Añadir Usuario',
-                        -1
+                        title: 'Añadir Usuario',
+                        newUser: true,
                       );
                     })
                   );
@@ -227,8 +227,8 @@ class TeacherHome extends StatelessWidget {
                   Navigator.of(context)
                     .push(MaterialPageRoute(builder: (BuildContext context) {
                       return const FormularioUsuarios(
-                        'Modificar Usuario',
-                        1
+                        title: 'Modificar Usuario',
+                        newUser: false,
                       );
                     })
                   );
@@ -326,7 +326,6 @@ void main() {
   // @override
   // Widget build(BuildContext context) {
   //  return const MaterialApp(
-  //    //debugShowCheckedModeBanner: false,
   //    home: TeacherHome(),
   //  );
   // }

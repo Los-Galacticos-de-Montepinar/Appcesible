@@ -1,9 +1,11 @@
-import 'package:appcesible/screens/create_user.dart';
-import 'package:appcesible/screens/home_teacher.dart';
-import 'package:appcesible/screens/select_user.dart';
 import 'package:flutter/material.dart';
 
 import 'package:appcesible/command/session_command.dart';
+import 'package:appcesible/services/user_service.dart';
+
+import 'package:appcesible/screens/create_user.dart';
+import 'package:appcesible/screens/home_teacher.dart';
+import 'package:appcesible/screens/select_user.dart';
 
 class TopMenu extends StatelessWidget implements PreferredSizeWidget {
   @override
@@ -60,18 +62,19 @@ class TopMenu extends StatelessWidget implements PreferredSizeWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12.0),
           child: PopupMenuButton(
-            onSelected: (value) {
+            onSelected: (value) async {
               if (value == 'profile') {
                 int userId = -1;
-                getSessionInformation().then((value) {
+                await getSessionInformation().then((value) {
                   userId = value.getInt('id')!;
                 });
 
                 Navigator.of(context)
                   .push(MaterialPageRoute(builder: (BuildContext context) {
                     return FormularioUsuarios(
-                      'Editar Perfil',
-                      userId
+                      title: 'Editar Perfil',
+                      id: userId,
+                      newUser: false,
                     );
                   })
                 );
@@ -80,14 +83,16 @@ class TopMenu extends StatelessWidget implements PreferredSizeWidget {
                 // add desired output
               }
               else if (value == 'logout'){
-                userLogout();
+                bool logout = await logOutUser();
 
-                Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (BuildContext context) {
-                    return const SelectUser();
-                  }),
-                  (route) => false
-                );
+                if (logout) {
+                  Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (BuildContext context) {
+                      return const SelectUser();
+                    }),
+                    (route) => false
+                  );
+                }
               }
             },
             color: Colors.white,

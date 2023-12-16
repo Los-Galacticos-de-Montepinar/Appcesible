@@ -148,7 +148,6 @@ void main() {
   //     designSize: const Size(412, 570),
   //     builder: (context, child) {
   //       return MaterialApp(
-  //         debugShowCheckedModeBanner: false,
   //         home: TaskListMobile(tasks: tasks2),
   //       );
   //     },

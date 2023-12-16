@@ -20,7 +20,6 @@ void main() {
       // designSize: const Size(412, 570), // ?
       builder: (context, child) {
         return const MaterialApp(
-          debugShowCheckedModeBanner: false,
           localizationsDelegates: [
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
@@ -52,7 +51,6 @@ void main() {
 //       designSize: const Size(412, 570), // ?
 //       builder: (context, child) {
 //         return const MaterialApp(
-//           debugShowCheckedModeBanner: false,
 //           home: SelectUser(),
 //         );
 //       },

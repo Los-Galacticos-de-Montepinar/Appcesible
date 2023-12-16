@@ -29,7 +29,6 @@ class _CreateTaskMobileState extends State<CreateTaskMobile> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       home: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: const TopMenu(),

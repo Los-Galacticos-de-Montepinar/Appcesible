@@ -101,55 +101,52 @@ class _FormEntryState extends State<FormEntry> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(5.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (widget.typeData != 2) // No es 2
-            GestureDetector(
-              onTap: () {
-                widget.onTap?.call(); // Llama a onTap si no es nulo
-              },
-              child: AbsorbPointer(
-                absorbing: widget.typeData == 4, // Absorbe clics si typeData es 4
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (widget.typeData != 2) // No es 2
+          GestureDetector(
+            onTap: () {
+              widget.onTap?.call(); // Llama a onTap si no es nulo
+            },
+            child: AbsorbPointer(
+              absorbing: widget.typeData == 4, // Absorbe clics si typeData es 4
+              child: TextFormField(
+                controller: widget.controller,
+                decoration: InputDecoration(
+                  labelText: widget.name,
+                  border: const OutlineInputBorder(),
+                ),
+                keyboardType: _getKeyboardType(),
+                inputFormatters: _getInputFormatters(),
+              ),
+            ),
+          ),
+        if (widget.typeData == 2) // Selector de fecha si typeData es 2
+          Row(
+            children: [
+              Expanded(
                 child: TextFormField(
                   controller: widget.controller,
+                  enabled: false,
+                  style: const TextStyle(
+
+                  ),
                   decoration: InputDecoration(
                     labelText: widget.name,
                     border: const OutlineInputBorder(),
                   ),
-                  keyboardType: _getKeyboardType(),
-                  inputFormatters: _getInputFormatters(),
                 ),
               ),
-            ),
-          if (widget.typeData == 2) // Selector de fecha si typeData es 2
-            Row(
-              children: [
-                Expanded(
-                  child: TextFormField(
-                    controller: widget.controller,
-                    enabled: false,
-                    style: const TextStyle(
-
-                    ),
-                    decoration: InputDecoration(
-                      labelText: widget.name,
-                      border: const OutlineInputBorder(),
-                    ),
-                  ),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.calendar_today),
-                  onPressed: () {
-                    _selectDateTime(context);
-                  },
-                ),
-              ],
-            ),
-        ],
-      ),
+              IconButton(
+                icon: const Icon(Icons.calendar_today),
+                onPressed: () {
+                  _selectDateTime(context);
+                },
+              ),
+            ],
+          ),
+      ],
     );
   }
 

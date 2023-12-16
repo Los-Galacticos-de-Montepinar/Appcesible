@@ -36,7 +36,6 @@ class _TaskListMobileState extends State<TaskListMobile> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: const TopMenu(),
         body: Padding(

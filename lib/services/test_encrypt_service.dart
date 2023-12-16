@@ -10,10 +10,12 @@ String _baseAddress = 'localhost:8080';
 void test() async {
   final response = await http.post(
     Uri.http(_baseAddress, '/session/public'),
-    headers: <String, String>{
+    headers: <String, String> {
       'Content-Type': 'application/json; charset=UTF-8'
     },
-    body: jsonEncode(<String, dynamic>{'pem': Encrypt.publicKeyPem}),
+    body: jsonEncode(<String, dynamic> {
+      'pem': Encrypt.publicKeyPem
+    }),
   );
 
   if (response.statusCode == 200) {

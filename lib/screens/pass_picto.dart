@@ -18,7 +18,6 @@ class _PictoPasswState extends State<PictoPassw> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: TopMenu(),
         body: Column(
@@ -229,7 +228,6 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       home: PictoPassw(),
     );
   }

@@ -28,8 +28,6 @@ class _CreateTaskTabletState extends State<CreateTaskTablet> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      
-      debugShowCheckedModeBanner: false,
       home: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: const TopMenu(),
