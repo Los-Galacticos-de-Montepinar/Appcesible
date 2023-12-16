@@ -1,4 +1,5 @@
 import 'package:appcesible/screens/create_user.dart';
+import 'package:appcesible/screens/home_teacher.dart';
 import 'package:appcesible/screens/select_user.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +20,8 @@ class TopMenu extends StatelessWidget implements PreferredSizeWidget {
         'AppCesible',
         style: TextStyle(
           color: Color.fromARGB(255, 0, 0, 0),
+          fontSize: 32.0,
+          fontWeight: FontWeight.bold
         ),
       ),
       centerTitle: true,
@@ -35,7 +38,7 @@ class TopMenu extends StatelessWidget implements PreferredSizeWidget {
               color: Color.fromARGB(255, 0, 0, 0),
             ),
             Transform.translate(
-              offset: const Offset(0, -3),
+              offset: const Offset(1, 0),
               child: const Text(
                 'Inicio',
                 style: TextStyle(color: Colors.black),
@@ -44,7 +47,12 @@ class TopMenu extends StatelessWidget implements PreferredSizeWidget {
           ],
         ),
         onPressed: () {
-          // !!!!!!!!
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (BuildContext context) {
+              return const TeacherHome();
+            }),
+            (route) => false
+          );
         },
       ),
       // ! Se utiliza para poner texto a la derecha del titulo

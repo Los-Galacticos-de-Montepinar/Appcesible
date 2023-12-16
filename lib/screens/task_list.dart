@@ -66,7 +66,6 @@ class TaskListInit extends StatelessWidget {
         state: 'not done',
       ),
     ];
-  
 
     return ScreenTypeLayout.builder(
       mobile: (context) {

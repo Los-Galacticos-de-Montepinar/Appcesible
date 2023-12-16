@@ -17,6 +17,7 @@ class _TaskListMobileState extends State<TaskListMobile> {
   final TextEditingController _searchController = TextEditingController();
   late List<MyTaskData> _filteredTasks;
   bool _isSearching = false;
+  bool _isDeleting = false;
 
   @override
   void initState() {
@@ -41,10 +42,30 @@ class _TaskListMobileState extends State<TaskListMobile> {
       home: Scaffold(
         appBar: const TopMenu(),
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
+          padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
           child: Center(
             child: Column(
               children: [
+                Container(
+                  width: double.maxFinite,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFD9D9D9),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Colors.black),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      'Lista de tareas',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10.0),
                 Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -84,7 +105,11 @@ class _TaskListMobileState extends State<TaskListMobile> {
                     IconButton(
                       icon: const Icon(Icons.delete),
                       onPressed: () {
-                        // Lógica para eliminar
+                        setState(() {
+                          _isDeleting = !_isDeleting;
+                        });
+
+                        MyTask.setDeleting(_isDeleting);
                       },
                     ),
                   ],
@@ -138,6 +163,8 @@ class MyTask extends StatelessWidget {
   final String studentName;
   final String state;
 
+  static bool _isDeleting = false;
+
   const MyTask({
     super.key,
     required this.imagePath,
@@ -145,6 +172,10 @@ class MyTask extends StatelessWidget {
     required this.studentName,
     required this.state,
   });
+
+  static void setDeleting(bool delete) {
+    _isDeleting = delete;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -195,9 +226,14 @@ class MyTask extends StatelessWidget {
             ),
           ),
           IconButton(
-            icon: const Icon(Icons.arrow_forward_ios_sharp),
+            icon: (_isDeleting) ? const Icon(Icons.delete) : const Icon(Icons.arrow_forward_ios_sharp),
             onPressed: () {
-              // Lógica del botón
+              if (_isDeleting) {
+
+              }
+              else {
+                
+              }
             },
           ),
         ],

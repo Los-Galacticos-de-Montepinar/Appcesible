@@ -63,8 +63,8 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
     idClass: 0
   );
   
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _passwdController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _passwdController = TextEditingController();
   
   Map<String,bool> content = {'Texto':false,'Audio':false,'Imagenes':false};
   List<ClassModel> classes = [];
@@ -239,7 +239,7 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                             widget.title,
                             style: const TextStyle(
                               color: Colors.black,
-                              fontSize: 20,
+                              fontSize: 24,
                               fontWeight: FontWeight.bold,
                             ),
                           ),

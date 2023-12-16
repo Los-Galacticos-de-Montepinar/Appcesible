@@ -1,3 +1,4 @@
+import 'package:appcesible/screens/task_list.dart';
 import 'package:flutter/material.dart';
 
 import 'package:appcesible/screens/create_user.dart';
@@ -18,65 +19,20 @@ class TeacherHome extends StatelessWidget {
               height: 15,
             ),
 
-            // * BOTON PERFIL *
-
-            Padding(
-              padding: const EdgeInsets.only(left: 8, right: 8),
-              child: ElevatedButton(
-                onPressed: () {
-                  
-                },
-                style: ButtonStyle(
-                  elevation: MaterialStateProperty.all(5),
-                  alignment: Alignment.centerLeft,
-                  minimumSize: MaterialStateProperty.all(const Size(400, 80)),
-                  backgroundColor: MaterialStateProperty.all(
-                      const Color.fromARGB(134, 238, 238, 238)),
-                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5.0),
-                  )),
-                  side: MaterialStateProperty.all(
-                    const BorderSide(
-                      width: 1.5,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-                child: const Row(
-                  //mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Icon(
-                      Icons.chevron_right_outlined,
-                      color: Colors.black,
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      'Mi Perfil',
-                      style: TextStyle(color: Colors.black, fontSize: 20),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            const SizedBox(
-              height: 15,
-            ),
-
             // * BOTON ALUMNO *
 
             Padding(
               padding: const EdgeInsets.only(left: 8, right: 8),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+
+                },
                 style: ButtonStyle(
                   elevation: MaterialStateProperty.all(5),
                   alignment: Alignment.centerLeft,
                   minimumSize: MaterialStateProperty.all(const Size(400, 80)),
-                  backgroundColor: MaterialStateProperty.all(
-                      const Color.fromARGB(134, 238, 238, 238)),
+                  backgroundColor: MaterialStateProperty.all(const Color(0x85EEEEEE)),
+                  overlayColor: MaterialStateProperty.all(Colors.black12),
                   shape: MaterialStateProperty.all(RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5.0),
                   )),
@@ -91,7 +47,7 @@ class TeacherHome extends StatelessWidget {
                   //mainAxisSize: MainAxisSize.max,
                   children: [
                     Icon(
-                      Icons.chevron_right_outlined,
+                      Icons.groups,
                       color: Colors.black,
                     ),
                     SizedBox(
@@ -115,13 +71,19 @@ class TeacherHome extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 8, right: 8),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) {
+                      return const TaskListInit();
+                    },
+                  ));
+                },
                 style: ButtonStyle(
                   elevation: MaterialStateProperty.all(5),
                   alignment: Alignment.centerLeft,
                   minimumSize: MaterialStateProperty.all(const Size(400, 80)),
-                  backgroundColor: MaterialStateProperty.all(
-                      const Color.fromARGB(134, 238, 238, 238)),
+                  backgroundColor: MaterialStateProperty.all(const Color(0x85EEEEEE)),
+                  overlayColor: MaterialStateProperty.all(Colors.black12),
                   shape: MaterialStateProperty.all(RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5.0),
                   )),
@@ -136,7 +98,7 @@ class TeacherHome extends StatelessWidget {
                   //mainAxisSize: MainAxisSize.max,
                   children: [
                     Icon(
-                      Icons.chevron_right_outlined,
+                      Icons.checklist,
                       color: Colors.black,
                     ),
                     SizedBox(
@@ -160,13 +122,15 @@ class TeacherHome extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 8, right: 8),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+
+                },
                 style: ButtonStyle(
                   elevation: MaterialStateProperty.all(5),
                   alignment: Alignment.centerLeft,
                   minimumSize: MaterialStateProperty.all(const Size(400, 80)),
-                  backgroundColor: MaterialStateProperty.all(
-                      const Color.fromARGB(134, 238, 238, 238)),
+                  backgroundColor: MaterialStateProperty.all(const Color(0x85EEEEEE)),
+                  overlayColor: MaterialStateProperty.all(Colors.black12),
                   shape: MaterialStateProperty.all(RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5.0),
                   )),
@@ -181,7 +145,7 @@ class TeacherHome extends StatelessWidget {
                   //mainAxisSize: MainAxisSize.max,
                   children: [
                     Icon(
-                      Icons.add,
+                      Icons.assignment_add,
                       color: Colors.black,
                     ),
                     SizedBox(
@@ -206,8 +170,8 @@ class TeacherHome extends StatelessWidget {
               padding: const EdgeInsets.only(left: 8, right: 8),
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (BuildContext context) {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) {
                       return const FormularioUsuarios(
                         'Añadir Usuario',
                         -1
@@ -219,8 +183,8 @@ class TeacherHome extends StatelessWidget {
                   elevation: MaterialStateProperty.all(5),
                   alignment: Alignment.centerLeft,
                   minimumSize: MaterialStateProperty.all(const Size(400, 80)),
-                  backgroundColor: MaterialStateProperty.all(
-                      const Color.fromARGB(134, 238, 238, 238)),
+                  backgroundColor: MaterialStateProperty.all(const Color(0x85EEEEEE)),
+                  overlayColor: MaterialStateProperty.all(Colors.black12),
                   shape: MaterialStateProperty.all(RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5.0),
                   )),
@@ -235,7 +199,7 @@ class TeacherHome extends StatelessWidget {
                   //mainAxisSize: MainAxisSize.max,
                   children: [
                     Icon(
-                      Icons.add,
+                      Icons.person_add,
                       color: Colors.black,
                     ),
                     SizedBox(
@@ -273,8 +237,8 @@ class TeacherHome extends StatelessWidget {
                   elevation: MaterialStateProperty.all(5),
                   alignment: Alignment.centerLeft,
                   minimumSize: MaterialStateProperty.all(const Size(400, 80)),
-                  backgroundColor: MaterialStateProperty.all(
-                      const Color.fromARGB(134, 238, 238, 238)),
+                  backgroundColor: MaterialStateProperty.all(const Color(0x85EEEEEE)),
+                  overlayColor: MaterialStateProperty.all(Colors.black12),
                   shape: MaterialStateProperty.all(RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5.0),
                   )),
@@ -315,8 +279,8 @@ class TeacherHome extends StatelessWidget {
                   elevation: MaterialStateProperty.all(5),
                   alignment: Alignment.centerLeft,
                   minimumSize: MaterialStateProperty.all(const Size(400, 80)),
-                  backgroundColor: MaterialStateProperty.all(
-                      const Color.fromARGB(134, 238, 238, 238)),
+                  backgroundColor: MaterialStateProperty.all(const Color(0x85EEEEEE)),
+                  overlayColor: MaterialStateProperty.all(Colors.black12),
                   shape: MaterialStateProperty.all(RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5.0),
                   )),
