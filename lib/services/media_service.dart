@@ -16,8 +16,6 @@ String _baseAddress = '100.70.70.131:8080';  // IP privada
 // String _baseAddress = '100.99.220.41:8080';  // IP ordenador
 
 Future<int> uploadImage(File img) async {
-  print(img.readAsBytesSync());
-
   List<String> mimeType = lookupMimeType(img.path)!.split('/');
   List<String> imgPath = split(img.path);
   String imgName = imgPath[imgPath.length-1];

@@ -63,7 +63,6 @@ class _TaskAssignmentState extends State<TaskAssignment> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: Colors.white,
         appBar: const TopMenu(),

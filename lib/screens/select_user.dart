@@ -1,4 +1,6 @@
+import 'package:appcesible/command/session_command.dart';
 import 'package:flutter/material.dart';
+import 'package:pair/pair.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 import 'package:appcesible/services/media_service.dart';
@@ -39,7 +41,7 @@ abstract class SelectionState<T extends StatefulWidget> extends State<T> {
   int currentIndex = 0;
   List<UserModel> profileList = [];
   // Image defaultImg = Image.file(file)
-  List<Image> images = [];
+  List<Pair<GalleryModel, Image>> images = [];
 
   bool initialized = false;
 
@@ -55,17 +57,15 @@ abstract class SelectionState<T extends StatefulWidget> extends State<T> {
 
   Future initializeProfileList() async {
     if (!initialized) {
+      await initSession();
+      
       profileList = await getAllUsers();
-      print(profileList);
 
       List<GalleryModel> galleryList = await getGallery();
-      print(galleryList);
       for (GalleryModel image in galleryList) {
-        print(image.id);
         if (_imageNeeded(image.id)) {
           Image img = await downloadImage(image.id);
-          print(img);
-          images.add(img);
+          images.add(Pair(image, img));
         }
       }
 
@@ -96,18 +96,18 @@ abstract class SelectionState<T extends StatefulWidget> extends State<T> {
 
   void selectUser(int index) {
     UserModel user = profileList[index];
+    user.idProfileImg = images.firstWhere((pair) => (pair.key.id == user.idProfileImg)).key.id;
+
     // Maneja la acción al hacer clic en la imagen.
     print('Usuario clickado, número: ${profileList[index].id}');
 
     if (user.userType == 1) {
       // Falta la condición para modo de visualización
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (BuildContext context) {
+      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
         return PictoPassw();
       }));
     } else {
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (BuildContext context) {
+      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
         return Login(user: user);
       }));
     }
@@ -119,7 +119,10 @@ abstract class SelectionState<T extends StatefulWidget> extends State<T> {
       width: 200,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          image: DecorationImage(image: images[id].image, fit: BoxFit.cover)
+          image: DecorationImage(
+            image: images.firstWhere((element) => (element.key.id == profileList[id].idProfileImg)).value.image,
+            fit: BoxFit.cover
+          ),
         ),
     );
   }

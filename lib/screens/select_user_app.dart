@@ -103,10 +103,8 @@ class _SelectUserAppState extends SelectionState<SelectUserApp> {
                               ),
                               child: const Icon(
                                 Icons.arrow_back,
-                                size:
-                                    38, // Ajusta el tamaño según tus necesidades
-                                color:
-                                    Colors.white, // Cambia el color de la flecha
+                                size: 38, // Ajusta el tamaño según tus necesidades
+                                color: Colors.white, // Cambia el color de la flecha
                               ),
                             ),
 
@@ -128,8 +126,7 @@ class _SelectUserAppState extends SelectionState<SelectUserApp> {
                                   ),
                                 ),
                                 child: ClipOval(
-                                  child:
-                                      imageWidget(currentIndex),
+                                  child: imageWidget(currentIndex),
                                 ),
                               ),
                             ),
@@ -153,10 +150,8 @@ class _SelectUserAppState extends SelectionState<SelectUserApp> {
                               ),
                               child: const Icon(
                                 Icons.arrow_forward,
-                                size:
-                                    38, // Ajusta el tamaño según tus necesidades
-                                color:
-                                    Colors.white, // Cambia el color de la flecha
+                                size: 38, // Ajusta el tamaño según tus necesidades
+                                color: Colors.white, // Cambia el color de la flecha
                               ),
                             ),
                           ],

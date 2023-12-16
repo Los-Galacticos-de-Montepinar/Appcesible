@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 
-import 'package:appcesible/command/session_command.dart';
+import 'package:appcesible/services/user_service.dart';
 import 'package:appcesible/models/user_model.dart';
+
 import 'package:appcesible/screens/home_student.dart';
 import 'package:appcesible/screens/home_teacher.dart';
-import 'package:appcesible/services/user_service.dart';
 import 'package:appcesible/widgets/widget_top_teacher.dart';
 
 class Login extends StatefulWidget {
   final UserModel user;
+  // final Image userImage;
   
   const Login({
     super.key,
-    required this.user
+    required this.user,
+    // required this.userImage
   });
 
   @override
@@ -58,15 +60,11 @@ class _LoginState extends State<Login> {
                     TextField(
                       controller: password,
                       decoration: InputDecoration(
-                        labelText: 'contraseña',
-                        hintText: 'contraseña',
+                        labelText: 'Contraseña',
+                        hintText: 'Contraseña',
                         //errorText: 'contraseña incorrecta',
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16),
-                          borderSide: const BorderSide(
-                            color: Color.fromARGB(255, 0, 0, 0),
-                            width: 2,
-                          ),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16),
@@ -120,10 +118,9 @@ class _LoginState extends State<Login> {
                     setState(() {
                       _authenticationFailed = !correct;
                     });
-                    if (true /*correct*/) { // CAMBIAR !!!!!!!
-                      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
-                        userLogin(widget.user.id, widget.user.userName, widget.user.userType, -1);
 
+                    if (correct) {
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) {
                         if (widget.user.userType == 1) {
                           return const HomeStudentInit();
                         }

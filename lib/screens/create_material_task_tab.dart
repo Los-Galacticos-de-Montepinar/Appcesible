@@ -20,7 +20,6 @@ class _MaterialTaskTabState extends MaterialTaskState<MaterialTaskTab> {
       future: initializeState(),
       builder: (context, snapshot) {
         return MaterialApp(
-          debugShowCheckedModeBanner: false,
           home: Scaffold(
             backgroundColor: Colors.white,
             appBar: const TopMenu(),

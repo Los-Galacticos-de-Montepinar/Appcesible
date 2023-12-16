@@ -4,12 +4,14 @@ class InputDropdown extends StatefulWidget {
   final String name;
   final Function(String) onElementSelected;
   final List<String> elements;
+  final String? defaultValue;
 
   const InputDropdown({
     super.key,
     required this.name,
     required this.onElementSelected,
-    required this.elements
+    required this.elements,
+    this.defaultValue
   });
 
   @override
@@ -18,6 +20,12 @@ class InputDropdown extends StatefulWidget {
 
 class _InputDropdownState extends State<InputDropdown> {
   String? selectedElement;
+
+  @override
+  void initState() {
+    selectedElement = widget.defaultValue;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

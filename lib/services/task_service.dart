@@ -14,10 +14,10 @@ String _baseAddress = '100.70.70.131:8080';  // IP privada
 Future<int> createTask(TaskModel task) async {
   final taskResponse = await http.post(
     Uri.http(_baseAddress, (task.type == 0) ? '/task/new' : '/task/petition/new'),
-    headers: <String, String>{
+    headers: <String, String> {
       'Content-Type': 'application/json; charset=UTF-8'
     },
-    body: jsonEncode(<String, dynamic>{
+    body: jsonEncode(<String, dynamic> {
       'title': task.title,
       'desc': task.description
     }),
@@ -35,17 +35,17 @@ Future<int> createTask(TaskModel task) async {
             ? 'task/step/new'
             : 'task/petition/$id/item/new'
         ),
-        headers: <String, String>{
+        headers: <String, String> {
           'Content-Type': 'application/json; charset=UTF-8'
         },
         body: (task.type == 0)
-          ? jsonEncode(<String, dynamic>{
+          ? jsonEncode(<String, dynamic> {
               'taskId': id,
               'desc': (element as Step).description,
               'media': element.media,
               'order': element.stepNumber,
             })
-          : jsonEncode(<String, dynamic>{
+          : jsonEncode(<String, dynamic> {
               'item': (element as TaskItem).id,
               'count': element.count,
             })
@@ -70,10 +70,10 @@ Future<int> createTask(TaskModel task) async {
 Future assignTask(AssignModel assignment) async {
   final response = await http.post(
     Uri.http(_baseAddress, '/task/${assignment.idTask}/assign'),
-    headers: <String, String>{
+    headers: <String, String> {
       'Content-Type': 'application/json; charset=UTF-8'
     },
-    body: jsonEncode(<String, dynamic>{
+    body: jsonEncode(<String, dynamic> {
       'date': assignment.dueDate,
       'user': assignment.idStudent,
     })
@@ -96,7 +96,7 @@ Future getAllFixedTasks(TaskModel task) async {}
 Future<TaskModel> getFixedTaskFromId(int id) async {
   final response = await http.get(
     Uri.http(_baseAddress, '/task/$id'),
-    headers: <String, String>{
+    headers: <String, String> {
       'Content-Type': 'application/json; charset=UTF-8'
     }
   );
@@ -114,7 +114,7 @@ Future<TaskModel> getFixedTaskFromId(int id) async {
 Future<List<TaskItem>> getAvailableItems() async {
   final response = await http.get(
     Uri.http(_baseAddress, '/item'),
-    headers: <String, String>{
+    headers: <String, String> {
       'Content-Type': 'application/json; charset=UTF-8'
     }
   );
