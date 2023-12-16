@@ -21,34 +21,29 @@ Future<int> uploadImage(File img) async {
 
   List<String> mimeType = lookupMimeType(img.path)!.split('/');
   List<String> imgPath = split(img.path);
-  String imgName = imgPath[imgPath.length-1];
+  String imgName = imgPath[imgPath.length - 1];
 
   Uint8List bytes = await img.readAsBytes();
-  var multipartFile = http.MultipartFile.fromBytes(
-    'filedata', 
-    bytes, 
-    filename: imgName,
-    contentType: MediaType(mimeType[0], mimeType[1])
-    );
+  var multipartFile = http.MultipartFile.fromBytes('filedata', bytes,
+      filename: imgName, contentType: MediaType(mimeType[0], mimeType[1]));
 
   var request = http.MultipartRequest(
     'POST',
     Uri.http(baseAddress, '/gallery/new'),
   );
   request.files.add(multipartFile);
-  request.headers.addAll(<String, String> {
-    'Content-Type': 'multipart/form-data'
-  });
-  
+  request.headers
+      .addAll(<String, String>{'Content-Type': 'multipart/form-data'});
+
   final streamedResponse = await request.send();
   final response = await streamedResponse.stream.bytesToString();
 
   if (streamedResponse.statusCode == 200) {
     print('Image uploaded!');
     return int.parse(utf8.decode(response.codeUnits));
-  }
-  else {
-    throw Exception('Failed to upload image. Status code ${streamedResponse.statusCode}');
+  } else {
+    throw Exception(
+        'Failed to upload image. Status code ${streamedResponse.statusCode}');
   }
 }
 
@@ -64,8 +59,7 @@ Future<Image> downloadImage(int id) async {
 
   if (response.statusCode == 200) {
     return Image.memory(response.bodyBytes);
-  }
-  else {
+  } else {
     throw Exception('Failed to fetch image');
   }
 }
@@ -83,8 +77,7 @@ Future<List<GalleryModel>> getGallery() async {
   if (response.statusCode == 200) {
     List<dynamic> galleryList = jsonDecode(utf8.decode(response.bodyBytes));
     return galleryList.map((json) => GalleryModel.fromJSON(json)).toList();
-  }
-  else {
+  } else {
     throw Exception('Failed to fetch gallery');
   }
 }

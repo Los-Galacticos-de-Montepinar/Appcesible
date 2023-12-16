@@ -86,8 +86,7 @@ Future assignTask(AssignModel assignment) async {
 
   if (response.statusCode == 200) {
     print('Task assigned');
-  }
-  else {
+  } else {
     throw Exception('Failed to assign task');
   }
 }
@@ -131,16 +130,12 @@ Future<List<TaskItem>> getAvailableItems() async {
   if (response.statusCode == 200) {
     List<dynamic> itemList = jsonDecode(utf8.decode(response.bodyBytes));
     return itemList.map((json) => TaskItem.fromJSON(json)).toList();
-  }
-  else {
+  } else {
     throw Exception('Failed to fetch item list');
   }
 }
 
 void main() async {
-  await assignTask(AssignModel(
-    idTask: 1,
-    idStudent: 2,
-    dueDate: 'Dom 10/12/2023 0900'
-  ));
+  await assignTask(
+      AssignModel(idTask: 1, idStudent: 2, dueDate: 'Dom 10/12/2023 0900'));
 }
