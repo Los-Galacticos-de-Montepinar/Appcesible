@@ -17,7 +17,6 @@ void main() {
       Locale('es', 'ES'), // Spanish
     ],
     home: ScreenUtilInit(
-      // designSize: const Size(412, 570), // ?
       builder: (context, child) {
         return const MaterialApp(
           localizationsDelegates: [

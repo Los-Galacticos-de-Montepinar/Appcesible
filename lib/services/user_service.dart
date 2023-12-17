@@ -44,7 +44,7 @@ Future createUser(UserModel user, String password, File image) async {
 // GET INFO
 
 // Returns all users information
-Future<List<UserModel>> getAllUsers() async {
+Future<List<UserModel>> getAllUsers(bool getImages) async {
   String baseAddress = await getBaseAddress();
 
   final response = await http.get(
@@ -58,7 +58,7 @@ Future<List<UserModel>> getAllUsers() async {
     List<dynamic> userList = jsonDecode(utf8.decode(response.bodyBytes));
     
     List<UserModel> users = userList.map((json) => UserModel.userFromJSON(json)).toList();
-    for (int i = 0; i < users.length; i++) {
+    for (int i = 0; i < users.length && getImages; i++) {
       users[i].image = await downloadImage(users[i].idProfileImg!);
     }
 
@@ -125,11 +125,11 @@ Future<UserModel> getStudentFromId(int id) async {
 // TODO: función para pedir un profesor dado su id (ahora mismo no hace falta)
 
 // Returns the list of users in the DB (id and profile picture url)
-Future<List> getInfoUsers() async {
+Future<List> getInfoUsers(bool getImages) async {
   List<MapEntry<UserModel, String>> profileList = [];
 
   try {
-    List<UserModel> users = await getAllUsers();
+    List<UserModel> users = await getAllUsers(getImages);
 
     for (var user in users) {
       String photoUrl = "faltaUrl"; /*_getUserPhoto(user.idProfileImg);*/

@@ -210,6 +210,7 @@ class taskAsignTabletState extends State<TaskAsignTablet>{
                         //searchResult(screenSize)
                         const DialogWithSearchBar(
                           title: 'Estudiante',
+                          label: 'Estudiante',
                           elements: [ 'hola' ],
                         )
                       ],

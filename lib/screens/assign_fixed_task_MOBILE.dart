@@ -43,7 +43,7 @@ class _TaskAssignmentState extends State<TaskAssignment> {
 
   Future<void> initializeState() async {
     if (!initialized) {
-      List<UserModel> users = await getAllUsers();
+      List<UserModel> users = await getAllUsers(false);
 
       teachers = users.where((user) => user.userType != 1).toList();
       students = users.where((user) => user.userType == 1).toList();
@@ -205,6 +205,7 @@ class _TaskAssignmentState extends State<TaskAssignment> {
       builder: (BuildContext context) {
         return DialogWithSearchBar(
           title: 'Estudiante',
+          label: 'Estudiante',
           elements: getStudentsNames()
         );
       },

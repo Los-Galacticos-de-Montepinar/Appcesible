@@ -64,7 +64,7 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
   Future initializeState() async {
     if (!initialized) {
       // Get users for lists
-      List<UserModel> users = await getAllUsers();
+      List<UserModel> users = await getAllUsers(false);
       for (UserModel user in users) {
         if (user.userType != 1) {
           teachers.add(user);
@@ -116,6 +116,7 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
       builder: (BuildContext context) {
         return DialogWithSearchBar(
             title: 'Profesor',
+            label: 'Profesor',
             elements: getTeachersNames(),
             showSearchBar: true,
             showCloseIcon: true);
@@ -142,7 +143,11 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
     final result = await showDialog(
       context: context,
       builder: (BuildContext context) {
-        return DialogWithSearchBar(title: 'Clase', elements: classes);
+        return DialogWithSearchBar(
+          title: 'Clase',
+          label: 'Clase',
+          elements: classes
+        );
       },
     );
 
@@ -158,10 +163,12 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
       context: context,
       builder: (BuildContext context) {
         return DialogWithSearchBar(
-            title: 'Estudiante',
-            elements: getStudentsNames(),
-            showSearchBar: true,
-            showCloseIcon: true);
+          title: 'Estudiante',
+          label: 'Estudiante',
+          elements: getStudentsNames(),
+          showSearchBar: true,
+          showCloseIcon: true
+        );
       },
     );
 

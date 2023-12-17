@@ -75,12 +75,11 @@ class _FirstGridState extends State<FirstGrid> {
 
   UserModel user = UserModel(
     id: 3,
-    // passwd: 'yoquese',
     userName: 'Lucy Steel',
     idProfileImg: 5,
     userType: 5,
     idClass: 1,
-    //age: 12
+    loginType: 0
   );
 
   Future<void> checkPass(int pos) async {

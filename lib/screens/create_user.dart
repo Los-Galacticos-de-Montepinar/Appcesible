@@ -70,7 +70,8 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
     id: -1,
     userName: '',
     userType: 0,
-    idClass: 0
+    idClass: 0,
+    loginType: 0
   );
   
   final TextEditingController _userController = TextEditingController();
@@ -111,7 +112,7 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
         _defaultImage = user.image!;
       }
       else if (!widget.newUser && widget.id == null) {
-        users = await getAllUsers();
+        users = await getAllUsers(true);
       }
 
       _initialized = true;
@@ -208,7 +209,10 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
       context: context,
       builder: (BuildContext context) {
         return DialogWithSearchBar(
-            title: 'Usuario', elements: _getUsersNames());
+          title: 'Usuario',
+          label: 'Usuario',
+          elements: _getUsersNames()
+        );
       },
     );
 

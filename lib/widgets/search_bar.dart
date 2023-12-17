@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 
 class SearchBarWidget extends StatefulWidget {
+  final String title;
   final Function(String) onTextChanged;
 
-  const SearchBarWidget({Key? key, required this.onTextChanged})
-      : super(key: key);
+  const SearchBarWidget({
+    super.key,
+    required this.title,
+    required this.onTextChanged
+  });
 
   @override
-  _SearchBarWidgetState createState() => _SearchBarWidgetState();
+  State<SearchBarWidget> createState() => _SearchBarWidgetState();
 }
 
 class _SearchBarWidgetState extends State<SearchBarWidget> {
@@ -23,9 +27,19 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
             widget.onTextChanged(value);
           },
           decoration: InputDecoration(
-            labelText: 'Buscar',
+            labelText: 'Buscar ${widget.title}',
             border: const OutlineInputBorder(),
-            prefixIcon: const Icon(Icons.search),
+            focusColor: Colors.black45,
+            focusedBorder: const OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.black45,
+                width: 2.0
+              )
+            ),
+            floatingLabelStyle: const TextStyle(
+              color: Colors.black45
+            ),
+            prefixIcon: const Icon(Icons.search), // Agrega el icono de lupa
           ),
         ),
         const SizedBox(height: 8.0),
