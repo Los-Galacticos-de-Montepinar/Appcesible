@@ -1,11 +1,11 @@
-import 'package:appcesible/screens/home_teacher.dart';
-import 'package:appcesible/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:pair/pair.dart';
 
 import 'package:appcesible/models/assigments_user.dart';
+import 'package:appcesible/models/task_model.dart';
 import 'package:appcesible/models/user_model.dart';
 
+import 'package:appcesible/services/task_service.dart';
 import 'package:appcesible/services/user_service.dart';
 
 import 'package:appcesible/widgets/dialog_list_assign.dart';
@@ -13,15 +13,16 @@ import 'package:appcesible/widgets/dialog_list_search.dart';
 import 'package:appcesible/widgets/dialog_loading.dart';
 import 'package:appcesible/widgets/widget_assign.dart';
 import 'package:appcesible/widgets/widget_top_teacher.dart';
+import 'package:appcesible/widgets/button.dart';
 
 class TaskAsignMobile extends StatefulWidget {
   const TaskAsignMobile({super.key});
 
   @override
-  State<TaskAsignMobile> createState() => _TaskAssignmentState();
+  State<TaskAsignMobile> createState() => _TaskAsignMobileState();
 }
 
-class _TaskAssignmentState extends State<TaskAsignMobile> {
+class _TaskAsignMobileState extends State<TaskAsignMobile> {
   // Variables para la tarea
   String taskImageUrl = 'assets/images/lavadora.png'; // Image url task default
   String taskTitle = 'Poner Lavadora';
@@ -62,10 +63,13 @@ class _TaskAssignmentState extends State<TaskAsignMobile> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: Colors.white,
         appBar: TopMenu(
-          onHomeTap: () {},
+          onHomeTap: () {
+
+          },
         ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(8.0),
@@ -144,9 +148,13 @@ class _TaskAssignmentState extends State<TaskAsignMobile> {
                             itemBuilder: (BuildContext context, int index) {
                               AssignmentsUser assignmentUser =
                                   selectedAssignments[index];
+                              int numAssignments = getNumAssignmentsForUser(
+                                  selectedAssignments, assignmentUser.userId);
                               return ShowAssignmentsWidget(
                                 assignmentUser: assignmentUser,
-                                newAssignment: _selectDateTime,);
+                                newAssignment: _selectDateTime,
+                                numAssignments: numAssignments,
+                              );
                             },
                           ),
                         ],
@@ -175,11 +183,7 @@ class _TaskAssignmentState extends State<TaskAsignMobile> {
                 ),
                 const SizedBox(height: 60),
                 // Button 'Guardar'
-                ActionButton(
-                  text: 'Confirmar',
-                  type: 1,
-                  onPressed: () {}
-                ),
+                ActionButton(text: 'Confirmar', type: 1, onPressed: () {}),
 
                 const SizedBox(height: 20),
               ],
@@ -197,6 +201,18 @@ class _TaskAssignmentState extends State<TaskAsignMobile> {
     }
 
     return studentsNames;
+  }
+
+  int getNumAssignmentsForUser(List<AssignmentsUser> assignments, int userId) {
+    int numAssignments = 0;
+
+    for (AssignmentsUser assignment in assignments) {
+      if (assignment.userId == userId) {
+        numAssignments += assignment.dates.length;
+      }
+    }
+
+    return numAssignments;
   }
 
   // On tap function for 'selection student' field
@@ -300,7 +316,8 @@ class _TaskAssignmentState extends State<TaskAsignMobile> {
       );
 
       // Mostrar un popup para confirmar la asignación
-      bool? confirmed = await showConfirmationDialog(context, selectedAssignment);
+      bool? confirmed =
+          await showConfirmationDialog(context, selectedAssignment);
 
       // Añadir al array solo si se confirmó
       if (confirmed == true) {
