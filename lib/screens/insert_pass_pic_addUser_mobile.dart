@@ -19,14 +19,10 @@ class _PassPictoNewAppState extends PassPictoNewState<PassPictoNewApp> {
       builder: (context, snapshot){
         return Scaffold(
           appBar: const TopMenu(),
-          body: (initialized || snapshot.connectionState == ConnectionState.done) ?
-            SingleChildScrollView(
-              child: Column(
-                children: [
-                  myFirstGrid()
-                ],
-              ),
-            ):const LoadingDialog()
+          body: (initialized || snapshot.connectionState == ConnectionState.done)
+            ? SingleChildScrollView(
+            )
+            : const LoadingDialog()
         );
       },
     );
