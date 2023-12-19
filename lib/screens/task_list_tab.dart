@@ -36,7 +36,9 @@ class _TaskListTabletState extends State<TaskListTablet> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: const TopMenu(),
+        appBar: TopMenu(
+          onHomeTap: () {}
+        ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
           child: Center(

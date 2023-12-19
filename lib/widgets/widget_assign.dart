@@ -7,11 +7,13 @@ import 'package:appcesible/widgets/button.dart';
 class ShowAssignmentsWidget extends StatelessWidget {
   final AssignmentsUser assignmentUser;
   final Function() newAssignment;
+  final int numAssignments;
 
   const ShowAssignmentsWidget({
     super.key,
     required this.assignmentUser,
-    required this.newAssignment
+    required this.newAssignment,
+    required this.numAssignments,
   });
 
   @override
@@ -42,22 +44,57 @@ class ShowAssignmentsWidget extends StatelessWidget {
           ),
           const SizedBox(height: 5),
           Center(
-            child: InkWell(
-              onTap: () {
-                _showTimePopup(context, assignmentUser);
-              },
-              child: Ink(
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.transparent,
+              child: InkWell(
+            onTap: () {
+              _showTimePopup(context, assignmentUser);
+            },
+            child: Material(
+              elevation:
+                  4, // ajusta el valor según sea necesario para la sombra
+              borderRadius: BorderRadius.circular(8.0),
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.19,
+                decoration: BoxDecoration(
+                  color: Colors.grey[300], // Fondo gris
+                  borderRadius: BorderRadius.circular(8.0),
+                  border: Border.all(
+                    color: Colors.black,
+                  ),
                 ),
-                child: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Icon(Icons.access_time, color: Colors.black),
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.alarm,
+                          color: Colors.black,
+                          size: MediaQuery.of(context).size.width * 0.07,
+                          semanticLabel: 'Icono de Reloj',
+                        ),
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                numAssignments.toString(),
+                                style: TextStyle(
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.05,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
+          )),
         ],
       ),
     );
@@ -102,20 +139,20 @@ class ShowAssignmentsWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 ActionButton(
-                  text: 'Cerrar',
-                  type: 0,
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  }
+                    text: 'Cerrar',
+                    type: 0,
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    }),
+                const SizedBox(
+                  width: 8.0,
                 ),
-                const SizedBox(width: 8.0,),
                 ActionButton(
-                  text: 'Añadir',
-                  type: 1,
-                  onPressed: () {
-                    newAssignment();
-                  }
-                ),
+                    text: 'Añadir',
+                    type: 1,
+                    onPressed: () {
+                      newAssignment();
+                    }),
               ],
             ),
           ],

@@ -65,7 +65,9 @@ class TaskInformationMobile extends StatelessWidget{
 
     return MaterialApp(
       home: Scaffold(
-        appBar: TopMenu(),
+        appBar: TopMenu(
+          onHomeTap: () {},
+        ),
         body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.all(20),

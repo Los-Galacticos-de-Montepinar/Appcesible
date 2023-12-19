@@ -13,7 +13,7 @@ class UserModel {
   int idClass;
 
   // Student information
-  int? loginType;
+  int loginType;
   int? letterSize;
   int? interactionFormat;
   
@@ -25,7 +25,7 @@ class UserModel {
     this.idProfileImg,
     required this.userType,
     required this.idClass,
-    this.loginType,
+    required this.loginType,
     this.letterSize,
     this.interactionFormat
   });
@@ -37,7 +37,8 @@ class UserModel {
       userName: json['userName'] as String,
       idProfileImg: json['pfp'] as int,
       userType: json['userType'] as int,
-      idClass: json['idClass'] as int
+      idClass: json['idClass'] as int,
+      loginType: json['loginType'] as int
     );
   }
 
@@ -49,6 +50,7 @@ class UserModel {
       idProfileImg: json['pfp'] as int,
       userType: json['userType'] as int,
       idClass: json['idClass'] as int,
+      loginType: json['loginType'] as int,
       letterSize: json['letterSize'] as int,
       interactionFormat: json['interactionFormat'] as int
     );

@@ -1,5 +1,8 @@
 import 'dart:io';
 
+import 'package:appcesible/screens/home_teacher.dart';
+import 'package:appcesible/widgets/dialog_confirm.dart';
+import 'package:appcesible/widgets/dialog_info.dart';
 import 'package:flutter/material.dart';
 
 import 'package:appcesible/services/user_service.dart';
@@ -68,8 +71,10 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
   UserModel user = UserModel(
     id: -1,
     userName: '',
-    userType: 0,
-    idClass: 0
+    userType: -1,
+    idClass: 0,
+    loginType: 0,
+    interactionFormat: -1
   );
   
   final TextEditingController _userController = TextEditingController();
@@ -94,23 +99,31 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
   bool _initialized = false;
   Future _initializeState() async {
     if (!_initialized) {
-      actionCall = (widget.id == null) ? createUser : updateUser;
+      actionCall = (widget.newUser && widget.id == null) ? createUser : updateUser;
+      classes = await getClasses();
 
       if (!widget.newUser && widget.id != null) {
+        userSelected = true;
+
         user = await getUserFromId(widget.id!);
         isUserStudent();
+
+        _nameController.text = user.userName;
 
         _defaultTypeValue = _getDefaultTypeValue();
         _defaultClassValue = _getDefaultClassValue();
         _defaultImage = user.image!;
       }
       else if (!widget.newUser && widget.id == null) {
-        users = await getAllUsers();
+        users = await getAllUsers(true);
       }
 
-      classes = await getClasses();
       _initialized = true;
     }
+  }
+
+  Future _handleConfirm() async {
+    await actionCall(user, _passwdController.value.text, _pickedImage!);
   }
 
   @override
@@ -136,15 +149,6 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
     return usersNames;
   }
 
-  List<String> _getClassesNames() {
-    List<String> classesNames = [];
-    for (ClassModel classModel in classes) {
-      classesNames.add(classModel.className);
-    }
-
-    return classesNames;
-  }
-
   int _getClassId(String name) {
     for (ClassModel classModel in classes) {
       if (classModel.className == name) {
@@ -156,7 +160,7 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
   }
 
   String? _getDefaultTypeValue() {
-    return (!widget.newUser && userSelected) ? userTypes[user.userType] : null;
+    return (user.userType != -1 && !widget.newUser && userSelected) ? userTypes[user.userType] : null;
   }
 
   String? _getDefaultClassValue() {
@@ -212,7 +216,10 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
       context: context,
       builder: (BuildContext context) {
         return DialogWithSearchBar(
-            title: 'Usuario', elements: _getUsersNames());
+          title: 'Usuario',
+          label: 'Usuario',
+          elements: _getUsersNames()
+        );
       },
     );
 
@@ -220,7 +227,7 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
       setState(() {
         userSelected = true;
         
-        user = users.firstWhere((user) => (user.userName == result));
+        user = users.firstWhere((element) => (element.userName == result),);
         isUserStudent();
         
         _userController.text = user.userName;
@@ -228,9 +235,7 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
         
         _defaultTypeValue = _getDefaultTypeValue();
         _defaultClassValue = _getDefaultClassValue();
-
-        // print('image - ${user.image}');
-        // _defaultImage = user.image!;
+        _defaultImage = user.image!;
       });
     }
   }
@@ -281,12 +286,41 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                 if (content.containsKey(value)) {
                   content[value] = !(content[value] ?? false);
                 }
+
                 _choosedTypes = '';
                 content.forEach((key, value) {
                   if(value) {
                     _choosedTypes += ' $key ';
                   }
                 });
+
+                if (content['Texto'] ?? false) {
+                  if (content['Audio'] ?? false) {
+                    if (content['Picto'] ?? false) {
+                      user.interactionFormat = 111;
+                    }
+                    else {
+                      user.interactionFormat = 10;
+                    }
+                  }
+                  else if (content['Picto'] ?? false) {
+                    user.interactionFormat = 11;
+                  }
+                  else {
+                    user.interactionFormat = 0;
+                  }
+                }
+                else if (content['Audio'] ?? false) {
+                  if (content['Picto'] ?? false) {
+                    user.interactionFormat = 12;
+                  }
+                  else {
+                    user.interactionFormat = 1;
+                  }
+                }
+                else if (content['Picto'] ?? false) {
+                  user.interactionFormat = 2;
+                }
               });
             },
             elements: content.keys.toList(),
@@ -300,10 +334,31 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: _initializeState(),
-      builder: (content, snapshot) {
+      builder: (context, snapshot) {
         return Scaffold(
           backgroundColor: Colors.white,
-          appBar: const TopMenu(),
+          appBar: TopMenu(
+            onHomeTap: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return ConfirmationDialog(
+                    message: '¿Está seguro de que quiere abandonar el proceso?\nLos datos introducidos hasta el momento se perderán',
+                    onConfirm: () {
+                      Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return const TeacherHome();
+                          }
+                        ),
+                        (route) => false
+                      );
+                    }
+                  );
+                }
+              );
+            }
+          ),
           body: (_initialized || snapshot.connectionState == ConnectionState.done)
           ? SingleChildScrollView(
               padding: const EdgeInsets.all(8.0),
@@ -390,7 +445,9 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                             ),
                           )
                         ),
-                        (picto && userTypes[user.userType] == 'Estudiante') ? passwdPic() : passwdText(),
+                        (user.userType != -1 && picto && userTypes[user.userType] == 'Estudiante')
+                          ? passwdPic()
+                          : passwdText(),
                         show ? Container(child: pictoCheckWid()):const SizedBox.shrink(),
                         show ? Container(child: contentW(context)):const SizedBox.shrink(),
                         Padding(
@@ -442,7 +499,8 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                               _pickedImage = await UploadPicture.pickImage();
 
                               setState(() {
-                                user.image = Image.file(_pickedImage!);
+                                _defaultImage = Image.file(_pickedImage!);
+                                user.image = _defaultImage;
                               });
                             },
                             style: ButtonStyle(
@@ -455,7 +513,7 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                           child: ActionButton(
                             text: 'Confirmar',
                             type: 1,
-                            onPressed: () {
+                            onPressed: () async {
                               int cont = 0;
                               String msg = '';
                               if (_nameController.text.isEmpty) {
@@ -466,13 +524,13 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                                 cont++;
                                 msg = 'Rellene el campo contraseña';
                               }
-                              if (userTypes[user.userType]=='') {
+                              if (user.userType == -1) {
                                 cont++;
                                 msg = 'Rellene el campo tipo usuario';
                               }
-                              if ((_choosedTypes.isEmpty && userTypes[user.userType]=='Estudiante')) {
+                              if (user.userType != -1 && (user.interactionFormat == -1 && userTypes[user.userType]=='Estudiante')) {
                                 cont++;
-                                msg = 'Rellene el campo contenidos';
+                                msg = 'Rellene el campo tipo de contenido';
                               }
                               if (user.idClass == -1) {
                                 cont++;
@@ -488,8 +546,47 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                                 ErrorWindow.showErrorDialog(context, msg);
                               }
                               else {
-                                user.userName = _nameController.text;
-                                actionCall(user, _passwdController.value.text, _pickedImage!);
+                                setState(() {
+                                  user.userName = _nameController.text;
+                                });
+
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return ConfirmationDialog(
+                                      message: 'Los datos del usuario serán almacenados\n¿Quiere continuar?',
+                                      onConfirm: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return FutureBuilder(
+                                              future: _handleConfirm(),
+                                              builder: (context, snapshot) {
+                                                return (snapshot.connectionState == ConnectionState.done)
+                                                  ? InfoDialog(
+                                                    message: 'Los datos del usuario se han almacenado correctamente',
+                                                    onPressed: () {
+                                                      Navigator.of(context).pushAndRemoveUntil(
+                                                          MaterialPageRoute(builder: (context) {
+                                                        return const TeacherHome();
+                                                      }), (route) => false);
+                                                    },
+                                                  )
+                                                  : Scaffold(
+                                                    appBar: TopMenu(
+                                                      onHomeTap: () {},
+                                                    ),
+                                                    body: const LoadingDialog()
+                                                  );
+                                              }
+                                            );
+                                          },
+                                          barrierDismissible: false,
+                                        );
+                                      }
+                                    );
+                                  }
+                                );
                               }
                             },
                           ),

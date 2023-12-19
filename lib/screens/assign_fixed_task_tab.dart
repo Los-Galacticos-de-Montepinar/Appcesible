@@ -1,6 +1,7 @@
 import 'package:appcesible/widgets/widget_top_teacher.dart';
 import 'package:flutter/material.dart';
-import 'package:appcesible/widgets/dialog_list_search.dart';
+import 'package:appcesible/widgets/item_list.dart';
+import 'package:appcesible/widgets/search_bar.dart';
 
 class TaskAsignTablet extends StatefulWidget{
   const TaskAsignTablet({super.key});
@@ -20,10 +21,11 @@ class taskAsignTabletState extends State<TaskAsignTablet>{
     //Para controlar la barra de busqueda de alumnos
     TextEditingController alumnSearch=TextEditingController();
     //Aqui guardo los alumnos seleccionados para la tarea
-    Map<int,String> selected=Map();
+    List<String> selected=List.empty(growable: true);
     //Aqui voy a guardar las clases, que las tengo qwe descargar de la BD,
     //las usare para hacer los filtros por clase
     List<String> classList=List.empty(growable: true);
+    Container resultadosBusqueda=Container();
     
     @override
     void initState(){
@@ -31,6 +33,11 @@ class taskAsignTabletState extends State<TaskAsignTablet>{
 
       //classList=funcion de peticion para descargar las clases
 
+      resultadosBusqueda=Container(
+        margin: myPad12,
+        height: 450
+      );
+      
       classList.add("3A");
       classList.add("2A");
       classList.add("1A");
@@ -57,55 +64,33 @@ class taskAsignTabletState extends State<TaskAsignTablet>{
      /**
        * Container de los alumnos en la busqueda
        */
-     Container searchResult(Size screenSize){
+     Container searchResult(Size screenSize,String search){
       return Container(
         margin: myPad12,
         height: screenSize.height*0.55,
-        decoration: BoxDecoration(border: Border.all(color: Colors.yellow)),
-        child: buttonStudents(screenSize,alumnBDpetition(""))
+        child: ItemListWidget(elements: alumnBDpetition(search),onItemTap: (name){
+          if(!selected.contains(name))
+            selected.add(name);
+            setState(() {});
+        },)
       );
     }
 
     /**
      * Esta funcion descarga a los alumnos de la DB y devuelve un map con nombre e id
      */
-    Map<int,String> alumnBDpetition(String name){
-      Map<int,String> res=Map();
+    List<String> alumnBDpetition(String name){
+      List<String> res=List.empty(growable: true);
 
       /**
        * INSERTAR FUNCION PARA LA PETICION DE LA BD
        */
-      res[1]="manolo";
-      res[2]="aaaaaa";
-      res[3]="juan";
+      res.add("manolo");
+      res.add("manolo2");
+      res.add("manolo3");
       //Los nombres son para debugar
 
       return res;
-    }
-
-    /**
-     * Crea un column con los alumnos que se le pasa por argimento, la lista cre botones con sus nombres
-     */
-    Column buttonStudents(Size screenSize,Map<int,String> students){
-
-      List<IconButton> studentsContainersButtons=List.empty(growable: true);
-      students.forEach((Key,value){
-        studentsContainersButtons.add(
-          IconButton(
-            onPressed: (){
-              if(selected.containsKey(Key)){
-                selected.removeWhere((key2, value2) => key2==Key);
-              }else{
-                selected[Key]=value;
-              }
-              setState(() {});
-            }, 
-            icon: elementBox(screenSize, value, lightGrey, myPad8)
-            )
-        );
-      });
-
-      return Column(children: studentsContainersButtons);
     }
 
   @override
@@ -115,7 +100,9 @@ class taskAsignTabletState extends State<TaskAsignTablet>{
 
     return MaterialApp(
       home: Scaffold(
-        appBar: TopMenu(),
+        appBar: TopMenu(
+          onHomeTap: () {},
+        ),
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -171,12 +158,14 @@ class taskAsignTabletState extends State<TaskAsignTablet>{
                               margin: myPad12,
                               height: screenSize.height*0.575,
                               width: screenSize.width*0.45,
-                              decoration: BoxDecoration(border: Border.all(color: Colors.blue)),
                               /**
                                * Lista de alumnos con la tarea asignada
                                */
                               child: SingleChildScrollView(
-                                child: buttonStudents(screenSize,selected)
+                                child: ItemListWidget(elements: selected,onItemTap: (name){
+                                  selected.removeWhere((element) => element==name);
+                                  setState(() {});
+                                },)
                               )
                             ),
                           )
@@ -205,13 +194,16 @@ class taskAsignTabletState extends State<TaskAsignTablet>{
                          */
                         elementBox(screenSize,"Lista de alumnos",darkGrey,myPad12),
                         /**
+                         * Barra de busqueda
+                         */
+                        SearchBarWidget(title: "alumnos",onTextChanged: (search){
+                          resultadosBusqueda=searchResult(screenSize, search);
+                          setState(() {});
+                        }),
+                        /**
                          * Lista de alumnos encontrados
                          */
-                        //searchResult(screenSize)
-                        const DialogWithSearchBar(
-                          title: 'Estudiante',
-                          elements: [ 'hola' ],
-                        )
+                        resultadosBusqueda
                       ],
                     ),
                   ),

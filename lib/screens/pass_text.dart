@@ -29,7 +29,9 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const TopMenu(),
+      appBar: TopMenu(
+        onHomeTap: () {}
+      ),
       body: SingleChildScrollView(
         //margin: const EdgeInsets.only(left: 50, right: 50),
         child: Center(

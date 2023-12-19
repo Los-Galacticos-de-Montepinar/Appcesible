@@ -58,8 +58,8 @@ abstract class SelectionState<T extends StatefulWidget> extends State<T> {
   Future initializeProfileList() async {
     if (!initialized) {
       await initSession();
-      
-      profileList = await getAllUsers();
+
+      profileList = await getAllUsers(true);
 
       List<GalleryModel> galleryList = await getGallery();
       for (GalleryModel image in galleryList) {

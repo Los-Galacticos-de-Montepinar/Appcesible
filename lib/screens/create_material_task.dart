@@ -64,7 +64,7 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
   Future initializeState() async {
     if (!initialized) {
       // Get users for lists
-      List<UserModel> users = await getAllUsers();
+      List<UserModel> users = await getAllUsers(false);
       for (UserModel user in users) {
         if (user.userType != 1) {
           teachers.add(user);
@@ -115,7 +115,11 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
       context: context,
       builder: (BuildContext context) {
         return DialogWithSearchBar(
-            title: 'Profesor', elements: getTeachersNames());
+            title: 'Profesor',
+            label: 'Profesor',
+            elements: getTeachersNames(),
+            showSearchBar: true,
+            showCloseIcon: true);
       },
     );
 
@@ -139,7 +143,11 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
     final result = await showDialog(
       context: context,
       builder: (BuildContext context) {
-        return DialogWithSearchBar(title: 'Clase', elements: classes);
+        return DialogWithSearchBar(
+          title: 'Clase',
+          label: 'Clase',
+          elements: classes
+        );
       },
     );
 
@@ -155,7 +163,12 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
       context: context,
       builder: (BuildContext context) {
         return DialogWithSearchBar(
-            title: 'Estudiante', elements: getStudentsNames());
+          title: 'Estudiante',
+          label: 'Estudiante',
+          elements: getStudentsNames(),
+          showSearchBar: true,
+          showCloseIcon: true
+        );
       },
     );
 
@@ -240,11 +253,14 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
   }
 
   void _handleConfirmation() async {
+    NavigatorState nav = Navigator.of(context);
+
     showDialog(
-        context: context,
-        builder: (context) {
-          return const LoadingDialog();
-        });
+      context: context,
+      builder: (context) {
+        return const LoadingDialog();
+      }
+    );
 
     // Create task
     TaskModel task = TaskModel(
@@ -274,8 +290,8 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
         dueDate: date));
     print("Finished");
 
-    Navigator.of(context).pop();
-    Navigator.of(context).pushAndRemoveUntil(
+    nav.pop();
+    nav.pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) {
       return const TaskListInit();
     }), (route) => false);

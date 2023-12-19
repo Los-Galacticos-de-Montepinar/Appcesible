@@ -36,6 +36,15 @@ class _InputDropdownState extends State<InputDropdown> {
           decoration: InputDecoration(
             labelText: widget.name,
             border: const OutlineInputBorder(),
+            focusedBorder: const OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.black45,
+                width: 2.0
+              )
+            ),
+            floatingLabelStyle: const TextStyle(
+              color: Colors.black45
+            ),
           ),
           value: selectedElement,
           dropdownColor: Colors.white,
@@ -44,8 +53,9 @@ class _InputDropdownState extends State<InputDropdown> {
             setState(() {
               if (selectedElement != value) {
                 selectedElement = value!;
-                widget.onElementSelected(selectedElement!);
               }
+              
+              widget.onElementSelected(selectedElement!);
             });
           },
           isExpanded: true,

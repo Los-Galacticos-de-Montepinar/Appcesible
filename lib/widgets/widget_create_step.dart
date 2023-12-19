@@ -9,7 +9,9 @@ class NewStep extends StatelessWidget {
     TextEditingController step = TextEditingController();
 
     return Scaffold(
-      appBar: const TopMenu(),
+      appBar: TopMenu(
+        onHomeTap: () {}
+      ),
       body: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
