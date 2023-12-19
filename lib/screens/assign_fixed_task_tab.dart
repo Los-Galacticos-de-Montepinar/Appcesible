@@ -35,7 +35,7 @@ class taskAsignTabletState extends State<TaskAsignTablet>{
 
       resultadosBusqueda=Container(
         margin: myPad12,
-        height: 500
+        height: 450
       );
       
       classList.add("3A");
@@ -68,7 +68,6 @@ class taskAsignTabletState extends State<TaskAsignTablet>{
       return Container(
         margin: myPad12,
         height: screenSize.height*0.55,
-        decoration: BoxDecoration(border: Border.all(color: Colors.yellow)),
         child: ItemListWidget(elements: alumnBDpetition(search),onItemTap: (name){
           if(!selected.contains(name))
             selected.add(name);
@@ -157,7 +156,6 @@ class taskAsignTabletState extends State<TaskAsignTablet>{
                               margin: myPad12,
                               height: screenSize.height*0.575,
                               width: screenSize.width*0.45,
-                              decoration: BoxDecoration(border: Border.all(color: Colors.blue)),
                               /**
                                * Lista de alumnos con la tarea asignada
                                */

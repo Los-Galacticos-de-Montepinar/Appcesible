@@ -16,7 +16,6 @@ class _PictoPasswState extends State<PictoPassw> {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
     return MaterialApp(
       home: Scaffold(
         appBar: TopMenu(),

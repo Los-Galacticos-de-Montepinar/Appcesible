@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:pair/pair.dart';
 
 import 'package:appcesible/models/assigments_user.dart';
-import 'package:appcesible/models/task_model.dart';
 import 'package:appcesible/models/user_model.dart';
 
-import 'package:appcesible/services/task_service.dart';
 import 'package:appcesible/services/user_service.dart';
 
 import 'package:appcesible/widgets/dialog_list_assign.dart';
@@ -15,14 +13,14 @@ import 'package:appcesible/widgets/dialog_loading.dart';
 import 'package:appcesible/widgets/widget_assign.dart';
 import 'package:appcesible/widgets/widget_top_teacher.dart';
 
-class TaskAssignment extends StatefulWidget {
-  const TaskAssignment({super.key});
+class TaskAsignMobile extends StatefulWidget {
+  const TaskAsignMobile({super.key});
 
   @override
-  State<TaskAssignment> createState() => _TaskAssignmentState();
+  State<TaskAsignMobile> createState() => _TaskAssignmentState();
 }
 
-class _TaskAssignmentState extends State<TaskAssignment> {
+class _TaskAssignmentState extends State<TaskAsignMobile> {
   // Variables para la tarea
   String taskImageUrl = 'assets/images/lavadora.png'; // Image url task default
   String taskTitle = 'Poner Lavadora';

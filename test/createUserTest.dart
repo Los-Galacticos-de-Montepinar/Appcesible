@@ -32,7 +32,7 @@ void main(){
   final passwd=randomString(passLenght);
 
   final List<String> userTypes = ['Profesor','Estudiante','Administrador'];
-  final int userT=1;//Random().nextInt(3);
+  final int userT=Random().nextInt(3);
 
   Map<String,bool> content = {'Texto':false,'Audio':false,'Imagenes':false};
   List<int> elecciones=List.empty(growable: true);
