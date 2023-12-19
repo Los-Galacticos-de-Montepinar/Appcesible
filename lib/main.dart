@@ -28,7 +28,7 @@ void main() {
             Locale('en'), // English
             Locale('es', 'ES'), // Spanish
           ],
-          home: SelectUser(),
+          home: HomeStudentInit(),
         );
       },
     ),

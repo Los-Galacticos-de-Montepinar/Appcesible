@@ -22,18 +22,4 @@ class HomeStudentInit extends StatelessWidget {
   }
 }
 
-void main() {
-  // HOME USUARIO
-  
-  // @override
-  // Widget build(BuildContext context) {
-  //  return ScreenUtilInit(
-  //    designSize: const Size(412, 570),
-  //    builder: (context, child) {
-  //      return const MaterialApp(
-  //        home: HomeStudentInit(),
-  //      );
-  //    },
-  //  );
-  // }
-}
+

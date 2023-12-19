@@ -1,8 +1,9 @@
 // HOME STUDENT - Mobile Version
 // Autor: Alejandro Sanchez Rodríguez
 
+import 'package:appcesible/widgets/widget_top_student.dart';
 import 'package:flutter/material.dart';
-
+import 'package:appcesible/screens/student_diary.dart';
 
 class HomeStudent extends StatelessWidget {
   const HomeStudent({super.key});
@@ -10,48 +11,9 @@ class HomeStudent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: const Column(
-              children: [
-                Icon(Icons.home, color: Colors.black),
-                Text('INICIO',
-                    style: TextStyle(color: Colors.black, fontSize: 11))
-              ],
-            ),
-            onPressed: () {
-              // Logic for the left action button
-            },
-          ),
-          title: const Text(
-            'HOME',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.black,
-            ),
-          ),
-          centerTitle: true,
-          backgroundColor: Colors.grey[400],
-          actions: [
-            IconButton(
-              icon: const FittedBox(
-                child: Column(
-                  children: [
-                    Icon(Icons.power_settings_new, color: Colors.black),
-                    Text(
-                      'SALIR',
-                      style: TextStyle(color: Colors.black, fontSize: 11),
-                    ),
-                  ],
-                ),
-              ),
-              onPressed: () {
-                // Logic for the right action button
-              },
-            ),
-          ],
-        ),
+        appBar: const TopMenuStudent(texto: 'INICIO'),
         body: Center(
           child: FittedBox(
             child: Column(
@@ -59,7 +21,7 @@ class HomeStudent extends StatelessWidget {
               children: <Widget>[
                 const SizedBox(height: 20.0),
                 const Text(
-                  'Bienvenido, NANO',
+                  'Bienvenido, CABRA ASTURIANA',
                   style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 10.0),
@@ -86,14 +48,16 @@ class HomeStudent extends StatelessWidget {
                     MyBoxWithImageAndText(
                         text: 'AGENDA',
                         color: Colors.red,
-                        color2: Color.fromARGB(255, 234, 151, 161)),
+                        color2: Color.fromARGB(255, 234, 151, 161),
+                        destinationScreen: StudentDiary(),),
                     SizedBox(
                       width: 20.0,
                     ),
                     MyBoxWithImageAndText(
                         text: 'HISTORIAL',
                         color: Colors.blue,
-                        color2: Color.fromARGB(255, 130, 172, 192)),
+                        color2: Color.fromARGB(255, 130, 172, 192),
+                        destinationScreen: HomeStudent(),),
                     SizedBox(
                       width: 20.0,
                     ),
@@ -110,14 +74,16 @@ class HomeStudent extends StatelessWidget {
                     MyBoxWithImageAndText(
                         text: 'CHATS',
                         color: Colors.green,
-                        color2: Color.fromARGB(255, 150, 216, 135)),
+                        color2: Color.fromARGB(255, 150, 216, 135),
+                        destinationScreen: HomeStudent(),),
                     SizedBox(
                       width: 20.0,
                     ),
                     MyBoxWithImageAndText(
                         text: 'AGENDA',
                         color: Colors.orange,
-                        color2: Color.fromARGB(255, 222, 175, 90)),
+                        color2: Color.fromARGB(255, 222, 175, 90),
+                        destinationScreen: HomeStudent(),),
                     SizedBox(
                       width: 20.0,
                     )
@@ -148,18 +114,28 @@ class MyBoxWithImageAndText extends StatelessWidget {
   final String text;
   final Color color;
   final Color color2;
+  final Widget destinationScreen;
 
-  const MyBoxWithImageAndText({super.key, required this.text, required this.color, required this.color2});
+  const MyBoxWithImageAndText(
+      {super.key,
+      required this.text,
+      required this.color,
+      required this.color2,
+      required this.destinationScreen});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Add the logic here for when the box is tapped
+        // Navegar a la pantalla de destino cuando se toca la caja
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => destinationScreen),
+        );
       },
       child: Container(
-        height: 182,
-        width: 182,
+        height: 186,
+        width: 186,
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
           border: Border.all(color: color, width: 3.0),
