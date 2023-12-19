@@ -1,10 +1,6 @@
-import 'package:appcesible/command/session_command.dart';
-import 'package:appcesible/models/gallery_model.dart';
-import 'package:appcesible/models/task_model.dart';
 import 'package:appcesible/screens/screenutil_init.dart';
 import 'package:appcesible/screens/student_diary.dart';
 import 'package:flutter/material.dart';
-import 'package:pair/pair.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 class StudentDiaryInit extends StatelessWidget {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:appcesible/screens/home_student.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'package:appcesible/screens/home_student.dart';
 import 'package:appcesible/screens/student_diary_init.dart';
 
 
