@@ -66,6 +66,7 @@ Future<Image> downloadImage(int id) async {
 
 Future<List<GalleryModel>> getGallery() async {
   String baseAddress = await getBaseAddress();
+  print(baseAddress);
 
   final response = await http.get(
     Uri.http(baseAddress, '/gallery'),

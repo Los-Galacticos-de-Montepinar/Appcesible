@@ -43,7 +43,10 @@ class TopMenu extends StatelessWidget implements PreferredSizeWidget {
               offset: const Offset(1, 0),
               child: const Text(
                 'Inicio',
-                style: TextStyle(color: Colors.black),
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 12.0
+                ),
               ),
             ),
           ],

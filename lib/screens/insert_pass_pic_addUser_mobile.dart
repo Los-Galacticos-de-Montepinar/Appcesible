@@ -1,22 +1,34 @@
-import 'package:appcesible/screens/pass_picto.dart';
-import 'package:appcesible/services/media_service.dart';
+import 'package:appcesible/screens/insert_pass_pic_addUser_init.dart';
+import 'package:appcesible/widgets/dialog_loading.dart';
+import 'package:appcesible/widgets/widget_top_teacher.dart';
 import 'package:flutter/material.dart';
-import 'package:appcesible/models/gallery_model.dart';
-import 'package:appcesible/services/user_service.dart';
 
-class passPictoNewMobile extends StatefulWidget{
-
-  passPictoNewMobile({Key? key}) : super(key: key);
+class PassPictoNewApp extends StatefulWidget{
+  const PassPictoNewApp({super.key});
 
   @override
-  passPictoNewMobileState createState() => passPictoNewMobileState();
+  State<PassPictoNewApp> createState() => _PassPictoNewAppState();
 
 }
 
-class passPictoNewMobileState extends State<passPictoNewMobile>{
-
+class _PassPictoNewAppState extends PassPictoNewState<PassPictoNewApp> {
   @override
   Widget build(BuildContext context){
-    return MaterialApp();
+    return FutureBuilder(
+      future: initializeState(),
+      builder: (context, snapshot){
+        return Scaffold(
+          appBar: const TopMenu(),
+          body: (initialized || snapshot.connectionState == ConnectionState.done) ?
+            SingleChildScrollView(
+              child: Column(
+                children: [
+                  myFirstGrid()
+                ],
+              ),
+            ):const LoadingDialog()
+        );
+      },
+    );
   }
 }
