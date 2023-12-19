@@ -12,11 +12,11 @@ class TaskAsign extends StatelessWidget{
     return ScreenTypeLayout.builder(
       mobile: (context) {
         ScreenUtilBreakpoints.initMobileDesignSize(context);
-        return TaskAsignMobile();
+        return const TaskAsignMobile();
       },
       tablet: (context) {
         ScreenUtilBreakpoints.initTabletDesignSize(context);
-        return TaskAsignTablet();
+        return const TaskAsignTablet();
       },
     );
   }

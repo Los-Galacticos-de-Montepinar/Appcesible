@@ -1,3 +1,4 @@
+import 'package:appcesible/screens/home_teacher.dart';
 import 'package:appcesible/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:pair/pair.dart';
@@ -63,7 +64,9 @@ class _TaskAssignmentState extends State<TaskAsignMobile> {
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.white,
-        appBar: const TopMenu(),
+        appBar: TopMenu(
+          onHomeTap: () {},
+        ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(8.0),
           child: Center(

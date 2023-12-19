@@ -1,17 +1,21 @@
+import 'package:appcesible/widgets/dialog_confirm.dart';
 import 'package:flutter/material.dart';
 
 import 'package:appcesible/command/session_command.dart';
 import 'package:appcesible/services/user_service.dart';
 
 import 'package:appcesible/screens/create_user.dart';
-import 'package:appcesible/screens/home_teacher.dart';
 import 'package:appcesible/screens/select_user.dart';
 
 class TopMenu extends StatelessWidget implements PreferredSizeWidget {
   @override
   final Size preferredSize;
+  final Function() onHomeTap;
 
-  const TopMenu({super.key}) : preferredSize = const Size.fromHeight(70.0);
+  const TopMenu({
+    super.key,
+    required this.onHomeTap
+  }) : preferredSize = const Size.fromHeight(70.0);
 
   @override
   Widget build(BuildContext context) {
@@ -51,14 +55,7 @@ class TopMenu extends StatelessWidget implements PreferredSizeWidget {
             ),
           ],
         ),
-        onPressed: () {
-          Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (BuildContext context) {
-              return const TeacherHome();
-            }),
-            (route) => false
-          );
-        },
+        onPressed: onHomeTap,
       ),
       // ! Se utiliza para poner texto a la derecha del titulo
       actions: <Widget>[
@@ -66,14 +63,16 @@ class TopMenu extends StatelessWidget implements PreferredSizeWidget {
           padding: const EdgeInsets.symmetric(horizontal: 12.0),
           child: PopupMenuButton(
             onSelected: (value) async {
+              NavigatorState navigator = Navigator.of(context);
+
               if (value == 'profile') {
                 int userId = -1;
                 await getSessionInformation().then((value) {
                   userId = value.getInt('id')!;
                 });
 
-                Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (BuildContext context) {
+                navigator.push(MaterialPageRoute(
+                  builder: (BuildContext context) {
                     return FormularioUsuarios(
                       title: 'Editar Perfil',
                       id: userId,
@@ -86,16 +85,26 @@ class TopMenu extends StatelessWidget implements PreferredSizeWidget {
                 // add desired output
               }
               else if (value == 'logout'){
-                bool logout = await logOutUser();
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return ConfirmationDialog(
+                      message: '¿Quieres cerrar sesión?',
+                      onConfirm: () async {
+                        bool logout = await logOutUser();
 
-                if (logout) {
-                  Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (BuildContext context) {
-                      return const SelectUser();
-                    }),
-                    (route) => false
-                  );
-                }
+                        if (logout) {
+                          navigator.pushAndRemoveUntil(
+                            MaterialPageRoute(builder: (BuildContext context) {
+                              return const SelectUser();
+                            }),
+                            (route) => false
+                          );
+                        }
+                      },
+                    );
+                  }
+                );
               }
             },
             color: Colors.white,

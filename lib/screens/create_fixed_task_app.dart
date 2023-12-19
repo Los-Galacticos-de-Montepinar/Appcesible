@@ -15,12 +15,12 @@ class CreateTaskMobile extends StatefulWidget {
 class _CreateTaskMobileState extends State<CreateTaskMobile> {
 
   // Auxiliary variables
-  String _selectedTipo = '';
-  String _mediaPath = '';
+  // String _selectedTipo = '';
+  final String _mediaPath = '';
 
   // Variables to store data
   String _nombrePaso = '';
-  String _paso = '';
+  // String _paso = '';
   String _descripcion = '';
 
   // New list to save the steps
@@ -31,7 +31,9 @@ class _CreateTaskMobileState extends State<CreateTaskMobile> {
     return MaterialApp(
       home: Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: const TopMenu(),
+        appBar: TopMenu(
+          onHomeTap: () {}
+        ),
         body: Center(
           child: FittedBox(
             child: Column(

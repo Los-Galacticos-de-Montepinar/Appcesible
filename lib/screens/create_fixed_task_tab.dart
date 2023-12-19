@@ -14,12 +14,12 @@ class CreateTaskTablet extends StatefulWidget {
 
 class _CreateTaskTabletState extends State<CreateTaskTablet> {
   // Auxiliary variables
-  String _selectedTipo = '';
-  String _mediaPath = '';
+  // String _selectedTipo = '';
+  final String _mediaPath = '';
 
   // Variables to store data
   String _nombrePaso = '';
-  String _paso = '';
+  // String _paso = '';
   String _descripcion = '';
 
   // New list to save the steps
@@ -30,7 +30,9 @@ class _CreateTaskTabletState extends State<CreateTaskTablet> {
     return MaterialApp(
       home: Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: const TopMenu(),
+        appBar: TopMenu(
+          onHomeTap: () {}
+        ),
         body: Center(
           child: FittedBox(
             child: Column(

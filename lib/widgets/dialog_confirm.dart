@@ -27,14 +27,15 @@ class ConfirmationDialog extends StatelessWidget {
           children: [
             ActionButton(
               text: 'Cancelar',
-              type: 1,
+              type: 0,
               onPressed: () {
                 Navigator.pop(context); // Cerrar la ventana emergente de confirmación
               }
             ),
+            const SizedBox(width: 12.0,),
             ActionButton(
               text: 'Confirmar',
-              type: 0,
+              type: 1,
               onPressed: () {
                 Navigator.pop(context); // Cerrar la ventana emergente de confirmación
                 onConfirm(); // Llamar a la función de confirmación

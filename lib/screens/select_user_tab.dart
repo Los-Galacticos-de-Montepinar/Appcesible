@@ -15,7 +15,9 @@ class _SelectUserTabState extends SelectionState<SelectUserTab> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: const TopMenu(),
+      appBar: TopMenu(
+        onHomeTap: () {}
+      ),
       body: Center(
         child: Container(
           width: 1024, // Ajusta según tus necesidades

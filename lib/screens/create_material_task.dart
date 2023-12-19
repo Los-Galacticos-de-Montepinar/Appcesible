@@ -253,6 +253,8 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
   }
 
   void _handleConfirmation() async {
+    NavigatorState nav = Navigator.of(context);
+
     showDialog(
       context: context,
       builder: (context) {
@@ -288,8 +290,8 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
         dueDate: date));
     print("Finished");
 
-    Navigator.of(context).pop();
-    Navigator.of(context).pushAndRemoveUntil(
+    nav.pop();
+    nav.pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) {
       return const TaskListInit();
     }), (route) => false);
