@@ -1,4 +1,5 @@
 import 'package:appcesible/screens/insert_pass_pic_addUser_init.dart';
+import 'package:appcesible/widgets/dialog_confirm.dart';
 import 'package:appcesible/widgets/dialog_loading.dart';
 import 'package:appcesible/widgets/widget_top_teacher.dart';
 import 'package:flutter/material.dart';
@@ -12,49 +13,62 @@ class PassPictoNewTab extends StatefulWidget{
 }
 
 class _PassPictoNewTabState extends PassPictoNewState<PassPictoNewTab> {
-  Container mySecondGrid(){
+  Container mySecondGrid(Size ScreenSize){
+
+    List <IconButton> aux=[];
+
+    for(int i=0;i<selectedImages.length;++i){
+      aux.add(
+      IconButton(
+              onPressed: (){
+                selectedImages.removeAt(i);
+                setState(() {});
+                print(selectedImages);
+              },
+              icon: Image(image: imagenes[selectedImages[i]]!.image, height: ScreenSize.height*0.2, width: ScreenSize.width*0.2,)
+      ));
+    }
+
     return Container(
+      width: ScreenSize.width,
+      height: ScreenSize.height*0.2,
       decoration: BoxDecoration(
         border: Border.all(color: Colors.black, width: 2),
         color: Colors.grey,
       ),
-      child: GridView.count(
-        crossAxisCount: 3,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 20,
-        padding: const EdgeInsets.all(8),
-        children: List.generate(selectedImages.length, (index) {
-            return Container(
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: Align(
-                  alignment: Alignment.topCenter,
-                  widthFactor: 1.0,
-                  heightFactor: 1.0,
-                  child: imagenes[index],
-                ),
-              ),
-            );
-        }),
-      ),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: aux,
+        ),
+      )
     );
   }
 
-  Container myFirstGrid() {
+  Container myFirstGrid(Size ScreenSize) {
     List<IconButton> botonesImagenes=List.empty(growable: true); 
 
     imagenes.forEach((key,value) {
       botonesImagenes.add(
-        IconButton(onPressed: (){selectedImages.add(key);}, icon: value)
+        IconButton(
+          onPressed: (){
+            selectedImages.add(key);
+            setState(() {});
+            if(selectedImages.length==3){
+              ConfirmationDialog(message: "Seguro que quieres esta contraseña", onConfirm: (){});
+            }
+            }, 
+          icon: Image(image: value.image,height: ScreenSize.height*0.3,width: ScreenSize.width*0.3),
+          )
       );
     });
 
     return Container(
-      height: 400,
-      width: 400,
+      height: ScreenSize.height*0.73,
+      alignment: Alignment.center,
       decoration: BoxDecoration(
         border: Border.all(color: Colors.black, width: 2),
-        color: Colors.grey,
+        color: Colors.white,
       ),
       child: Wrap(
         children: botonesImagenes,
@@ -64,6 +78,9 @@ class _PassPictoNewTabState extends PassPictoNewState<PassPictoNewTab> {
   
   @override
   Widget build(BuildContext context){
+
+    final Size ScreenSize=MediaQuery.of(context).size;
+
     return FutureBuilder(
       future: initializeState(),
       builder: (context, snapshot){
@@ -73,7 +90,8 @@ class _PassPictoNewTabState extends PassPictoNewState<PassPictoNewTab> {
             ? SingleChildScrollView(
               child: Column(
                 children: [
-                  myFirstGrid()
+                  myFirstGrid(ScreenSize),
+                  mySecondGrid(ScreenSize)
                 ],
               ),
             )
