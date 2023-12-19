@@ -1,5 +1,5 @@
 import 'package:appcesible/screens/insert_pass_pic_addUser_init.dart';
-import 'package:appcesible/widgets/dialog_confirm.dart';
+import 'package:appcesible/widgets/button.dart';
 import 'package:appcesible/widgets/dialog_loading.dart';
 import 'package:appcesible/widgets/widget_top_teacher.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +45,42 @@ class _PassPictoNewTabState extends PassPictoNewState<PassPictoNewTab> {
     );
   }
 
+  Future<bool?> confirmationDialog(BuildContext context) async{
+    return showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          surfaceTintColor: Colors.white,
+          title: Text("¿Seguro que quieres guardar esta contraseña?"),
+          actions: [
+            SingleChildScrollView(
+              child: Row(
+                children: [
+                  ActionButton(
+                  text: 'No',
+                  type: 0,
+                  onPressed: () {
+                    Navigator.pop(context, false);
+                  }
+                  ),
+                  const SizedBox(width: 8.0,),
+                  ActionButton(
+                    text: 'Sí',
+                    type: 1,
+                    onPressed: () {
+                      Navigator.pop(context, true);
+                    }
+                  ),
+                ],
+            ),
+            )
+          ],
+        );
+      }
+    );
+  }
+
   Container myFirstGrid(Size ScreenSize) {
     List<IconButton> botonesImagenes=List.empty(growable: true); 
 
@@ -55,7 +91,15 @@ class _PassPictoNewTabState extends PassPictoNewState<PassPictoNewTab> {
             selectedImages.add(key);
             setState(() {});
             if(selectedImages.length==3){
-              ConfirmationDialog(message: "Seguro que quieres esta contraseña", onConfirm: (){});
+              confirmationDialog(context).then((value) => {
+                if(value!=null && value){
+                  //Subir al server
+                  Navigator.pop(context,selectedImages)
+                }else if(value==false){
+                  selectedImages=[],
+                  setState((){})
+                }
+              });
             }
             }, 
           icon: Image(image: value.image,height: ScreenSize.height*0.3,width: ScreenSize.width*0.3),
