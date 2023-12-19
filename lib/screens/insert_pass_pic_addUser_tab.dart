@@ -129,7 +129,11 @@ class _PassPictoNewTabState extends PassPictoNewState<PassPictoNewTab> {
       future: initializeState(),
       builder: (context, snapshot){
         return Scaffold(
-          appBar: const TopMenu(),
+          appBar: TopMenu(
+            onHomeTap: () {
+              
+            },
+          ),
           body: (initialized || snapshot.connectionState == ConnectionState.done)
             ? SingleChildScrollView(
               child: Column(
