@@ -23,7 +23,6 @@ class _PassPictoNewTabState extends PassPictoNewState<PassPictoNewTab> {
               onPressed: (){
                 selectedImages.removeAt(i);
                 setState(() {});
-                print(selectedImages);
               },
               icon: Image(image: imagenes[selectedImages[i]]!.image, height: ScreenSize.height*0.2, width: ScreenSize.width*0.2,)
       ));
@@ -93,7 +92,6 @@ class _PassPictoNewTabState extends PassPictoNewState<PassPictoNewTab> {
             if(selectedImages.length==3){
               confirmationDialog(context).then((value) => {
                 if(value!=null && value){
-                  //Subir al server
                   Navigator.pop(context,selectedImages)
                 }else if(value==false){
                   selectedImages=[],

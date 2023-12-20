@@ -15,6 +15,7 @@ import 'package:appcesible/widgets/dialog_loading.dart';
 import 'package:appcesible/widgets/widget_top_teacher.dart';
 import 'package:appcesible/widgets/upload_img.dart';
 import 'package:appcesible/widgets/button.dart';
+import 'package:appcesible/screens/insert_pass_pic_addUser_init.dart';
 
 // Esto es una plantilla, para que sea la de añadir alumno, le pasais argumentos vacios, es decir, llamais al constructor
 // FormularioAlumnos('','','',{},[],,'')
@@ -83,6 +84,7 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
   List<ClassModel> classes = [];
   List<String> userTypes = ['Profesor','Estudiante','Administrador'];
   Image _defaultImage = Image.asset('assets/images/addPicture.png');
+  List<int> idPicturesPasswd=[];
 
   String _choosedTypes = '';
   String? _defaultTypeValue;
@@ -234,8 +236,19 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
   }
 
   Widget passwdPic(){
-    Image ejemplo=Image.asset('assets/images/addPicture.png');
-    return ejemplo;
+    return ElevatedButton(
+      onPressed: (){
+        Navigator.push(
+          context, 
+          MaterialPageRoute(builder: (context){
+            return PassPictoNew();
+          })
+        ).then((value) => {
+          idPicturesPasswd=value
+        });
+      },
+      child: Text("Introducir contraseña"),
+    );
   }
 
   Widget passwdText(){
@@ -256,6 +269,8 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
             onChanged: (bool? value) {
               setState(() {
                 picto = value!;
+                if(picto==false)
+                  idPicturesPasswd=[];
               });
             }, 
           ),
