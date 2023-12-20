@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:appcesible/screens/home_teacher.dart';
+import 'package:appcesible/widgets/dialog_confirm.dart';
+import 'package:appcesible/widgets/dialog_info.dart';
 import 'package:flutter/material.dart';
 
 import 'package:appcesible/services/user_service.dart';
@@ -15,7 +17,7 @@ import 'package:appcesible/widgets/dialog_loading.dart';
 import 'package:appcesible/widgets/widget_top_teacher.dart';
 import 'package:appcesible/widgets/upload_img.dart';
 import 'package:appcesible/widgets/button.dart';
-import 'package:appcesible/screens/insert_pass_pic_addUser_init.dart';
+import 'package:appcesible/screens/insert_pass_pic_add_user.dart';
 
 // Esto es una plantilla, para que sea la de añadir alumno, le pasais argumentos vacios, es decir, llamais al constructor
 // FormularioAlumnos('','','',{},[],,'')
@@ -70,9 +72,10 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
   UserModel user = UserModel(
     id: -1,
     userName: '',
-    userType: 0,
+    userType: -1,
     idClass: 0,
-    loginType: 0
+    loginType: 0,
+    interactionFormat: -1
   );
   
   final TextEditingController _userController = TextEditingController();
@@ -121,6 +124,10 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
     }
   }
 
+  Future _handleConfirm() async {
+    await actionCall(user, _passwdController.value.text, _pickedImage!);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -155,7 +162,7 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
   }
 
   String? _getDefaultTypeValue() {
-    return (!widget.newUser && userSelected) ? userTypes[user.userType] : null;
+    return (user.userType != -1 && !widget.newUser && userSelected) ? userTypes[user.userType] : null;
   }
 
   String? _getDefaultClassValue() {
@@ -294,12 +301,41 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                 if (content.containsKey(value)) {
                   content[value] = !(content[value] ?? false);
                 }
+
                 _choosedTypes = '';
                 content.forEach((key, value) {
                   if(value) {
                     _choosedTypes += ' $key ';
                   }
                 });
+
+                if (content['Texto'] ?? false) {
+                  if (content['Audio'] ?? false) {
+                    if (content['Picto'] ?? false) {
+                      user.interactionFormat = 111;
+                    }
+                    else {
+                      user.interactionFormat = 10;
+                    }
+                  }
+                  else if (content['Picto'] ?? false) {
+                    user.interactionFormat = 11;
+                  }
+                  else {
+                    user.interactionFormat = 0;
+                  }
+                }
+                else if (content['Audio'] ?? false) {
+                  if (content['Picto'] ?? false) {
+                    user.interactionFormat = 12;
+                  }
+                  else {
+                    user.interactionFormat = 1;
+                  }
+                }
+                else if (content['Picto'] ?? false) {
+                  user.interactionFormat = 2;
+                }
               });
             },
             elements: content.keys.toList(),
@@ -313,10 +349,31 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: _initializeState(),
-      builder: (content, snapshot) {
+      builder: (context, snapshot) {
         return Scaffold(
           backgroundColor: Colors.white,
-          appBar: const TopMenu(),
+          appBar: TopMenu(
+            onHomeTap: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return ConfirmationDialog(
+                    message: '¿Está seguro de que quiere abandonar el proceso?\nLos datos introducidos hasta el momento se perderán',
+                    onConfirm: () {
+                      Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return const TeacherHome();
+                          }
+                        ),
+                        (route) => false
+                      );
+                    }
+                  );
+                }
+              );
+            }
+          ),
           body: (_initialized || snapshot.connectionState == ConnectionState.done)
           ? SingleChildScrollView(
               padding: const EdgeInsets.all(8.0),
@@ -403,7 +460,9 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                             ),
                           )
                         ),
-                        (picto && userTypes[user.userType] == 'Estudiante') ? passwdPic() : passwdText(),
+                        (user.userType != -1 && picto && userTypes[user.userType] == 'Estudiante')
+                          ? passwdPic()
+                          : passwdText(),
                         show ? Container(child: pictoCheckWid()):const SizedBox.shrink(),
                         show ? Container(child: contentW(context)):const SizedBox.shrink(),
                         Padding(
@@ -480,13 +539,13 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                                 cont++;
                                 msg = 'Rellene el campo contraseña';
                               }
-                              if (userTypes[user.userType]=='') {
+                              if (user.userType == -1) {
                                 cont++;
                                 msg = 'Rellene el campo tipo usuario';
                               }
-                              if ((_choosedTypes.isEmpty && userTypes[user.userType]=='Estudiante')) {
+                              if (user.userType != -1 && (user.interactionFormat == -1 && userTypes[user.userType]=='Estudiante')) {
                                 cont++;
-                                msg = 'Rellene el campo contenidos';
+                                msg = 'Rellene el campo tipo de contenido';
                               }
                               if (user.idClass == -1) {
                                 cont++;
@@ -502,21 +561,47 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                                 ErrorWindow.showErrorDialog(context, msg);
                               }
                               else {
-                                // showDialog(
-                                //   context: context,
-                                //   builder: (context) {
-                                //     return const LoadingDialog();
-                                //   }
-                                // );
-                                
-                                user.userName = _nameController.text;
-                                await actionCall(user, _passwdController.value.text, _pickedImage!);
+                                setState(() {
+                                  user.userName = _nameController.text;
+                                });
 
-                                // Navigator.of(context).pop();
-                                Navigator.of(context).pushAndRemoveUntil(
-                                    MaterialPageRoute(builder: (context) {
-                                  return const TeacherHome();
-                                }), (route) => false);
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return ConfirmationDialog(
+                                      message: 'Los datos del usuario serán almacenados\n¿Quiere continuar?',
+                                      onConfirm: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return FutureBuilder(
+                                              future: _handleConfirm(),
+                                              builder: (context, snapshot) {
+                                                return (snapshot.connectionState == ConnectionState.done)
+                                                  ? InfoDialog(
+                                                    message: 'Los datos del usuario se han almacenado correctamente',
+                                                    onPressed: () {
+                                                      Navigator.of(context).pushAndRemoveUntil(
+                                                          MaterialPageRoute(builder: (context) {
+                                                        return const TeacherHome();
+                                                      }), (route) => false);
+                                                    },
+                                                  )
+                                                  : Scaffold(
+                                                    appBar: TopMenu(
+                                                      onHomeTap: () {},
+                                                    ),
+                                                    body: const LoadingDialog()
+                                                  );
+                                              }
+                                            );
+                                          },
+                                          barrierDismissible: false,
+                                        );
+                                      }
+                                    );
+                                  }
+                                );
                               }
                             },
                           ),

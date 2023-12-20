@@ -18,7 +18,9 @@ class _PictoPasswState extends State<PictoPassw> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: TopMenu(),
+        appBar: TopMenu(
+          onHomeTap: () {},
+        ),
         body: Column(
           children: [
             Expanded(

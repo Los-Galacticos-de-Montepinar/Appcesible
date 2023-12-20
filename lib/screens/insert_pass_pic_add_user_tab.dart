@@ -1,4 +1,4 @@
-import 'package:appcesible/screens/insert_pass_pic_addUser_init.dart';
+import 'package:appcesible/screens/insert_pass_pic_add_user.dart';
 import 'package:appcesible/widgets/button.dart';
 import 'package:appcesible/widgets/dialog_loading.dart';
 import 'package:appcesible/widgets/widget_top_teacher.dart';
@@ -127,7 +127,11 @@ class _PassPictoNewTabState extends PassPictoNewState<PassPictoNewTab> {
       future: initializeState(),
       builder: (context, snapshot){
         return Scaffold(
-          appBar: const TopMenu(),
+          appBar: TopMenu(
+            onHomeTap: () {
+              
+            },
+          ),
           body: (initialized || snapshot.connectionState == ConnectionState.done)
             ? SingleChildScrollView(
               child: Column(

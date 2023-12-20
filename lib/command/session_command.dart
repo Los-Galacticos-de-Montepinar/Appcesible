@@ -21,7 +21,7 @@ Future initSession() async {
 
   // sessionInfo.setString('baseAddress', '10.0.2.2:8080');
   sessionInfo.setString('baseAddress', 'localhost:8080');
-  // sessionInfo.setString('baseAddress', '100.70.70.131:8080');
+  //sessionInfo.setString('baseAddress', '100.70.70.131:8080');
   // sessionInfo.setString('baseAddress', '192.168.1.42:8080');
 }
 
@@ -32,13 +32,14 @@ Future sessionToken(String token) async {
   sessionInfo.setString('token', token);
 }
 
-Future userLogin(int id, String userName, int userType, int interactionType) async {
+Future userLogin(
+    int id, String userName, int userType, int interactionType) async {
   SharedPreferences sessionInfo = await getSessionInformation();
   sessionInfo.setInt('id', id);
   sessionInfo.setString('userName', userName);
   sessionInfo.setInt('userType', userType);
   sessionInfo.setInt('interactionType', interactionType);
-  
+
   print('Login successful!');
 }
 

@@ -1,3 +1,4 @@
+import 'package:appcesible/widgets/dialog_select_task.dart';
 import 'package:flutter/material.dart';
 
 import 'package:appcesible/widgets/widget_top_teacher.dart';
@@ -37,7 +38,11 @@ class _TaskListMobileState extends State<TaskListMobile> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: const TopMenu(),
+        appBar: TopMenu(
+          onHomeTap: () {
+            Navigator.of(context).pop();
+          }
+        ),
         body: Padding(
           padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
           child: Center(
@@ -69,7 +74,12 @@ class _TaskListMobileState extends State<TaskListMobile> {
                     IconButton(
                       icon: const Icon(Icons.add),
                       onPressed: () {
-                        // Lógica para agregar
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return const SelectTaskTypeDialog();
+                          }
+                        );
                       },
                     ),
                     Expanded(

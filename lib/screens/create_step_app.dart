@@ -20,7 +20,9 @@ class _CreateStepMobileState extends State<CreateStepMobile> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-        appBar: const TopMenu(),
+        appBar: TopMenu(
+          onHomeTap: () {}
+        ),
         body: Center(
           child: FittedBox(
             child: Column(

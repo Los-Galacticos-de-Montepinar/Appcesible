@@ -100,7 +100,9 @@ class taskAsignTabletState extends State<TaskAsignTablet>{
 
     return MaterialApp(
       home: Scaffold(
-        appBar: TopMenu(),
+        appBar: TopMenu(
+          onHomeTap: () {},
+        ),
         body: SingleChildScrollView(
           child: Column(
             children: [

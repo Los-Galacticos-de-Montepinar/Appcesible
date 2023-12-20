@@ -21,7 +21,9 @@ class _MaterialTaskTabState extends MaterialTaskState<MaterialTaskTab> {
       builder: (context, snapshot) {
         return Scaffold(
           backgroundColor: Colors.white,
-          appBar: const TopMenu(),
+          appBar: TopMenu(
+            onHomeTap: () {}
+          ),
           body: (initialized ||
                   snapshot.connectionState == ConnectionState.done)
               ? SingleChildScrollView(

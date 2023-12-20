@@ -4,8 +4,8 @@ import 'package:appcesible/services/media_service.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:appcesible/screens/screenutil_init.dart';
-import 'package:appcesible/screens/insert_pass_pic_addUser_tab.dart';
-import 'package:appcesible/screens/insert_pass_pic_addUser_mobile.dart';
+import 'package:appcesible/screens/insert_pass_pic_add_user_tab.dart';
+import 'package:appcesible/screens/insert_pass_pic_add_user_app.dart';
 
 class PassPictoNew extends StatelessWidget{
   const PassPictoNew({super.key});

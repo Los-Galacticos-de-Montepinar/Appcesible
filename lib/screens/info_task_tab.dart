@@ -66,7 +66,9 @@ class TaskInformationTablet extends StatelessWidget{
 
     return MaterialApp(
       home: Scaffold(
-        appBar: TopMenu(),
+        appBar: TopMenu(
+          onHomeTap: () {},
+        ),
         body: SingleChildScrollView(
           child: Padding(
             padding: myPad,
