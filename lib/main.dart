@@ -1,10 +1,8 @@
-import 'package:appcesible/screens/create_user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:appcesible/screens/select_user.dart';
-// import 'package:appcesible/screens/insert_pass_pic_addUser_init.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -29,7 +27,7 @@ void main() {
             Locale('en'), // English
             Locale('es', 'ES'), // Spanish
           ],
-          home: FormularioUsuarios(title: "Añadir usuario",newUser: true,),
+          home: SelectUser(),
         );
       },
     ),

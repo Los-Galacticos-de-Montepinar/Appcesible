@@ -1,7 +1,7 @@
+import 'package:appcesible/widgets/widget_top_student.dart';
 import 'package:flutter/material.dart';
 
 import 'package:appcesible/screens/select_user.dart';
-import 'package:appcesible/widgets/widget_top_teacher.dart';
 
 class SelectUserTab extends StatefulWidget {
   const SelectUserTab({super.key});
@@ -15,157 +15,122 @@ class _SelectUserTabState extends SelectionState<SelectUserTab> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: TopMenu(
-        onHomeTap: () {}
-      ),
+      appBar: const TopMenuStudent(texto: 'INICIO'),
       body: Center(
         child: Container(
-          width: 1024, // Ajusta según tus necesidades
-          alignment: Alignment
-              .topCenter, // Alinea el contenido en la parte superior del contenedor
+          width: 1024,
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: FittedBox(
-            child: Column(
-              children: [
-                const SizedBox(height: 80),
-                ElevatedButton(
+            child: Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // Box transparent between left and the button
+                  const SizedBox(width: 10),
+
+                  // Elevated Button to the previous user
+                  ElevatedButton(
                     onPressed: () {
-                      returnPage();
+                      previousUser();
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                          Colors.grey[500], // Cambia el color de fondo
-                    ),
-                    child: const Row(
-                      children: [
-                        Icon(
-                          Icons.subdirectory_arrow_left_outlined,
-                          size: 38,
-                          color: Colors.white,
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          'Volver',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    )),
-                const SizedBox(height: 70),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // Box transparent between left and the button
-                    const SizedBox(width: 10),
-
-                    // Elevated Button to the previous user
-                    ElevatedButton(
-                      onPressed: () {
-                        previousUser();
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20.0),
-                            bottomLeft: Radius.circular(20.0),
-                          ),
+                      backgroundColor: Colors.black,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20.0),
+                          bottomLeft: Radius.circular(20.0),
                         ),
                       ),
-                      child: const Icon(
-                        Icons.arrow_back,
-                        size: 38,
-                        color: Colors.white,
-                      ),
                     ),
-                    // Box transparent between the button and the profile picture
-                    const SizedBox(width: 20),
-                    Container(
-                      width: 900,
-                      padding: const EdgeInsets.symmetric(horizontal: 30),
-                      child: GridView.builder(
-                        shrinkWrap: true,
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3, // Mostrar 3 usuarios por fila
-                          mainAxisSpacing: 10.0,
-                          crossAxisSpacing: 10.0,
-                        ),
-                        itemCount: currentIndex + 6 > profileList.length
-                            ? images.length - currentIndex
-                            : 6,
-                        itemBuilder: (context, index) {
-                          int imageIndex = currentIndex + index;
-                          return InkWell(
-                            onTap: () {
-                              selectUser(imageIndex);
-                            },
-                            child: Column(
-                              children: [
-                                Center(
-                                  child: Text(
-                                    profileList.isNotEmpty
-                                        ? profileList[imageIndex].userName
-                                        : ' ',
-                                    style: const TextStyle(
-                                      fontSize: 30,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                    ),
+                    child: const Icon(
+                      Icons.arrow_back,
+                      size: 38,
+                      color: Colors.white,
+                    ),
+                  ),
+                  // Box transparent between the button and the profile picture
+                  const SizedBox(width: 20),
+                  Container(
+                    width: 900,
+                    padding: const EdgeInsets.symmetric(horizontal: 30),
+                    child: GridView.builder(
+                      shrinkWrap: true,
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3, // Mostrar 3 usuarios por fila
+                        mainAxisSpacing: 10.0,
+                        crossAxisSpacing: 10.0,
+                      ),
+                      itemCount: currentIndex + 6 > profileList.length
+                          ? images.length - currentIndex
+                          : 6,
+                      itemBuilder: (context, index) {
+                        int imageIndex = currentIndex + index;
+                        return InkWell(
+                          onTap: () {
+                            selectUser(imageIndex);
+                          },
+                          child: Column(
+                            children: [
+                              Center(
+                                child: Text(
+                                  profileList.isNotEmpty
+                                      ? profileList[imageIndex].userName
+                                      : ' ',
+                                  style: const TextStyle(
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
                                   ),
                                 ),
-                                const SizedBox(height: 30),
-                                Container(
-                                  width: 200,
-                                  height: 200,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: Colors.black,
-                                      width: 5.0,
-                                    ),
-                                  ),
-                                  child: ClipOval(
-                                    child: imageWidget(imageIndex),
+                              ),
+                              const SizedBox(height: 30),
+                              Container(
+                                width: 200,
+                                height: 200,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: Colors.black,
+                                    width: 5.0,
                                   ),
                                 ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-
-                    // Box transparent between the button and the profile picture
-                    const SizedBox(width: 20),
-                    // Elevated Button to the next user
-                    ElevatedButton(
-                      onPressed: () {
-                        nextUser();
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(20.0),
-                            bottomRight: Radius.circular(20.0),
+                                child: ClipOval(
+                                  child: imageWidget(imageIndex),
+                                ),
+                              ),
+                            ],
                           ),
+                        );
+                      },
+                    ),
+                  ),
+
+                  // Box transparent between the button and the profile picture
+                  const SizedBox(width: 20),
+                  // Elevated Button to the next user
+                  ElevatedButton(
+                    onPressed: () {
+                      nextUser();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(20.0),
+                          bottomRight: Radius.circular(20.0),
                         ),
                       ),
-                      child: const Icon(
-                        Icons.arrow_forward,
-                        size: 38,
-                        color: Colors.white,
-                      ),
                     ),
-                    // Box transparent between the button and right side
-                    const SizedBox(width: 10),
-                  ],
-                ),
-              ],
+                    child: const Icon(
+                      Icons.arrow_forward,
+                      size: 38,
+                      color: Colors.white,
+                    ),
+                  ),
+                  // Box transparent between the button and right side
+                  const SizedBox(width: 10),
+                ],
+              ),
             ),
           ),
         ),

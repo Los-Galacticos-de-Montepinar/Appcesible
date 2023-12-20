@@ -1,3 +1,4 @@
+import 'package:appcesible/screens/home_teacher.dart';
 import 'package:appcesible/widgets/dialog_confirm.dart';
 import 'package:flutter/material.dart';
 
@@ -10,11 +11,11 @@ import 'package:appcesible/screens/select_user.dart';
 class TopMenu extends StatelessWidget implements PreferredSizeWidget {
   @override
   final Size preferredSize;
-  final Function() onHomeTap;
+  final Function()? onHomeTap;
 
   const TopMenu({
     super.key,
-    required this.onHomeTap
+    this.onHomeTap
   }) : preferredSize = const Size.fromHeight(70.0);
 
   @override
@@ -55,7 +56,12 @@ class TopMenu extends StatelessWidget implements PreferredSizeWidget {
             ),
           ],
         ),
-        onPressed: onHomeTap,
+        onPressed: onHomeTap ?? () {
+          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) {
+            return const TeacherHome();
+          }),
+          (route) => false);
+        },
       ),
       // ! Se utiliza para poner texto a la derecha del titulo
       actions: <Widget>[

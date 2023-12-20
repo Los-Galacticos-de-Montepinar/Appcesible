@@ -248,13 +248,13 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
         Navigator.push(
           context, 
           MaterialPageRoute(builder: (context){
-            return PassPictoNew();
+            return const PassPictoNew();
           })
         ).then((value) => {
           idPicturesPasswd=value
         });
       },
-      child: Text("Introducir contraseña"),
+      child: const Text("Introducir contraseña"),
     );
   }
 
@@ -276,8 +276,9 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
             onChanged: (bool? value) {
               setState(() {
                 picto = value!;
-                if(picto==false)
+                if(picto==false) {
                   idPicturesPasswd=[];
+                }
               });
             }, 
           ),

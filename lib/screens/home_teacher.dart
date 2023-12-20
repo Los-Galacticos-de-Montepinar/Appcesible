@@ -1,5 +1,6 @@
 import 'package:appcesible/command/session_command.dart';
 import 'package:appcesible/screens/assign_fixed_task_app.dart';
+import 'package:appcesible/widgets/dialog_confirm.dart';
 import 'package:flutter/material.dart';
 
 import 'package:appcesible/screens/task_list.dart';
@@ -34,9 +35,7 @@ class _TeacherHomeState extends State<TeacherHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TopMenu(
-        onHomeTap: () {}
-      ),
+      appBar: const TopMenu(),
       body: SingleChildScrollView(
         child: Column(
           //mainAxisAlignment: MainAxisAlignment.center,

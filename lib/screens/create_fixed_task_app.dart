@@ -1,6 +1,8 @@
 // SCREEEN TO CREATE A TASK - Phone Version
 // Autor: Alejandro Sanchez Rodríguez
 
+import 'package:appcesible/screens/home_teacher.dart';
+import 'package:appcesible/widgets/dialog_confirm.dart';
 import 'package:appcesible/widgets/widget_top_teacher.dart';
 import 'package:flutter/material.dart';
 import 'package:appcesible/screens/create_step_app.dart';
@@ -32,7 +34,26 @@ class _CreateTaskMobileState extends State<CreateTaskMobile> {
       home: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: TopMenu(
-          onHomeTap: () {}
+          onHomeTap: () {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return ConfirmationDialog(
+                  message: '¿Está seguro de que quiere abandonar el proceso?\nLos datos introducidos hasta el momento se perderán',
+                  onConfirm: () {
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return const TeacherHome();
+                        }
+                      ),
+                      (route) => false
+                    );
+                  }
+                );
+              }
+            );
+          }
         ),
         body: Center(
           child: FittedBox(

@@ -1,3 +1,5 @@
+import 'package:appcesible/screens/home_teacher.dart';
+import 'package:appcesible/widgets/dialog_confirm.dart';
 import 'package:flutter/material.dart';
 import 'package:appcesible/screens/create_material_task.dart';
 import 'package:appcesible/widgets/widget_top_teacher.dart';
@@ -22,7 +24,26 @@ class _MaterialTaskTabState extends MaterialTaskState<MaterialTaskTab> {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: TopMenu(
-            onHomeTap: () {}
+            onHomeTap: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return ConfirmationDialog(
+                    message: '¿Está seguro de que quiere abandonar el proceso?\nLos datos introducidos hasta el momento se perderán',
+                    onConfirm: () {
+                      Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return const TeacherHome();
+                          }
+                        ),
+                        (route) => false
+                      );
+                    }
+                  );
+                }
+              );
+            }
           ),
           body: (initialized ||
                   snapshot.connectionState == ConnectionState.done)
@@ -188,7 +209,7 @@ class _MaterialTaskTabState extends MaterialTaskState<MaterialTaskTab> {
                         alignment: Alignment.center,
                         child: ActionButton(
                             text: 'Crear Pedido',
-                            type: 0,
+                            type: 1,
                             onPressed: createOrder),
                       ),
                       const SizedBox(height: 20.0),

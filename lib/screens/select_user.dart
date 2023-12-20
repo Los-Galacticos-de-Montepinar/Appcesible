@@ -107,8 +107,10 @@ abstract class SelectionState<T extends StatefulWidget> extends State<T> {
         return PictoPassw();
       }));
     } else {
+      Image img = images.firstWhere((element) => (element.key.id == user.idProfileImg)).value;
+
       Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
-        return Login(user: user);
+        return Login(user: user, userImage: img,);
       }));
     }
   }

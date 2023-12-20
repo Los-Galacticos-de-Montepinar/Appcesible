@@ -1,5 +1,7 @@
+import 'package:appcesible/screens/home_teacher.dart';
 import 'package:appcesible/screens/insert_pass_pic_add_user.dart';
 import 'package:appcesible/widgets/button.dart';
+import 'package:appcesible/widgets/dialog_confirm.dart';
 import 'package:appcesible/widgets/dialog_loading.dart';
 import 'package:appcesible/widgets/widget_top_teacher.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +15,7 @@ class PassPictoNewApp extends StatefulWidget{
 }
 
 class PassPictoNewAppState extends PassPictoNewState<PassPictoNewApp> {
-  Container mySecondGrid(Size ScreenSize){
+  Container mySecondGrid(Size screenSize){
 
     List <IconButton> aux=[];
 
@@ -25,13 +27,13 @@ class PassPictoNewAppState extends PassPictoNewState<PassPictoNewApp> {
                 setState(() {});
                 print(selectedImages);
               },
-              icon: Image(image: imagenes[selectedImages[i]]!.image, height: ScreenSize.height*0.2, width: ScreenSize.width*0.2,)
+              icon: Image(image: imagenes[selectedImages[i]]!.image, height: screenSize.height*0.2, width: screenSize.width*0.2,)
       ));
     }
 
     return Container(
-      width: ScreenSize.width,
-      height: ScreenSize.height*0.2,
+      width: screenSize.width,
+      height: screenSize.height*0.2,
       decoration: BoxDecoration(
         border: Border.all(color: Colors.black, width: 2),
         color: Colors.grey,
@@ -52,7 +54,7 @@ class PassPictoNewAppState extends PassPictoNewState<PassPictoNewApp> {
         return AlertDialog(
           backgroundColor: Colors.white,
           surfaceTintColor: Colors.white,
-          title: Text("¿Seguro que quieres guardar esta contraseña?",textScaler: TextScaler.linear(0.6),),
+          title: const Text("¿Seguro que quieres guardar esta contraseña?",textScaler: TextScaler.linear(0.6),),
           actions: [
             SingleChildScrollView(
               child: Column(
@@ -81,7 +83,7 @@ class PassPictoNewAppState extends PassPictoNewState<PassPictoNewApp> {
     );
   }
 
-  Container myFirstGrid(Size ScreenSize) {
+  Container myFirstGrid(Size screenSize) {
     List<IconButton> botonesImagenes=List.empty(growable: true); 
 
     imagenes.forEach((key,value) {
@@ -102,13 +104,13 @@ class PassPictoNewAppState extends PassPictoNewState<PassPictoNewApp> {
               });
             }
             }, 
-          icon: Image(image: value.image,height: ScreenSize.height*0.3,width: ScreenSize.width*0.3),
+          icon: Image(image: value.image,height: screenSize.height*0.3,width: screenSize.width*0.3),
           )
       );
     });
 
     return Container(
-      height: ScreenSize.height*0.73,
+      height: screenSize.height*0.73,
       alignment: Alignment.center,
       decoration: BoxDecoration(
         border: Border.all(color: Colors.black, width: 2),
@@ -123,7 +125,7 @@ class PassPictoNewAppState extends PassPictoNewState<PassPictoNewApp> {
   @override
   Widget build(BuildContext context){
 
-    final Size ScreenSize=MediaQuery.of(context).size;
+    final Size screenSize=MediaQuery.of(context).size;
 
     return FutureBuilder(
       future: initializeState(),
@@ -131,15 +133,32 @@ class PassPictoNewAppState extends PassPictoNewState<PassPictoNewApp> {
         return Scaffold(
           appBar: TopMenu(
             onHomeTap: () {
-
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return ConfirmationDialog(
+                    message: '¿Está seguro de que quiere abandonar el proceso?\nLos datos introducidos hasta el momento se perderán',
+                    onConfirm: () {
+                      Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return const TeacherHome();
+                          }
+                        ),
+                        (route) => false
+                      );
+                    }
+                  );
+                }
+              );
             },
           ),
           body: (initialized || snapshot.connectionState == ConnectionState.done)
             ? SingleChildScrollView(
               child: Column(
                 children: [
-                  myFirstGrid(ScreenSize),
-                  mySecondGrid(ScreenSize)
+                  myFirstGrid(screenSize),
+                  mySecondGrid(screenSize)
                 ],
               ),
             )

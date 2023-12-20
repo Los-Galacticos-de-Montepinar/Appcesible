@@ -38,11 +38,7 @@ class _TaskListMobileState extends State<TaskListMobile> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: TopMenu(
-          onHomeTap: () {
-            Navigator.of(context).pop();
-          }
-        ),
+        appBar: const TopMenu(),
         body: Padding(
           padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
           child: Center(
