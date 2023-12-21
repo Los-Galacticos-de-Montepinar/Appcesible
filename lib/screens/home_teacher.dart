@@ -134,7 +134,7 @@ class _TeacherHomeState extends State<TeacherHome> {
                       width: 10,
                     ),
                     Text(
-                      'Tareas',
+                      'Historial de Tareas',
                       style: TextStyle(color: Colors.black, fontSize: 20),
                     ),
                   ],
@@ -191,7 +191,7 @@ class _TeacherHomeState extends State<TeacherHome> {
                               width: 10,
                             ),
                             Text(
-                              'Crear Tareas',
+                              'Asignar Tareas',
                               style:
                                   TextStyle(color: Colors.black, fontSize: 20),
                             ),
@@ -318,49 +318,49 @@ class _TeacherHomeState extends State<TeacherHome> {
                   ],
                 )),
 
-            const SizedBox(
-              height: 15,
-            ),
+            // const SizedBox(
+            //   height: 15,
+            // ),
 
-            Padding(
-              padding: const EdgeInsets.only(left: 8, right: 8),
-              child: ElevatedButton(
-                onPressed: () {},
-                style: ButtonStyle(
-                  elevation: MaterialStateProperty.all(5),
-                  alignment: Alignment.centerLeft,
-                  minimumSize: MaterialStateProperty.all(const Size(400, 80)),
-                  backgroundColor:
-                      MaterialStateProperty.all(const Color(0x85EEEEEE)),
-                  overlayColor: MaterialStateProperty.all(Colors.black12),
-                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5.0),
-                  )),
-                  side: MaterialStateProperty.all(
-                    const BorderSide(
-                      width: 1.5,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-                child: const Row(
-                  //mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.edit_note_outlined,
-                      color: Colors.black,
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      'EOIQUEIO Alumno',
-                      style: TextStyle(color: Colors.black, fontSize: 20),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.only(left: 8, right: 8),
+            //   child: ElevatedButton(
+            //     onPressed: () {},
+            //     style: ButtonStyle(
+            //       elevation: MaterialStateProperty.all(5),
+            //       alignment: Alignment.centerLeft,
+            //       minimumSize: MaterialStateProperty.all(const Size(400, 80)),
+            //       backgroundColor:
+            //           MaterialStateProperty.all(const Color(0x85EEEEEE)),
+            //       overlayColor: MaterialStateProperty.all(Colors.black12),
+            //       shape: MaterialStateProperty.all(RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(5.0),
+            //       )),
+            //       side: MaterialStateProperty.all(
+            //         const BorderSide(
+            //           width: 1.5,
+            //           color: Colors.black,
+            //         ),
+            //       ),
+            //     ),
+            //     child: const Row(
+            //       //mainAxisSize: MainAxisSize.min,
+            //       children: [
+            //         Icon(
+            //           Icons.edit_note_outlined,
+            //           color: Colors.black,
+            //         ),
+            //         SizedBox(
+            //           width: 10,
+            //         ),
+            //         Text(
+            //           'EOIQUEIO Alumno',
+            //           style: TextStyle(color: Colors.black, fontSize: 20),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
 
             const SizedBox(
               height: 15,

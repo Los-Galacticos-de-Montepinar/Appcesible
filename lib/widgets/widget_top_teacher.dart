@@ -6,7 +6,7 @@ import 'package:appcesible/command/session_command.dart';
 import 'package:appcesible/services/user_service.dart';
 
 import 'package:appcesible/screens/create_user.dart';
-import 'package:appcesible/screens/select_user.dart';
+import 'package:appcesible/screens/select_main.dart';
 
 class TopMenu extends StatelessWidget implements PreferredSizeWidget {
   @override
@@ -94,7 +94,7 @@ class TopMenu extends StatelessWidget implements PreferredSizeWidget {
                             if (logout) {
                               navigator.pushAndRemoveUntil(MaterialPageRoute(
                                   builder: (BuildContext context) {
-                                return const SelectUser();
+                                return const SelectMain();
                               }), (route) => false);
                             }
                           },
