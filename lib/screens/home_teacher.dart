@@ -155,7 +155,11 @@ class _TeacherHomeState extends State<TeacherHome> {
                     Padding(
                       padding: const EdgeInsets.only(left: 8, right: 8),
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                            return const TaskListInit();
+                          }));
+                        },
                         style: ButtonStyle(
                           elevation: MaterialStateProperty.all(5),
                           alignment: Alignment.centerLeft,
