@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:appcesible/screens/home_teacher.dart';
 import 'package:appcesible/widgets/dialog_confirm.dart';
 import 'package:appcesible/widgets/dialog_info.dart';
@@ -66,7 +68,7 @@ class FormularioUsuarios extends StatefulWidget {
 }
 
 class FormularioAlumnosState extends State<FormularioUsuarios> {
-  late Function(UserModel, String) actionCall;
+  late Function(UserModel, String, File) actionCall;
   UserModel user = UserModel(
     id: -1,
     userName: '',
@@ -82,7 +84,7 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
   
   List<UserModel> users = [];
   Map<String,bool> content = {'Texto':false,'Audio':false,'Imagenes':false};
-  List<ClassModel> classes = [ClassModel(id: 1, className: "1A"),ClassModel(id: 2, className: "2A")];
+  List<ClassModel> classes = [];
   List<String> userTypes = ['Profesor','Estudiante','Administrador'];
   Image _defaultImage = Image.asset('assets/images/addPicture.png');
   List<int> idPicturesPasswd=[];
@@ -96,7 +98,7 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
   bool show=false;
   bool picto=false;
 
-  bool _initialized = true;
+  bool _initialized = false;
   Future _initializeState() async {
     if (!_initialized) {
       actionCall = (widget.newUser && widget.id == null) ? createUser : updateUser;
@@ -105,7 +107,7 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
       if (!widget.newUser && widget.id != null) {
         userSelected = true;
 
-        user = UserModel(id: 3, userName: "Man", userType: 1, idClass: 1, loginType: 1);//await getUserFromId(widget.id!);
+        user = await getUserFromId(widget.id!);
         isUserStudent();
 
         _nameController.text = user.userName;
@@ -115,7 +117,7 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
         _defaultImage = user.image!;
       }
       else if (!widget.newUser && widget.id == null) {
-        users = [UserModel(id: 3, userName: "Man", userType: 1, idClass: 1, loginType: 1)];//await getAllUsers(true);
+        users = await getAllUsers(true);
       }
 
       _initialized = true;
@@ -194,7 +196,7 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
 
   void isUserStudent() async {
     if (user.userType == 1) {
-      UserModel student = UserModel(id: 3, userName: "Man", userType: 1, idClass: 1, loginType: 1);//await getStudentFromId(user.id);
+      UserModel student = await getStudentFromId(user.id);
 
       setState(() {
         user = student;
@@ -242,7 +244,6 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
 
   Widget passwdPic(){
     return ElevatedButton(
-      key: Key("passwdP"),
       onPressed: (){
         Navigator.push(
           context, 
@@ -259,7 +260,6 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
 
   Widget passwdText(){
     return TextField(
-      key: Key("passwdT"),
       controller: _passwdController,
       decoration: const InputDecoration(
         labelText: 'Contraseña',
@@ -272,7 +272,6 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
     return Row(
       children: [
         Checkbox(
-            key: Key("passwdP"),
             value: picto, 
             onChanged: (bool? value) {
               setState(() {
@@ -296,7 +295,6 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
         Padding(
           padding: const EdgeInsets.only(top: 10.0),
           child: InputDropdown(
-            key: Key("contentType"),
             name: 'Tipo de contenido',
             onElementSelected: (value) {
               setState(() {
@@ -352,8 +350,7 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
     return FutureBuilder(
       future: _initializeState(),
       builder: (context, snapshot) {
-         return MaterialApp(
-         home: Scaffold(
+        return Scaffold(
           backgroundColor: Colors.white,
           appBar: TopMenu(
             onHomeTap: () {
@@ -423,12 +420,11 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               DropdownButtonFormField<String>(
-                                key: Key("userType"),
                                 decoration: const InputDecoration(
                                   labelText: 'Tipo de usuario',
                                   border: OutlineInputBorder(),
                                 ),
-                                //value: _defaultTypeValue,
+                                value: _defaultTypeValue,
                                 dropdownColor: Colors.white,
                                 items: userTypes.map((element) {
                                   return DropdownMenuItem<String>(
@@ -457,7 +453,6 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10.0),
                           child: TextField(
-                            key: Key("name"),
                             controller: _nameController,
                             decoration: const InputDecoration(
                               labelText: 'Nombre Completo',
@@ -473,7 +468,6 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10.0),
                           child: DropdownButtonFormField<String>(
-                            key: Key("class"),
                             decoration: const InputDecoration(
                               labelText: 'Clase',
                               border: OutlineInputBorder(),
@@ -517,10 +511,10 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                                 child: const ClipOval(),
                             ),
                             onPressed: () async {
-                              //_pickedImage = await UploadPicture.pickImage();
+                              _pickedImage = await UploadPicture.pickImage();
 
                               setState(() {
-                                //_defaultImage = Image.file(_pickedImage!);
+                                _defaultImage = Image.file(_pickedImage!);
                                 user.image = _defaultImage;
                               });
                             },
@@ -619,9 +613,8 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
               )
           )
           : const LoadingDialog(),
-        ),
-    );}
+        );
+      }
     );
-
   }
 }
