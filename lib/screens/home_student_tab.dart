@@ -1,9 +1,10 @@
 // HOME STUDENT - Tablet Version
 // Autor: Alejandro Sanchez Rodríguez
 
+import 'package:appcesible/screens/student_diary_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:appcesible/widgets/widget_top_student.dart';
-import 'package:appcesible/screens/student_diary.dart';
+import 'package:appcesible/screens/student_diary_app.dart';
 import 'package:appcesible/screens/home_student_app.dart';
 
 class HomeStudentTablet extends StatelessWidget {
@@ -46,34 +47,38 @@ class HomeStudentTablet extends StatelessWidget {
                       width: 20.0,
                     ),
                     MyBoxWithImageAndText(
-                        text: 'AGENDA',
-                        color: Colors.red,
-                        color2: Color.fromARGB(255, 234, 151, 161),
-                        destinationScreen: StudentDiary(),),
+                      text: 'AGENDA',
+                      color: Colors.red,
+                      color2: Color.fromARGB(255, 234, 151, 161),
+                      destinationScreen: StudentDiaryTablet(),
+                    ),
                     SizedBox(
                       width: 20.0,
                     ),
                     MyBoxWithImageAndText(
-                        text: 'HISTORIAL',
-                        color: Colors.blue,
-                        color2: Color.fromARGB(255, 130, 172, 192),
-                        destinationScreen: HomeStudent(),),
+                      text: 'HISTORIAL',
+                      color: Colors.blue,
+                      color2: Color.fromARGB(255, 130, 172, 192),
+                      destinationScreen: HomeStudent(),
+                    ),
                     SizedBox(
                       width: 20.0,
                     ),
                     MyBoxWithImageAndText(
-                        text: 'CHATS',
-                        color: Colors.green,
-                        color2: Color.fromARGB(255, 150, 216, 135),
-                        destinationScreen: HomeStudent(),),
+                      text: 'CHATS',
+                      color: Colors.green,
+                      color2: Color.fromARGB(255, 150, 216, 135),
+                      destinationScreen: HomeStudent(),
+                    ),
                     SizedBox(
                       width: 20.0,
                     ),
                     MyBoxWithImageAndText(
-                        text: 'AGENDA',
-                        color: Colors.orange,
-                        color2: Color.fromARGB(255, 222, 175, 90),
-                        destinationScreen: HomeStudent(),),
+                      text: 'AGENDA',
+                      color: Colors.orange,
+                      color2: Color.fromARGB(255, 222, 175, 90),
+                      destinationScreen: HomeStudent(),
+                    ),
                     SizedBox(
                       width: 20.0,
                     )

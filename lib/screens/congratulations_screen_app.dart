@@ -94,7 +94,7 @@ class MyBoxWithImageAndText extends StatelessWidget {
             Text(
               "LO LOGRASTE !!!!!",
               style: TextStyle(
-                  fontSize: MediaQuery.of(context).size.width * 0.070,
+                  fontSize: MediaQuery.of(context).size.width * 0.06,
                   fontWeight: FontWeight.bold),
             ),
           ],

@@ -203,7 +203,7 @@ class MyTask extends StatelessWidget {
     }
 
     return Container(
-      height: 135,
+      height: 140,
       width: 200,
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(

@@ -96,21 +96,30 @@ abstract class SelectionState<T extends StatefulWidget> extends State<T> {
 
   void selectUser(int index) {
     UserModel user = profileList[index];
-    user.idProfileImg = images.firstWhere((pair) => (pair.key.id == user.idProfileImg)).key.id;
+    user.idProfileImg =
+        images.firstWhere((pair) => (pair.key.id == user.idProfileImg)).key.id;
 
     // Maneja la acción al hacer clic en la imagen.
     print('Usuario clickado, número: ${profileList[index].id}');
 
     if (user.userType == 1) {
       // Falta la condición para modo de visualización
-      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (BuildContext context) {
         return PictoPassw();
       }));
     } else {
-      Image img = images.firstWhere((element) => (element.key.id == user.idProfileImg)).value;
+      Image img = images
+          .firstWhere((element) => (element.key.id == user.idProfileImg))
+          .value;
 
-      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
-        return Login(teacherInit: false, user: user, userImage: img,);
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (BuildContext context) {
+        return Login(
+          teacherInit: false,
+          user: user,
+          userImage: img,
+        );
       }));
     }
   }
@@ -120,12 +129,15 @@ abstract class SelectionState<T extends StatefulWidget> extends State<T> {
       height: 200,
       width: 200,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          image: DecorationImage(
-            image: images.firstWhere((element) => (element.key.id == profileList[id].idProfileImg)).value.image,
-            fit: BoxFit.cover
-          ),
-        ),
+        borderRadius: BorderRadius.circular(20),
+        image: DecorationImage(
+            image: images
+                .firstWhere((element) =>
+                    (element.key.id == profileList[id].idProfileImg))
+                .value
+                .image,
+            fit: BoxFit.cover),
+      ),
     );
   }
 }

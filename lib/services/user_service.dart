@@ -72,6 +72,29 @@ Future<List<UserModel>> getAllUsers(bool getImages) async {
 
 // Makes a HTTP request to get all students
 //TODO: función para pedir alumnos (ahora mismo no hace falta)
+// Returns all users information
+Future<List<UserModel>> getAllStudents(bool getImages) async {
+  String baseAddress = await getBaseAddress();
+
+  final response = await http.get(Uri.http(baseAddress, '/user/student'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8'
+      });
+
+  if (response.statusCode == 200) {
+    List<dynamic> userList = jsonDecode(utf8.decode(response.bodyBytes));
+
+    List<UserModel> users =
+        userList.map((json) => UserModel.userFromJSON(json)).toList();
+    for (int i = 0; i < users.length && getImages; i++) {
+      users[i].image = await downloadImage(users[i].idProfileImg!);
+    }
+
+    return users;
+  } else {
+    throw Exception('Failed to fetch user list');
+  }
+}
 
 // Makes a HTTP request to get a User from the server DB
 Future<UserModel> getUserFromId(int id) async {

@@ -1,3 +1,4 @@
+import 'package:appcesible/widgets/widget_top_initial.dart';
 import 'package:appcesible/widgets/widget_top_student.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +16,9 @@ class _SelectUserTabState extends SelectionState<SelectUserTab> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: const TopMenuStudent(texto: 'INICIO'),
+      appBar: const TopBarInitial(
+        showArrow: true,
+      ),
       body: Center(
         child: Container(
           width: 1024,
@@ -55,7 +58,8 @@ class _SelectUserTabState extends SelectionState<SelectUserTab> {
                     padding: const EdgeInsets.symmetric(horizontal: 30),
                     child: GridView.builder(
                       shrinkWrap: true,
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3, // Mostrar 3 usuarios por fila
                         mainAxisSpacing: 10.0,
                         crossAxisSpacing: 10.0,

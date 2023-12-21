@@ -20,11 +20,13 @@ class CongratulationsScreenTablet extends StatelessWidget {
           },
           child: const Center(
             child: FittedBox(
+              fit: BoxFit.scaleDown,
               child: Column(
                 children: <Widget>[
                   MyBoxWithImageAndText(
-                      color: Colors.black,
-                      color2: Color.fromRGBO(152, 202, 157, 1)),
+                    color: Colors.black,
+                    color2: Color.fromRGBO(152, 202, 157, 1),
+                  ),
                 ],
               ),
             ),
@@ -33,19 +35,8 @@ class CongratulationsScreenTablet extends StatelessWidget {
       ),
     );
   }
-
-  Widget imageWidget({required String image}) {
-    return Container(
-      height: 200,
-      width: 200,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          image: DecorationImage(image: AssetImage(image), fit: BoxFit.cover)),
-    );
-  }
 }
 
-// Class designed to create a box containing both text and an image
 class MyBoxWithImageAndText extends StatelessWidget {
   final Color color;
   final Color color2;
@@ -80,35 +71,50 @@ class MyBoxWithImageAndText extends StatelessWidget {
             Text(
               "FELICIDADES",
               style: TextStyle(
-                  fontSize: MediaQuery.of(context).size.width * 0.045,
-                  fontWeight: FontWeight.bold),
+                fontSize: MediaQuery.of(context).size.width * 0.045,
+                fontWeight: FontWeight.bold,
+              ),
             ),
+            const SizedBox(height: 10),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(width: MediaQuery.of(context).size.width * 0.17),
                 Container(
+                  height: MediaQuery.of(context).size.height * 0.2,
+                  width: MediaQuery.of(context).size.width * 0.2,
                   child: imageWidget2(
-                      image: 'assets/images/confeti.png', context: context),
+                    image: 'assets/images/confeti.png',
+                    context: context,
+                  ),
                 ),
                 const SizedBox(width: 40),
-                Container(
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.2,
+                  width: MediaQuery.of(context).size.width * 0.2,
                   child: imageWidget2(
-                      image: 'assets/images/confeti.png', context: context),
+                    image: 'assets/images/confeti.png',
+                    context: context,
+                  ),
                 ),
               ],
             ),
             const SizedBox(height: 10),
             Container(
+              height: MediaQuery.of(context).size.height * 0.25,
+              width: MediaQuery.of(context).size.width * 0.16,
               child: imageWidget(
-                  image: 'assets/images/trofeo.png', context: context),
+                image: 'assets/images/trofeo.png',
+                context: context,
+              ),
             ),
+            const SizedBox(height: 10),
             Text(
               "LO LOGRASTE !!!!!",
               style: TextStyle(
-                  fontSize: MediaQuery.of(context).size.width * 0.045,
-                  fontWeight: FontWeight.bold),
+                fontSize: MediaQuery.of(context).size.width * 0.045,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            const SizedBox(height: 3),
           ],
         ),
       ),
@@ -117,21 +123,25 @@ class MyBoxWithImageAndText extends StatelessWidget {
 
   Widget imageWidget({required String image, required BuildContext context}) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.25,
-      width: MediaQuery.of(context).size.width * 0.16,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          image: DecorationImage(image: AssetImage(image), fit: BoxFit.cover)),
+        borderRadius: BorderRadius.circular(20),
+        image: DecorationImage(
+          image: AssetImage(image),
+          fit: BoxFit.contain,
+        ),
+      ),
     );
   }
 
   Widget imageWidget2({required String image, required BuildContext context}) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.24,
-      width: MediaQuery.of(context).size.width * 0.15,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          image: DecorationImage(image: AssetImage(image), fit: BoxFit.cover)),
+        borderRadius: BorderRadius.circular(20),
+        image: DecorationImage(
+          image: AssetImage(image),
+          fit: BoxFit.contain,
+        ),
+      ),
     );
   }
 }

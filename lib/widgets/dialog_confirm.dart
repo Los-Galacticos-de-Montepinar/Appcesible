@@ -5,11 +5,8 @@ class ConfirmationDialog extends StatelessWidget {
   final String message;
   final VoidCallback onConfirm;
 
-  const ConfirmationDialog({
-    super.key,
-    required this.message,
-    required this.onConfirm
-  });
+  const ConfirmationDialog(
+      {super.key, required this.message, required this.onConfirm});
 
   @override
   Widget build(BuildContext context) {
@@ -22,26 +19,30 @@ class ConfirmationDialog extends StatelessWidget {
         borderRadius: BorderRadius.circular(10.0),
       ),
       actions: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            ActionButton(
-              text: 'Cancelar',
-              type: 0,
-              onPressed: () {
-                Navigator.pop(context); // Cerrar la ventana emergente de confirmación
-              }
-            ),
-            const SizedBox(width: 12.0,),
-            ActionButton(
-              text: 'Confirmar',
-              type: 1,
-              onPressed: () {
-                Navigator.pop(context); // Cerrar la ventana emergente de confirmación
-                onConfirm(); // Llamar a la función de confirmación
-              }
-            ),
-          ],
+        FittedBox(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ActionButton(
+                  text: 'Cancelar',
+                  type: 0,
+                  onPressed: () {
+                    Navigator.pop(
+                        context); // Cerrar la ventana emergente de confirmación
+                  }),
+              const SizedBox(
+                width: 12.0,
+              ),
+              ActionButton(
+                  text: 'Confirmar',
+                  type: 1,
+                  onPressed: () {
+                    Navigator.pop(
+                        context); // Cerrar la ventana emergente de confirmación
+                    onConfirm(); // Llamar a la función de confirmación
+                  }),
+            ],
+          ),
         ),
       ],
     );

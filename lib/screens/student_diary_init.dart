@@ -1,5 +1,6 @@
 import 'package:appcesible/screens/screenutil_init.dart';
-import 'package:appcesible/screens/student_diary.dart';
+import 'package:appcesible/screens/student_diary_app.dart';
+import 'package:appcesible/screens/student_diary_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
@@ -11,11 +12,11 @@ class StudentDiaryInit extends StatelessWidget {
     return ScreenTypeLayout.builder(
       mobile: (context) {
         ScreenUtilBreakpoints.initMobileDesignSize(context);
-        return const StudentDiary();
+        return const StudentDiaryMobile();
       },
       tablet: (context) {
         ScreenUtilBreakpoints.initTabletDesignSize(context);
-        return const StudentDiary();
+        return const StudentDiaryTablet();
       },
     );
   }

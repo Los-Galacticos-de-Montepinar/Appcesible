@@ -3,7 +3,7 @@
 
 import 'package:appcesible/widgets/widget_top_student.dart';
 import 'package:flutter/material.dart';
-import 'package:appcesible/screens/student_diary.dart';
+import 'package:appcesible/screens/student_diary_app.dart';
 
 class HomeStudent extends StatelessWidget {
   const HomeStudent({super.key});
@@ -49,7 +49,7 @@ class HomeStudent extends StatelessWidget {
                         text: 'AGENDA',
                         color: Colors.red,
                         color2: Color.fromARGB(255, 234, 151, 161),
-                        destinationScreen: StudentDiary(),),
+                        destinationScreen: StudentDiaryMobile(),),
                     SizedBox(
                       width: 20.0,
                     ),

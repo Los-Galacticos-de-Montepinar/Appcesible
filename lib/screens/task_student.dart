@@ -2,6 +2,7 @@
 // Autor: Alejandro Sanchez Rodríguez
 
 import 'package:appcesible/screens/congratulations_screen_app.dart';
+import 'package:appcesible/screens/congratulations_screen_tablet.dart';
 import 'package:appcesible/screens/stepTaskView.dart';
 import 'package:appcesible/screens/step_check.dart';
 import 'package:appcesible/screens/step_check_tab.dart';
