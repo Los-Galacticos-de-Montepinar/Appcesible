@@ -1,3 +1,4 @@
+import 'package:appcesible/services/task_service.dart';
 import 'package:appcesible/widgets/widget_top_teacher.dart';
 import 'package:appcesible/screens/task_list_app.dart';
 import 'package:flutter/material.dart';
@@ -42,8 +43,28 @@ class _TaskListTabletState extends State<TaskListTablet> {
           child: Center(
             child: Column(
               children: [
+                Container(
+                  width: double.maxFinite,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFD9D9D9),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Colors.black),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      'Lista de tareas',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10.0),
                 Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconButton(
                       icon: const Icon(Icons.add),
@@ -88,22 +109,26 @@ class _TaskListTabletState extends State<TaskListTablet> {
                 ),
                 const SizedBox(height: 15),
                 Expanded(
-                  child: ListView.builder(
+                  child: GridView.builder(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 15.0,
+                      mainAxisSpacing: 15.0,
+                      childAspectRatio: 200 /
+                          50, 
+                    ),
                     itemCount: _filteredTasks.length,
                     itemBuilder: (context, index) {
                       MyTaskData task = _filteredTasks[index];
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10.0),
-                        child: MyTask(
-                          imagePath: task.imagePath,
-                          taskName: task.taskName,
-                          studentName: task.studentName,
-                          state: task.state,
-                        ),
+                      return MyTask(
+                        imagePath: task.imagePath,
+                        taskName: task.taskName,
+                        studentName: task.studentName,
+                        state: task.state,
                       );
                     },
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -145,7 +170,7 @@ class MyTask extends StatelessWidget {
 
     return Container(
       height: 120,
-      width: 200,
+      width: 100,
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
         color: backgroundColor,
@@ -164,6 +189,7 @@ class MyTask extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+              
                 Text(
                   taskName,
                   style: const TextStyle(fontSize: 15.0),
