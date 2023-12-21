@@ -110,7 +110,7 @@ abstract class SelectionState<T extends StatefulWidget> extends State<T> {
       Image img = images.firstWhere((element) => (element.key.id == user.idProfileImg)).value;
 
       Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
-        return Login(user: user, userImage: img,);
+        return Login(teacherInit: false, user: user, userImage: img,);
       }));
     }
   }

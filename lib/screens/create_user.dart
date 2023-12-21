@@ -261,9 +261,19 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
   Widget passwdText(){
     return TextField(
       controller: _passwdController,
-      decoration: const InputDecoration(
+      decoration: InputDecoration(
         labelText: 'Contraseña',
-        border: OutlineInputBorder(),
+        border: const OutlineInputBorder(),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: const BorderSide(
+            color: Colors.black,
+            width: 2,
+          ),
+        ),
       ),
     );
   }
@@ -455,9 +465,19 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                           padding: const EdgeInsets.symmetric(vertical: 10.0),
                           child: TextField(
                             controller: _nameController,
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
                               labelText: 'Nombre Completo',
-                              border: OutlineInputBorder(),
+                              border: const OutlineInputBorder(),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16),
+                                borderSide: const BorderSide(
+                                  color: Colors.black,
+                                  width: 2,
+                                ),
+                              ),
                             ),
                           )
                         ),

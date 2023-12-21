@@ -8,13 +8,15 @@ import 'package:appcesible/screens/home_student.dart';
 import 'package:appcesible/screens/home_teacher.dart';
 
 class Login extends StatefulWidget {
+  final bool teacherInit;
   final UserModel user;
-  final Image userImage;
+  final Image? userImage;
   
   const Login({
     super.key,
+    required this.teacherInit,
     required this.user,
-    required this.userImage
+    this.userImage
   });
 
   @override
@@ -22,47 +24,91 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  TextEditingController userName = TextEditingController();
   TextEditingController password = TextEditingController();
   bool _authenticationFailed = false;
   bool visible = false;
+
+  @override
+  void dispose() {
+    userName.dispose();
+    password.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: const TopBarInitial(showArrow: true),
-      body: Center(
+      body: SingleChildScrollView(
         child: Container(
           width: 1024,
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Column(
             children: [
-              Container(
-                width: 200,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: Colors.black,
-                    width: 5.0,
-                  ),
-                ),
-                child: ClipOval(
-                  child: Container(
-                    height: 200,
-                    width: 200,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        image: DecorationImage(
-                          image: widget.userImage.image,
-                          fit: BoxFit.cover
+              Visibility(
+                visible: !widget.teacherInit,
+                child: Column(
+                  children: [
+                    const SizedBox(height: 60.0,),
+                    Container(
+                      width: 200,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.black,
+                          width: 5.0,
                         ),
                       ),
-                  ),
-                ),
+                      child: ClipOval(
+                        child: Container(
+                          height: 200,
+                          width: 200,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              image: DecorationImage(
+                                image: widget.userImage?.image ?? Image.asset('assets/images/addPicture.png').image,
+                                fit: BoxFit.cover
+                              ),
+                            ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 40.0,),
+                  ],
+                )
               ),
-              const SizedBox(height: 40.0,),
               Column(
                 children: [
+                  Visibility(
+                    visible: widget.teacherInit,
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 160.0,),
+                        TextField(
+                          controller: userName,
+                          decoration: InputDecoration(
+                            labelText: 'Nombre de usuario',
+                            labelStyle: const TextStyle(color: Colors.black),
+                            hintText: 'Nombre de usuario',
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16),
+                              borderSide: const BorderSide(
+                                color: Colors.black,
+                                width: 2,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 10.0,),
+                      ],
+                    )
+                  ),
                   TextField(
                     controller: password,
                     decoration: InputDecoration(
@@ -120,6 +166,20 @@ class _LoginState extends State<Login> {
                 ),
                 onPressed: () async {
                   NavigatorState navigator = Navigator.of(context);
+
+                  if (widget.teacherInit) {
+                    widget.user.userName = userName.text;
+
+                    List<UserModel> users = await getAllUsers(false);
+                    for (UserModel user in users) {
+                      if (user.userName == widget.user.userName) {
+                        widget.user.id = user.id;
+                        widget.user.userType = user.userType;
+                        widget.user.idClass = user.idClass;
+                        widget.user.loginType = user.loginType;
+                      }
+                    }
+                  }
 
                   bool correct = await authenticateUser(widget.user, password.text);
                   setState(() {
