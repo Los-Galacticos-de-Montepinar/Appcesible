@@ -11,11 +11,6 @@ import 'dart:io';
 import 'package:appcesible/command/session_command.dart';
 import 'package:appcesible/models/gallery_model.dart';
 
-// String baseAddress = '10.0.2.2:8080';      // IP emulador
-// String baseAddress = 'localhost:8080';
-// String baseAddress = '100.70.70.131:8080';  // IP privada
-// String baseAddress = '100.99.220.41:8080';  // IP ordenador
-
 Future<int> uploadImage(File img) async {
   String baseAddress = await getBaseAddress();
 
