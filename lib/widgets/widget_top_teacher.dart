@@ -13,10 +13,8 @@ class TopMenu extends StatelessWidget implements PreferredSizeWidget {
   final Size preferredSize;
   final Function()? onHomeTap;
 
-  const TopMenu({
-    super.key,
-    this.onHomeTap
-  }) : preferredSize = const Size.fromHeight(70.0);
+  const TopMenu({super.key, this.onHomeTap})
+      : preferredSize = const Size.fromHeight(70.0);
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +24,9 @@ class TopMenu extends StatelessWidget implements PreferredSizeWidget {
       title: const Text(
         'AppCesible',
         style: TextStyle(
-          color: Color.fromARGB(255, 0, 0, 0),
-          fontSize: 32.0,
-          fontWeight: FontWeight.bold
-        ),
+            color: Color.fromARGB(255, 0, 0, 0),
+            fontSize: 32.0,
+            fontWeight: FontWeight.bold),
       ),
       centerTitle: true,
       backgroundColor: const Color(0xFFFFDC83),
@@ -48,131 +45,120 @@ class TopMenu extends StatelessWidget implements PreferredSizeWidget {
               offset: const Offset(1, 0),
               child: const Text(
                 'Inicio',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 12.0
-                ),
+                style: TextStyle(color: Colors.black, fontSize: 12.0),
               ),
             ),
           ],
         ),
-        onPressed: onHomeTap ?? () {
-          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) {
-            return const TeacherHome();
-          }),
-          (route) => false);
-        },
+        onPressed: onHomeTap ??
+            () {
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) {
+                return const TeacherHome();
+              }), (route) => false);
+            },
       ),
       // ! Se utiliza para poner texto a la derecha del titulo
       actions: <Widget>[
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0),
-          child: PopupMenuButton(
-            onSelected: (value) async {
-              NavigatorState navigator = Navigator.of(context);
+            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+            child: PopupMenuButton(
+              onSelected: (value) async {
+                NavigatorState navigator = Navigator.of(context);
 
-              if (value == 'profile') {
-                int userId = -1;
-                await getSessionInformation().then((value) {
-                  userId = value.getInt('id')!;
-                });
+                if (value == 'profile') {
+                  int userId = -1;
+                  await getSessionInformation().then((value) {
+                    userId = value.getInt('id')!;
+                  });
 
-                navigator.push(MaterialPageRoute(
-                  builder: (BuildContext context) {
+                  navigator
+                      .push(MaterialPageRoute(builder: (BuildContext context) {
                     return FormularioUsuarios(
                       title: 'Editar Perfil',
                       id: userId,
                       newUser: false,
                     );
-                  })
-                );
-              }
-              else if (value == 'notifications'){
-                // add desired output
-              }
-              else if (value == 'logout'){
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return ConfirmationDialog(
-                      message: '¿Quieres cerrar sesión?',
-                      onConfirm: () async {
-                        bool logout = await logOutUser();
+                  }));
+                } else if (value == 'notifications') {
+                  // add desired output
+                } else if (value == 'logout') {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return ConfirmationDialog(
+                          message: '¿Quieres cerrar sesión?',
+                          onConfirm: () async {
+                            bool logout = await logOutUser();
 
-                        if (logout) {
-                          navigator.pushAndRemoveUntil(
-                            MaterialPageRoute(builder: (BuildContext context) {
-                              return const SelectUser();
-                            }),
-                            (route) => false
-                          );
-                        }
-                      },
-                    );
-                  }
-                );
-              }
-            },
-            color: Colors.white,
-            surfaceTintColor: Colors.white,
-            position: PopupMenuPosition.under,
-            itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-              const PopupMenuItem(
-                value: 'profile',
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(right: 8.0),
-                      child: Icon(Icons.account_circle_rounded),
-                    ),
-                    Text(
-                      'Mi perfil',
-                      style: TextStyle(fontSize: 15),
-                    ),
-                  ],
+                            if (logout) {
+                              navigator.pushAndRemoveUntil(MaterialPageRoute(
+                                  builder: (BuildContext context) {
+                                return const SelectUser();
+                              }), (route) => false);
+                            }
+                          },
+                        );
+                      });
+                }
+              },
+              color: Colors.white,
+              surfaceTintColor: Colors.white,
+              position: PopupMenuPosition.under,
+              itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                const PopupMenuItem(
+                  value: 'profile',
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(right: 8.0),
+                        child: Icon(Icons.account_circle_rounded),
+                      ),
+                      Text(
+                        'Mi perfil',
+                        style: TextStyle(fontSize: 15),
+                      ),
+                    ],
+                  ),
+                ),
+                const PopupMenuItem(
+                  value: 'notifications',
+                  child: Row(
+                    children: [
+                      Padding(
+                          padding: EdgeInsets.only(right: 8.0),
+                          child: Icon(Icons.notifications)),
+                      Text(
+                        'Notificaciones',
+                        style: TextStyle(fontSize: 15),
+                      ),
+                    ],
+                  ),
+                ),
+                const PopupMenuItem(
+                  value: 'logout',
+                  child: Row(
+                    children: [
+                      Padding(
+                          padding: EdgeInsets.only(right: 8.0),
+                          child: Icon(Icons.logout)),
+                      Text(
+                        'Salir',
+                        style: TextStyle(fontSize: 15),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: const Icon(
+                  Icons.menu,
+                  size: 40.0,
+                  color: Colors.black,
                 ),
               ),
-              const PopupMenuItem(
-                value: 'notifications',
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(right: 8.0),
-                      child: Icon(Icons.notifications)
-                    ),
-                    Text(
-                      'Notificaciones',
-                      style: TextStyle(fontSize: 15),
-                    ),
-                  ],
-                ),
-              ),
-              const PopupMenuItem(
-                value: 'logout',
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(right: 8.0),
-                      child: Icon(Icons.logout)
-                    ),
-                    Text(
-                      'Salir',
-                      style: TextStyle(fontSize: 15),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(100),
-              child: const Icon(
-                Icons.menu,
-                size: 40.0,
-                color: Colors.black,
-              ),
-            ),
-          )
-        )
+            ))
         // Column(
         //   mainAxisSize: MainAxisSize.min,
         //   children: [

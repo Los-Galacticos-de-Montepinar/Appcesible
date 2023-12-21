@@ -22,10 +22,10 @@ Future createUser(UserModel user, String password, File image) async {
 
   final response = await http.post(
     Uri.http(baseAddress, '/user/new'),
-    headers: <String, String> {
+    headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8'
     },
-    body: jsonEncode(<String, dynamic> {
+    body: jsonEncode(<String, dynamic>{
       'userName': user.userName,
       'passwd': password,
       'pfp': user.idProfileImg,
@@ -47,17 +47,16 @@ Future createUser(UserModel user, String password, File image) async {
 Future<List<UserModel>> getAllUsers(bool getImages) async {
   String baseAddress = await getBaseAddress();
 
-  final response = await http.get(
-    Uri.http(baseAddress, '/user'),
-    headers: <String, String> {
-      'Content-Type': 'application/json; charset=UTF-8'
-    }
-  );
+  final response = await http.get(Uri.http(baseAddress, '/user'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8'
+      });
 
   if (response.statusCode == 200) {
     List<dynamic> userList = jsonDecode(utf8.decode(response.bodyBytes));
-    
-    List<UserModel> users = userList.map((json) => UserModel.userFromJSON(json)).toList();
+
+    List<UserModel> users =
+        userList.map((json) => UserModel.userFromJSON(json)).toList();
     for (int i = 0; i < users.length && getImages; i++) {
       users[i].image = await downloadImage(users[i].idProfileImg!);
     }
@@ -78,16 +77,14 @@ Future<List<UserModel>> getAllUsers(bool getImages) async {
 Future<UserModel> getUserFromId(int id) async {
   String baseAddress = await getBaseAddress();
 
-  final response = await http.get(
-    Uri.http(baseAddress, '/user/$id'),
-    headers: <String, String> {
-      'Content-Type': 'application/json; charset=UTF-8'
-    }
-  );
+  final response = await http.get(Uri.http(baseAddress, '/user/$id'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8'
+      });
 
   if (response.statusCode == 200) {
     dynamic json = jsonDecode(utf8.decode(response.bodyBytes));
-    
+
     UserModel user = UserModel.userFromJSON(json);
     user.image = await downloadImage(user.idProfileImg!);
     print('image - ${user.image}');
@@ -102,16 +99,14 @@ Future<UserModel> getUserFromId(int id) async {
 Future<UserModel> getStudentFromId(int id) async {
   String baseAddress = await getBaseAddress();
 
-  final response = await http.get(
-    Uri.http(baseAddress, '/user/student/$id'),
-    headers: <String, String> {
-      'Content-Type': 'application/json; charset=UTF-8'
-    }
-  );
+  final response = await http.get(Uri.http(baseAddress, '/user/student/$id'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8'
+      });
 
   if (response.statusCode == 200) {
     dynamic json = jsonDecode(utf8.decode(response.bodyBytes));
-    
+
     UserModel student = UserModel.studentFromJSON(json);
     student.image = await downloadImage(student.idProfileImg!);
 
@@ -147,9 +142,9 @@ Future<List> getInfoUsers(bool getImages) async {
 // Returns the number of users in the DB
 Future<int> countUsers() async {
   String baseAddress = await getBaseAddress();
-  
+
   final response = await http.get(Uri.http(baseAddress, '/user'),
-      headers: <String, String> {
+      headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8'
       });
 
@@ -165,7 +160,7 @@ Future<List<ClassModel>> getClasses() async {
   String baseAddress = await getBaseAddress();
 
   final response = await http.get(Uri.http(baseAddress, '/class'),
-      headers: <String, String> {
+      headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8'
       });
 
@@ -186,10 +181,10 @@ Future updateUser(UserModel user, String password, File image) async {
   int id = user.id;
   final response = await http.post(
     Uri.http(baseAddress, '/user/$id'),
-    headers: <String, String> {
+    headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8'
     },
-    body: jsonEncode(<String, dynamic> {
+    body: jsonEncode(<String, dynamic>{
       'name': user.userName,
       'passwd': password,
       'pfp': user.idProfileImg
@@ -242,10 +237,10 @@ Future<bool> authenticateUser(UserModel user, String enteredPassword) async {
     final response = await http
         .post(
           Uri.http(baseAddress, '/session/login'),
-          headers: <String, String> {
+          headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8'
           },
-          body: jsonEncode(<String, dynamic> {
+          body: jsonEncode(<String, dynamic>{
             'userName': user.userName,
             'passwd': enteredPassword,
             'publicKey': 123,
@@ -270,7 +265,8 @@ Future<bool> authenticateUser(UserModel user, String enteredPassword) async {
   }
 }
 
-Future<bool> pictoAuthenticateUser0(UserModel user, String enteredPassword, int pos) async {
+Future<bool> pictoAuthenticateUser0(
+    UserModel user, String enteredPassword, int pos) async {
   try {
     String baseAddress = await getBaseAddress();
 
@@ -280,10 +276,10 @@ Future<bool> pictoAuthenticateUser0(UserModel user, String enteredPassword, int 
       response = await http
           .post(
             Uri.http(baseAddress, '/session/login'),
-            headers: <String, String> {
+            headers: <String, String>{
               'Content-Type': 'application/json; charset=UTF-8'
             },
-            body: jsonEncode(<String, dynamic> {
+            body: jsonEncode(<String, dynamic>{
               'userName': user.userName,
               'passPart0': enteredPassword,
               'publicKey': "rasfDDFSs",
@@ -294,24 +290,24 @@ Future<bool> pictoAuthenticateUser0(UserModel user, String enteredPassword, int 
       response = await http
           .post(
             Uri.http(baseAddress, '/session/login'),
-            headers: <String, String> {
+            headers: <String, String>{
               'Content-Type': 'application/json; charset=UTF-8'
             },
-            body: jsonEncode(<String, dynamic> {
+            body: jsonEncode(<String, dynamic>{
               'userName': user.userName,
               'passPart1': enteredPassword,
               'publicKey': "rasfDDFSs",
             }),
           )
           .timeout(const Duration(seconds: 200));
-    } else{
+    } else {
       response = await http
           .post(
             Uri.http(baseAddress, '/session/login'),
-            headers: <String, String> {
+            headers: <String, String>{
               'Content-Type': 'application/json; charset=UTF-8'
             },
-            body: jsonEncode(<String, dynamic> {
+            body: jsonEncode(<String, dynamic>{
               'userName': user.userName,
               'passPart2': enteredPassword,
               'publicKey': "rasfDDFSs",
@@ -349,10 +345,10 @@ Future<bool> logOutUser() async {
 
   final response = await http.post(
     Uri.http(baseAddress, '/session/logout'),
-    headers: <String, String> {
+    headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8'
     },
-    body: jsonEncode(<String, dynamic> {
+    body: jsonEncode(<String, dynamic>{
       'sessionToken': token,
     }),
   );
@@ -360,11 +356,10 @@ Future<bool> logOutUser() async {
   if (response.statusCode == 200) {
     userLogout();
     return true;
-  }
-  else {
+  } else {
     print('Could not logout. Status code: ${response.statusCode}');
   }
-  
+
   return false;
 }
 

@@ -1,7 +1,9 @@
 // STUDENT DIARY - Mobile Version
 // Autor: Alejandro Sanchez Rodríguez
 
+import 'package:appcesible/screens/congratulations_screen.dart';
 import 'package:appcesible/screens/stepTaskView.dart';
+import 'package:appcesible/screens/step_check.dart';
 import 'package:appcesible/widgets/widget_top_student.dart';
 import 'package:flutter/material.dart';
 
@@ -42,14 +44,22 @@ class StudentTask extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 20),
-                    const StepBox(
+                    const stepTaskView(
                         text: 'HOLA',
                         image: 'HOLA',
-                        destinationScreen: StudentTask()),
+                        destinationScreen: StepCompletionCheckScreen(
+                          image: "assets/images/pasoCompletado.png",
+                          texto: "¿Paso Completado?",
+                        )),
                     const SizedBox(height: 20),
                     InkWell(
                       onTap: () {
-                        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const CongratulationsScreen()),
+                        );
                       },
                       child: const Icon(
                         Icons.keyboard_double_arrow_down_outlined,

@@ -1,3 +1,6 @@
+// STUDENT DIARY - Mobile Version
+// Autor: Alejandro Sanchez Rodríguez
+
 import 'package:appcesible/screens/task_student.dart';
 import 'package:appcesible/widgets/widget_top_student.dart';
 import 'package:flutter/material.dart';
@@ -88,7 +91,6 @@ class MyBoxWithImageAndText extends StatelessWidget {
           borderRadius: BorderRadius.circular(25.0),
           color: Colors.grey[400],
         ),
-        
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

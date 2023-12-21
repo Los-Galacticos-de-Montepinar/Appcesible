@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class StepBox extends StatelessWidget {
+class stepTaskView extends StatelessWidget {
   final String text;
   final String image;
   final Widget destinationScreen;
 
-  const StepBox({
+  const stepTaskView({
     Key? key,
     required this.text,
     required this.image,
@@ -26,8 +26,8 @@ class StepBox extends StatelessWidget {
         );
       },
       child: Container(
-        width: screenWidth * 0.85,
-        height: screenHeight * 0.5,
+        width: screenWidth,
+        height: screenHeight * 0.6,
         constraints: const BoxConstraints(
           minHeight:
               500.0, // Establece el minHeight deseado (en este caso, 500)
@@ -61,7 +61,7 @@ class StepBox extends StatelessWidget {
                       child: Text(
                         'Poner la ropa en la lavadora.',
                         style: TextStyle(
-                          fontSize: screenWidth * 0.065,
+                          fontSize: screenWidth * 0.1,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -84,8 +84,8 @@ class StepBox extends StatelessWidget {
     double screenHeight = MediaQuery.of(context).size.height;
 
     return Container(
-      height: screenHeight * 0.3,
-      width: screenWidth * 0.25,
+      height: screenHeight * 0.35,
+      width: screenWidth * 0.3,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         image: DecorationImage(

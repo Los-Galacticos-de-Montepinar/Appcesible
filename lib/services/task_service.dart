@@ -16,14 +16,13 @@ Future<int> createTask(TaskModel task) async {
   String baseAddress = await getBaseAddress();
 
   final taskResponse = await http.post(
-    Uri.http(baseAddress, (task.type == 0) ? '/task/new' : '/task/petition/new'),
-    headers: <String, String> {
+    Uri.http(
+        baseAddress, (task.type == 0) ? '/task/new' : '/task/petition/new'),
+    headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8'
     },
-    body: jsonEncode(<String, dynamic> {
-      'title': task.title,
-      'desc': task.description
-    }),
+    body: jsonEncode(
+        <String, dynamic>{'title': task.title, 'desc': task.description}),
   );
 
   if (taskResponse.statusCode == 200) {
@@ -32,27 +31,25 @@ Future<int> createTask(TaskModel task) async {
 
     for (TaskElement element in task.elements) {
       final elemResponse = await http.post(
-        Uri.http(
-          baseAddress,
-          (task.type == 0)
-            ? 'task/step/new'
-            : 'task/petition/$id/item/new'
-        ),
-        headers: <String, String> {
-          'Content-Type': 'application/json; charset=UTF-8'
-        },
-        body: (task.type == 0)
-          ? jsonEncode(<String, dynamic> {
-              'taskId': id,
-              'desc': (element as Step).description,
-              'media': element.media,
-              'order': element.stepNumber,
-            })
-          : jsonEncode(<String, dynamic> {
-              'item': (element as TaskItem).id,
-              'count': element.count,
-            })
-      );
+          Uri.http(
+              baseAddress,
+              (task.type == 0)
+                  ? 'task/step/new'
+                  : 'task/petition/$id/item/new'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8'
+          },
+          body: (task.type == 0)
+              ? jsonEncode(<String, dynamic>{
+                  'taskId': id,
+                  'desc': (element as Step).description,
+                  'media': element.media,
+                  'order': element.stepNumber,
+                })
+              : jsonEncode(<String, dynamic>{
+                  'item': (element as TaskItem).id,
+                  'count': element.count,
+                }));
 
       if (elemResponse.statusCode == 200) {
         print('Created step');
@@ -74,15 +71,14 @@ Future assignTask(AssignModel assignment) async {
   String baseAddress = await getBaseAddress();
 
   final response = await http.post(
-    Uri.http(baseAddress, '/task/${assignment.idTask}/assign'),
-    headers: <String, String> {
-      'Content-Type': 'application/json; charset=UTF-8'
-    },
-    body: jsonEncode(<String, dynamic> {
-      'date': assignment.dueDate,
-      'user': assignment.idStudent,
-    })
-  );
+      Uri.http(baseAddress, '/task/${assignment.idTask}/assign'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8'
+      },
+      body: jsonEncode(<String, dynamic>{
+        'date': assignment.dueDate,
+        'user': assignment.idStudent,
+      }));
 
   if (response.statusCode == 200) {
     print('Task assigned');
@@ -100,12 +96,10 @@ Future getAllFixedTasks(TaskModel task) async {}
 Future<TaskModel> getFixedTaskFromId(int id) async {
   String baseAddress = await getBaseAddress();
 
-  final response = await http.get(
-    Uri.http(baseAddress, '/task/$id'),
-    headers: <String, String> {
-      'Content-Type': 'application/json; charset=UTF-8'
-    }
-  );
+  final response = await http.get(Uri.http(baseAddress, '/task/$id'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8'
+      });
 
   if (response.statusCode == 200) {
     dynamic json = jsonDecode(utf8.decode(response.bodyBytes));
@@ -120,12 +114,10 @@ Future<TaskModel> getFixedTaskFromId(int id) async {
 Future<List<TaskItem>> getAvailableItems() async {
   String baseAddress = await getBaseAddress();
 
-  final response = await http.get(
-    Uri.http(baseAddress, '/item'),
-    headers: <String, String> {
-      'Content-Type': 'application/json; charset=UTF-8'
-    }
-  );
+  final response = await http.get(Uri.http(baseAddress, '/item'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8'
+      });
 
   if (response.statusCode == 200) {
     List<dynamic> itemList = jsonDecode(utf8.decode(response.bodyBytes));

@@ -52,9 +52,7 @@ Future<Image> downloadImage(int id) async {
 
   final response = await http.get(
     Uri.http(baseAddress, '/gallery/$id'),
-    headers: <String, String> {
-      'Content-Type': 'application/octet-stream'
-    },
+    headers: <String, String>{'Content-Type': 'application/octet-stream'},
   );
 
   if (response.statusCode == 200) {
@@ -70,7 +68,7 @@ Future<List<GalleryModel>> getGallery() async {
 
   final response = await http.get(
     Uri.http(baseAddress, '/gallery'),
-    headers:  <String, String> {
+    headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8'
     },
   );
