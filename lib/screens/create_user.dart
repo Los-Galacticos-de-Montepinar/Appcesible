@@ -115,7 +115,7 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
 
         _defaultTypeValue = _getDefaultTypeValue();
         _defaultClassValue = _getDefaultClassValue();
-        _defaultImage = user.image!;
+        _defaultImage = user.image ?? Image.asset('assets/images/addPicture.png');
       }
       else if (!widget.newUser && widget.id == null) {
         users = await getAllUsers(true);
@@ -238,7 +238,7 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
         
         _defaultTypeValue = _getDefaultTypeValue();
         _defaultClassValue = _getDefaultClassValue();
-        _defaultImage = user.image!;
+        _defaultImage = user.image ?? Image.asset('assets/images/addPicture.png');
       });
     }
   }
@@ -285,9 +285,9 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
       children: [
         Checkbox(
           value: picto,
-          onChanged: (bool? value) {
+          onChanged: (value) {
             setState(() {
-              picto = value!;
+              picto = value ?? false;
               if(!picto) {
                 idPicturesPasswd=[];
               }
@@ -464,9 +464,9 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                                 onChanged: (value) {
                                   setState(() {
                                     if (_defaultTypeValue != value) {
-                                      _defaultTypeValue = value!;
+                                      _defaultTypeValue = value ?? '';
                                       
-                                      user.userType = userTypes.indexOf(value);
+                                      user.userType = (value != null) ? userTypes.indexOf(value) : user.userType;
                                       show = (user.userType == 1);
                                     }
                                   });
@@ -532,8 +532,8 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                             onChanged: (value) {
                               setState(() {
                                 if (_defaultClassValue != value) {
-                                  _defaultClassValue = value!;
-                                  user.idClass = _getClassId(value);
+                                  _defaultClassValue = value ?? '';
+                                  user.idClass = (value != null) ? _getClassId(value) : user.idClass;
                                 }
                               });
                             },

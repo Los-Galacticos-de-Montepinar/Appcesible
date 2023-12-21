@@ -6,7 +6,7 @@ Future<SharedPreferences> getSessionInformation() async {
 
 Future<String> getBaseAddress() async {
   SharedPreferences sessionInfo = await getSessionInformation();
-  return sessionInfo.getString('baseAddress')!;
+  return sessionInfo.getString('baseAddress') ?? '';
 }
 
 Future initSession() async {

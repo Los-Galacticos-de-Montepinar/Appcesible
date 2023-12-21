@@ -26,18 +26,23 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
           onChanged: (value) {
             widget.onTextChanged(value);
           },
+          cursorColor: Colors.black,
           decoration: InputDecoration(
             labelText: 'Buscar ${widget.title}',
             border: const OutlineInputBorder(),
-            focusColor: Colors.black45,
-            focusedBorder: const OutlineInputBorder(
-              borderSide: BorderSide(
-                color: Colors.black45,
-                width: 2.0
-              )
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(16),
             ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(16),
+              borderSide: const BorderSide(
+                color: Colors.black,
+                width: 2,
+              ),
+            ),
+            focusColor: Colors.black,
             floatingLabelStyle: const TextStyle(
-              color: Colors.black45
+              color: Colors.black
             ),
             prefixIcon: const Icon(Icons.search), // Agrega el icono de lupa
           ),

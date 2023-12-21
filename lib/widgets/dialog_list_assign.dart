@@ -20,7 +20,7 @@ Future<bool?> showConfirmationDialog(BuildContext context, Pair<UserModel, DateT
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            // lIST VIEW DE TODAS LAS ASIGNACIONES A UN ESTUDIANTE CON NOMBRE selectedAssignment.key
+            // LIST VIEW DE TODAS LAS ASIGNACIONES A UN ESTUDIANTE CON NOMBRE selectedAssignment.key
             Container(
               padding: const EdgeInsets.all(10),
               margin: EdgeInsets.only(

@@ -1,5 +1,7 @@
 import 'package:appcesible/screens/home_teacher.dart';
+import 'package:appcesible/widgets/date_time_picker.dart';
 import 'package:appcesible/widgets/dialog_confirm.dart';
+import 'package:appcesible/widgets/search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:pair/pair.dart';
 
@@ -18,7 +20,9 @@ import 'package:appcesible/widgets/widget_top_teacher.dart';
 import 'package:appcesible/widgets/button.dart';
 
 class TaskAsignMobile extends StatefulWidget {
-  const TaskAsignMobile({super.key});
+  // final TaskModel task;
+  
+  const TaskAsignMobile({super.key, /*required this.task*/});
 
   @override
   State<TaskAsignMobile> createState() => _TaskAsignMobileState();
@@ -37,13 +41,14 @@ class _TaskAsignMobileState extends State<TaskAsignMobile> {
 
   List<AsignmentsUser> selectedAssignments = [];
 
+  TextEditingController searchBarController = TextEditingController();
+
   @override
   void initState() {
-    initializeState();
     super.initState();
   }
 
-  Future<void> initializeState() async {
+  Future initializeState() async {
     if (!initialized) {
       List<UserModel> users = await getAllUsers(false);
 
@@ -56,160 +61,157 @@ class _TaskAsignMobileState extends State<TaskAsignMobile> {
       //taskImageUrl = 'assets/images/lavadora.png';
       //taskTitle = task.title;
 
-      setState(() {
-        initialized = true;
-      });
+      initialized = true;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: TopMenu(
-          onHomeTap: () {
-            showDialog(
-              context: context,
-              builder: (context) {
-                return ConfirmationDialog(
-                  message: '¿Está seguro de que quiere abandonar el proceso?\nLos datos introducidos hasta el momento se perderán',
-                  onConfirm: () {
-                    Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return const TeacherHome();
-                        }
-                      ),
-                      (route) => false
-                    );
-                  }
-                );
-              }
-            );
-          },
-        ),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.all(8.0),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(height: 20),
-                // Row with image and task
-                Row(
+    return FutureBuilder(
+      future: initializeState(),
+      builder: (context, snapshot) {
+        return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: TopMenu(
+            onHomeTap: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return ConfirmationDialog(
+                    message: '¿Está seguro de que quiere abandonar el proceso?\nLos datos introducidos hasta el momento se perderán',
+                    onConfirm: () {
+                      Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return const TeacherHome();
+                          }
+                        ),
+                        (route) => false
+                      );
+                    }
+                  );
+                }
+              );
+            },
+          ),
+          body: (initialized && snapshot.connectionState == ConnectionState.done)
+            ? SingleChildScrollView(
+              padding: const EdgeInsets.all(8.0),
+              child: Center(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // Task image
-                    Image.asset(
-                      taskImageUrl,
-                      width: MediaQuery.of(context).size.width * 0.26,
-                      height: MediaQuery.of(context).size.width * 0.26,
-                    ),
-
-                    const SizedBox(width: 20),
-
-                    // Text task
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.35,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          taskTitle,
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.06,
-                            fontWeight: FontWeight.bold,
-                          ),
+                    const SizedBox(height: 20),
+                    // Row with image and task
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Task image
+                        Image.asset(
+                          taskImageUrl,
+                          width: MediaQuery.of(context).size.width * 0.26,
+                          height: MediaQuery.of(context).size.width * 0.26,
                         ),
-                      ),
-                    ),
-                  ],
-                ),
 
-                const SizedBox(height: 50),
+                        const SizedBox(width: 20),
 
-                // 'Sin asignar alumnos' or Display Assignments
-                selectedAssignments.isEmpty
-                    ? Container(
-                        padding: const EdgeInsets.all(20),
-                        margin: EdgeInsets.only(
-                          left: MediaQuery.of(context).size.width * 0.01,
-                          right: MediaQuery.of(context).size.width * 0.01,
-                        ),
-                        width: MediaQuery.of(context).size.width * 1,
-                        decoration: BoxDecoration(
-                          color: Colors.grey[300], // Grey
-                          borderRadius:
-                              BorderRadius.circular(8), // Border on circle
-                          border:
-                              Border.all(color: Colors.black), // Black border
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Sin asignar alumnos',
-                            style: TextStyle(
-                              fontSize:
-                                  MediaQuery.of(context).size.width * 0.06,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
+                        // Text task
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.35,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              taskTitle,
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.06,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
-                      )
-                    : Column(
-                        children: [
-                          // Display Assignments content
-                          ListView.builder(
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: selectedAssignments.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              AsignmentsUser assignmentUser =
-                                  selectedAssignments[index];
-                              int numAssignments = getNumAssignmentsForUser(
-                                  selectedAssignments, assignmentUser.userId);
-                              return ShowAsignmentsWidget(
-                                asignmentUser: assignmentUser,
-                                newAsignment: _selectDateTime,
-                                numAsignments: numAssignments,
-                              );
-                            },
+                      ],
+                    ),
+
+                    const SizedBox(height: 50),
+                    
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          onPressed: showEstudiantePopup,
+                          icon: const Icon(
+                            Icons.group_add,
+                            size: 40.0,
+                            color: Colors.black,
+                          )
+                        )
+                      ],
+                    ),
+
+                    const SizedBox(height: 20.0,),
+
+                    // 'Sin asignar alumnos' or Display Assignments
+                    selectedAssignments.isEmpty
+                        ? Container(
+                            padding: const EdgeInsets.all(20),
+                            margin: EdgeInsets.only(
+                              left: MediaQuery.of(context).size.width * 0.01,
+                              right: MediaQuery.of(context).size.width * 0.01,
+                            ),
+                            width: MediaQuery.of(context).size.width * 1,
+                            decoration: BoxDecoration(
+                              color: Colors.grey[300], // Grey
+                              borderRadius:
+                                  BorderRadius.circular(8), // Border on circle
+                              border:
+                                  Border.all(color: Colors.black), // Black border
+                            ),
+                            child: Center(
+                              child: Text(
+                                'Sin asignar alumnos',
+                                style: TextStyle(
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.06,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          )
+                        : Column(
+                            children: [
+                              // Display Assignments content
+                              ListView.builder(
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: selectedAssignments.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  AsignmentsUser assignmentUser =
+                                      selectedAssignments[index];
+                                  int numAssignments = getNumAssignmentsForUser(
+                                      selectedAssignments, assignmentUser.userId);
+                                  return ShowAsignmentsWidget(
+                                    asignmentUser: assignmentUser,
+                                    newAsignment: _selectDateTime,
+                                    numAsignments: numAssignments,
+                                  );
+                                },
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
 
-                // GestureDetector con imagen
-                GestureDetector(
-                  onTap: showEstudiantePopup,
-                  child: Container(
-                    margin: const EdgeInsets.only(top: 50),
-                    width: MediaQuery.of(context).size.width * 0.25,
-                    height: MediaQuery.of(context).size.width * 0.17,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[300],
-                      border: Border.all(color: Colors.black), // Black border
-                    ),
-                    child: Center(
-                      child: Image.asset(
-                        'assets/images/taskAssignment.png', // Image url button
-                        width: MediaQuery.of(context).size.width * 0.25,
-                        height: MediaQuery.of(context).size.width * 0.17,
-                        // Ajusta el ancho y alto según sea necesario
-                      ),
-                    ),
-                  ),
+                    const SizedBox(height: 60),
+                    // Button 'Guardar'
+                    ActionButton(text: 'Confirmar', type: 1, onPressed: () {}),
+
+                    const SizedBox(height: 20),
+                  ],
                 ),
-                const SizedBox(height: 60),
-                // Button 'Guardar'
-                ActionButton(text: 'Confirmar', type: 1, onPressed: () {}),
-
-                const SizedBox(height: 20),
-              ],
-            ),
-          ),
-        ),
-      ),
+              ),
+            )
+            : const LoadingDialog(),
+        );
+      }
     );
   }
 
@@ -251,7 +253,7 @@ class _TaskAsignMobileState extends State<TaskAsignMobile> {
       setState(() {
         selectedUser = students.firstWhere((user) => user.userName == result);
 
-        print('Acabas de seleccionar el usuario con id: ${selectedUser!.id}');
+        print('Acabas de seleccionar el usuario con id: ${selectedUser?.id}');
 
         // Una vez he elegido el estudiante, me sale el popup de un calendario para elegir la fecha y la hora
         _selectDateTime();
@@ -269,93 +271,54 @@ class _TaskAsignMobileState extends State<TaskAsignMobile> {
   }
 
   void _selectDateTime() async {
-    BuildContext initialContext = context;
-    DateTime currentDate = DateTime.now();
-    DateTime? selectedDate = await showDatePicker(
-      context: initialContext,
-      initialDate: currentDate,
-      firstDate: currentDate,
-      lastDate: DateTime(currentDate.year + 1),
-      builder: (context, child) {
-        return Theme(
-          data: ThemeData.light().copyWith(
-            primaryColor: const Color(0xFF9E9E9E),
-            colorScheme: const ColorScheme.light(
-              primary: Color.fromARGB(255, 62, 62, 62),
-              onSurface: Colors.black,
-            ),
-            textTheme: const TextTheme(
-              labelLarge: TextStyle(color: Colors.black),
-            ),
-          ),
-          child: child!,
-        );
-      },
+    DateTime? date = await DateTimePicker.selectDate(context);
+    if (date == null) {
+      return;
+    }
+
+    TimeOfDay? time = await DateTimePicker.selectTime(context);
+    if (time == null) {
+      return;
+    }
+
+    // Combine selectedDate and selectedTime into a single DateTime object
+    DateTime selectedDateTime = DateTime(
+      date.year,
+      date.month,
+      date.day,
+      time.hour,
+      time.minute,
     );
 
-    if (selectedDate != null) {
-      TimeOfDay selectedTime = (await showTimePicker(
-            context: initialContext,
-            initialTime: TimeOfDay.now(),
-            builder: (context, child) {
-              return Theme(
-                data: ThemeData.light().copyWith(
-                  primaryColor: const Color(0xFF9E9E9E),
-                  colorScheme: const ColorScheme.light(
-                    primary: Color(0xFF9E9E9E),
-                    onSurface: Colors.black,
-                  ),
-                  textTheme: const TextTheme(
-                    labelLarge: TextStyle(color: Colors.black),
-                  ),
-                ),
-                child: child!,
-              );
-            },
-          )) ??
-          TimeOfDay.now();
+    Pair<UserModel, DateTime> selectedAssignment = Pair<UserModel, DateTime>(selectedUser!, selectedDateTime);
 
-      // Combine selectedDate and selectedTime into a single DateTime object
-      DateTime selectedDateTime = DateTime(
-        selectedDate.year,
-        selectedDate.month,
-        selectedDate.day,
-        selectedTime.hour,
-        selectedTime.minute,
+    // Actualiza la lista de asignaciones de usuarios
+    AsignmentsUser selectedAssignmentUser = AsignmentsUser(
+      userName: selectedUser!.userName,
+      userId: selectedUser!.id,
+      dates: [selectedDateTime],
+    );
+
+    // Mostrar un popup para confirmar la asignación
+    bool? confirmed = await showConfirmationDialog(context, selectedAssignment);
+
+    // Añadir al array solo si se confirmó
+    if (confirmed == true) {
+      // Buscar si ya hay una asignación existente para este usuario
+      int existingIndex = selectedAssignments.indexWhere(
+        (assignmentUser) =>
+            assignmentUser.userId == selectedAssignmentUser.userId,
       );
 
-      Pair<UserModel, DateTime> selectedAssignment =
-          Pair<UserModel, DateTime>(selectedUser!, selectedDateTime);
-
-      // Actualiza la lista de asignaciones de usuarios
-      AsignmentsUser selectedAssignmentUser = AsignmentsUser(
-        userName: selectedUser!.userName,
-        userId: selectedUser!.id,
-        dates: [selectedDateTime],
-      );
-
-      // Mostrar un popup para confirmar la asignación
-      bool? confirmed =
-          await showConfirmationDialog(context, selectedAssignment);
-
-      // Añadir al array solo si se confirmó
-      if (confirmed == true) {
-        // Buscar si ya hay una asignación existente para este usuario
-        int existingIndex = selectedAssignments.indexWhere(
-          (assignmentUser) =>
-              assignmentUser.userId == selectedAssignmentUser.userId,
-        );
-
-        setState(() {
-          if (existingIndex != -1) {
-            // Si ya existe, añadir la nueva fecha a las fechas existentes
-            selectedAssignments[existingIndex].dates.add(selectedDateTime);
-          } else {
-            // Si no existe, añadir una nueva AsignmentsUser a la lista
-            selectedAssignments.add(selectedAssignmentUser);
-          }
-        });
-      }
+      setState(() {
+        if (existingIndex != -1) {
+          // Si ya existe, añadir la nueva fecha a las fechas existentes
+          selectedAssignments[existingIndex].dates.add(selectedDateTime);
+        } else {
+          // Si no existe, añadir una nueva AsignmentsUser a la lista
+          selectedAssignments.add(selectedAssignmentUser);
+        }
+      });
     }
   }
 }

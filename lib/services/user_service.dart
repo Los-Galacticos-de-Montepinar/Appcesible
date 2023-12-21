@@ -193,7 +193,7 @@ Future<UserModel> getStudentFromId(int id) async {
 
 Future<Image> getProfileImage(int id) async {
   UserModel user = await getUserFromId(id, true);
-  Image img = user.image!;
+  Image img = user.image ?? Image.asset('assets/images/addPicture.png');
 
   return img;
 }
@@ -417,7 +417,7 @@ Future<bool> logOutUser() async {
 
   String token = '';
   await getSessionInformation().then((value) {
-    token = value.getString('token')!;
+    token = value.getString('token') ?? '';
   });
 
   print('token_out - $token');

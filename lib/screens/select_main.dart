@@ -1,7 +1,7 @@
+import 'package:appcesible/widgets/widget_top_initial.dart';
 import 'package:flutter/material.dart';
 
 import 'package:appcesible/models/user_model.dart';
-import 'package:appcesible/screens/pass_picto.dart';
 import 'package:appcesible/screens/pass_text.dart';
 import 'package:appcesible/screens/select_user.dart';
 
@@ -13,6 +13,7 @@ class SelectMain extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        appBar: const TopBarInitial(showArrow: false),
         body: Center(
           child: LayoutBuilder(
             builder: (context, constraints) {
@@ -29,16 +30,16 @@ class SelectMain extends StatelessWidget {
                         children: [
                           const MyBoxWithImageAndText(
                             text: 'ESTUDIANTES',
-                            color: Color.fromARGB(255, 0, 0, 0),
-                            color2: Color.fromARGB(255, 51, 159, 179),
+                            color: Colors.black,
+                            color2: Color(0xFF5996CE),
                             destinationScreen: SelectUser(),
                             size: 400,
                           ),
                           const SizedBox(width: 200.0),
                           MyBoxWithImageAndText(
                             text: 'Profesor',
-                            color: const Color.fromARGB(255, 0, 0, 0),
-                            color2: const Color.fromARGB(255, 119, 124, 119),
+                            color: Colors.black,
+                            color2: const Color(0xFFD9D9D9),
                             destinationScreen: Login(
                               teacherInit: true,
                               user: UserModel(
@@ -59,16 +60,16 @@ class SelectMain extends StatelessWidget {
                         children: [
                           const MyBoxWithImageAndText(
                             text: 'ESTUDIANTES',
-                            color: Color.fromARGB(255, 0, 0, 0),
-                            color2: Color.fromARGB(255, 51, 159, 179),
+                            color: Colors.black,
+                            color2: Color(0xFF5996CE),
                             destinationScreen: SelectUser(),
                             size: 300,
                           ),
                           const SizedBox(height: 60.0),
                           MyBoxWithImageAndText(
                             text: 'Profesor',
-                            color: const Color.fromARGB(255, 0, 0, 0),
-                            color2: const Color.fromARGB(255, 119, 124, 119),
+                            color: Colors.black,
+                            color2: const Color(0xFFD9D9D9),
                             destinationScreen: Login(
                               teacherInit: true,
                               user: UserModel(

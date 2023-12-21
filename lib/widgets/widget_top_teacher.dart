@@ -67,7 +67,7 @@ class TopMenu extends StatelessWidget implements PreferredSizeWidget {
                 if (value == 'profile') {
                   int userId = -1;
                   await getSessionInformation().then((value) {
-                    userId = value.getInt('id')!;
+                    userId = value.getInt('id') ?? -1;
                   });
 
                   navigator

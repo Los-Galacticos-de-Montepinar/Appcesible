@@ -56,10 +56,10 @@ class _InputDropdownState extends State<InputDropdown> {
           onChanged: (value) {
             setState(() {
               if (selectedElement != value) {
-                selectedElement = value!;
+                selectedElement = value ?? '';
               }
               
-              widget.onElementSelected(selectedElement!);
+              widget.onElementSelected(selectedElement ?? '');
             });
           },
           isExpanded: true,
