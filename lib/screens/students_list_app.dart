@@ -1,26 +1,25 @@
-import 'package:appcesible/screens/assign_fixed_task.dart';
-import 'package:appcesible/screens/info_task.dart';
+import 'package:appcesible/screens/info_student.dart';
+import 'package:appcesible/screens/info_student_app.dart';
 import 'package:flutter/material.dart';
-import 'package:appcesible/screens/task_list.dart';
+import 'package:appcesible/screens/students_list.dart';
 import 'package:appcesible/widgets/widget_top_teacher.dart';
 
-class TaskListMobile extends StatefulWidget {
-  final List<MyTaskData> tasks;
+class StudentListMobile extends StatefulWidget {
+  final List<MyStudentData> tasks;
   final bool assignTask;
 
-  TaskListMobile({Key? key, required this.tasks, required this.assignTask})
+  StudentListMobile({Key? key, required this.tasks, required this.assignTask})
       : super(key: key);
 
   @override
-  State<TaskListMobile> createState() => _TaskListMobileState();
+  State<StudentListMobile> createState() => _StudentListMobileState();
 }
 
-class _TaskListMobileState extends State<TaskListMobile> {
+class _StudentListMobileState extends State<StudentListMobile> {
   final TextEditingController _searchController = TextEditingController();
-  late List<MyTaskData> _filteredTasks;
+  late List<MyStudentData> _filteredTasks;
   bool _isSearching = false;
   bool _isDeleting = false;
-  String imagePath = "PRUEBA";
 
   @override
   void initState() {
@@ -33,7 +32,9 @@ class _TaskListMobileState extends State<TaskListMobile> {
       _filteredTasks = widget.tasks.where((task) {
         if (widget.assignTask) {
           // If _assignTask is true, filter by taskName
-          return task.taskName.toLowerCase().contains(searchText.toLowerCase());
+          return task.studentName
+              .toLowerCase()
+              .contains(searchText.toLowerCase());
         } else {
           // If _assignTask is false, filter by studentName
           return task.studentName
@@ -84,9 +85,7 @@ class _TaskListMobileState extends State<TaskListMobile> {
                           });
                         },
                         decoration: InputDecoration(
-                          labelText: widget.assignTask
-                              ? "Buscar por tarea"
-                              : "Buscar por alumno",
+                          labelText: "Buscar por alumno",
                           border: const OutlineInputBorder(),
                           prefixIcon: _isSearching
                               ? IconButton(
@@ -110,7 +109,7 @@ class _TaskListMobileState extends State<TaskListMobile> {
                           _isDeleting = !_isDeleting;
                         });
 
-                        MyTask.setDeleting(_isDeleting);
+                        MyStudent.setDeleting(_isDeleting);
                       },
                     ),
                   ],
@@ -120,20 +119,13 @@ class _TaskListMobileState extends State<TaskListMobile> {
                   child: ListView.builder(
                     itemCount: _filteredTasks.length,
                     itemBuilder: (context, index) {
-                      MyTaskData task = _filteredTasks[index];
-                      if (widget.assignTask) {
-                        imagePath = task.imagePath;
-                      } else {
-                        imagePath = task.imageStudent;
-                      }
+                      MyStudentData task = _filteredTasks[index];
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10.0),
-                        child: MyTask(
-                          imagePath: imagePath,
-                          taskName: task.taskName,
+                        child: MyStudent(
+                          imagePath: task.imageStudent,
                           studentName: task.studentName,
-                          state: task.state,
-                          assignTask: widget.assignTask,
+                          clase: task.clase,
                         ),
                       );
                     },
@@ -148,9 +140,9 @@ class _TaskListMobileState extends State<TaskListMobile> {
   }
 
   Widget _buildHeaderText() {
-    return Text(
-      widget.assignTask ? 'Asignación de tareas' : 'Lista de tareas',
-      style: const TextStyle(
+    return const Text(
+      'Lista de alumnos',
+      style: TextStyle(
         color: Colors.black,
         fontSize: 24,
         fontWeight: FontWeight.bold,
@@ -160,22 +152,18 @@ class _TaskListMobileState extends State<TaskListMobile> {
 }
 
 // Class that creates a box with text inside
-class MyTask extends StatelessWidget {
+class MyStudent extends StatelessWidget {
   final String imagePath;
-  final String taskName;
+  final String clase;
   final String studentName;
-  final String state;
-  final bool assignTask;
 
   static bool _isDeleting = false;
 
-  const MyTask({
+  const MyStudent({
     super.key,
     required this.imagePath,
-    required this.taskName,
+    required this.clase,
     required this.studentName,
-    required this.state,
-    required this.assignTask,
   });
 
   static void setDeleting(bool delete) {
@@ -184,26 +172,10 @@ class MyTask extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color backgroundColor;
-
-    // Lógica para determinar el color de fondo según el estado
-    if (state == 'not finished') {
-      backgroundColor = const Color.fromRGBO(189, 189, 189, 1); // Color actual
-    } else if (state == 'done') {
-      backgroundColor = const Color.fromARGB(255, 126, 229, 130); // Color verde
-    } else if (state == 'not done') {
-      backgroundColor = const Color.fromARGB(255, 223, 102, 93); // Color rojo
-    } else {
-      backgroundColor = const Color.fromRGBO(189, 189, 189, 1); // Por defecto
-    }
-
-    if (assignTask) {
-      backgroundColor = const Color.fromRGBO(
-          189, 189, 189, 1); // Fondo gris para asignación de tareas
-    }
+    Color backgroundColor = const Color.fromRGBO(189, 189, 189, 1);
 
     return Container(
-      height: 135,
+      height: 125,
       width: 200,
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
@@ -216,7 +188,7 @@ class MyTask extends StatelessWidget {
       ),
       child: Row(
         children: [
-          imageWidget(image: imagePath, assignTask: assignTask),
+          imageWidget(image: imagePath),
           const SizedBox(width: 20),
           Expanded(
             child: Column(
@@ -224,18 +196,16 @@ class MyTask extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  taskName,
+                  studentName,
                   style: TextStyle(
                       fontSize: MediaQuery.of(context).size.width * 0.040),
                 ),
-                if (!assignTask) ...[
-                  const SizedBox(height: 20),
-                  Text(
-                    studentName,
-                    style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width * 0.040),
-                  ),
-                ]
+                const SizedBox(height: 20),
+                Text(
+                  clase,
+                  style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.040),
+                ),
               ],
             ),
           ),
@@ -246,19 +216,11 @@ class MyTask extends StatelessWidget {
             onPressed: () {
               if (_isDeleting) {
               } else {
-                if (assignTask) {
-                  // Assign task true
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) {
-                    return const TaskAsign();
-                  }));
-                } else {
-                  // Assign task false
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) {
-                    return const TaskInformation();
-                  }));
-                }
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const StudentInformationMobile()),
+                );
               }
             },
           ),
@@ -268,23 +230,16 @@ class MyTask extends StatelessWidget {
   }
 
   // Widged that shows an image
-  Widget imageWidget({required String image, required bool assignTask}) {
+  Widget imageWidget({required String image}) {
     return Container(
       height: 80,
       width: 80,
       decoration: BoxDecoration(
-          border: assignTask
-              ? Border.all(
-                  color: Colors.black,
-                  width: 1,
-                )
-              : Border.all(
-                  color: Colors.black,
-                  width: 2,
-                ),
-          borderRadius: assignTask
-              ? BorderRadius.circular(0)
-              : BorderRadius.circular(100),
+          border: Border.all(
+            color: Colors.black,
+            width: 1,
+          ),
+          borderRadius: BorderRadius.circular(100),
           image: DecorationImage(image: AssetImage(image), fit: BoxFit.cover)),
     );
   }

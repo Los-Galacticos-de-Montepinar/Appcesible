@@ -61,12 +61,11 @@ class SelectMain extends StatelessWidget {
                             destinationScreen: Login(
                               teacherInit: true,
                               user: UserModel(
-                                id: -1,
-                                userName: '',
-                                userType: -1,
-                                idClass: -1,
-                                loginType: 1
-                              ),
+                                  id: -1,
+                                  userName: '',
+                                  userType: -1,
+                                  idClass: -1,
+                                  loginType: 1),
                             ),
                             size: 180,
                           ),

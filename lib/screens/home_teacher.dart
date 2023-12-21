@@ -1,5 +1,7 @@
 import 'package:appcesible/command/session_command.dart';
 import 'package:appcesible/screens/assign_fixed_task_app.dart';
+import 'package:appcesible/screens/students_list.dart';
+import 'package:appcesible/screens/students_list_app.dart';
 import 'package:flutter/material.dart';
 
 import 'package:appcesible/screens/task_list.dart';
@@ -51,7 +53,7 @@ class _TeacherHomeState extends State<TeacherHome> {
                 onPressed: () {
                   Navigator.of(context)
                       .push(MaterialPageRoute(builder: (context) {
-                    return const TaskAsignMobile();
+                    return const StudentsListInit();
                   }));
                 },
                 style: ButtonStyle(
@@ -102,7 +104,9 @@ class _TeacherHomeState extends State<TeacherHome> {
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) {
-                      return const TaskListInit();
+                      return TaskListInit(
+                        assignTask: false,
+                      );
                     },
                   ));
                 },
@@ -156,8 +160,11 @@ class _TeacherHomeState extends State<TeacherHome> {
                       padding: const EdgeInsets.only(left: 8, right: 8),
                       child: ElevatedButton(
                         onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                            return const TaskListInit();
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) {
+                            return TaskListInit(
+                              assignTask: true,
+                            );
                           }));
                         },
                         style: ButtonStyle(

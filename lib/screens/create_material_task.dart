@@ -144,10 +144,7 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
       context: context,
       builder: (BuildContext context) {
         return DialogWithSearchBar(
-          title: 'Clase',
-          label: 'Clase',
-          elements: classes
-        );
+            title: 'Clase', label: 'Clase', elements: classes);
       },
     );
 
@@ -163,12 +160,11 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
       context: context,
       builder: (BuildContext context) {
         return DialogWithSearchBar(
-          title: 'Estudiante',
-          label: 'Estudiante',
-          elements: getStudentsNames(),
-          showSearchBar: true,
-          showCloseIcon: true
-        );
+            title: 'Estudiante',
+            label: 'Estudiante',
+            elements: getStudentsNames(),
+            showSearchBar: true,
+            showCloseIcon: true);
       },
     );
 
@@ -256,11 +252,10 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
     NavigatorState nav = Navigator.of(context);
 
     showDialog(
-      context: context,
-      builder: (context) {
-        return const LoadingDialog();
-      }
-    );
+        context: context,
+        builder: (context) {
+          return const LoadingDialog();
+        });
 
     // Create task
     TaskModel task = TaskModel(
@@ -291,9 +286,10 @@ abstract class MaterialTaskState<T extends StatefulWidget> extends State<T> {
     print("Finished");
 
     nav.pop();
-    nav.pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) {
-      return const TaskListInit();
+    nav.pushAndRemoveUntil(MaterialPageRoute(builder: (context) {
+      return TaskListInit(
+        assignTask: false,
+      );
     }), (route) => false);
   }
 

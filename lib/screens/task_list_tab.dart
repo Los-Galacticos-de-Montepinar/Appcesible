@@ -1,12 +1,17 @@
+import 'package:appcesible/screens/assign_fixed_task.dart';
+import 'package:appcesible/screens/info_task.dart';
 import 'package:appcesible/services/task_service.dart';
-import 'package:appcesible/widgets/widget_top_teacher.dart';
-import 'package:appcesible/screens/task_list_app.dart';
 import 'package:flutter/material.dart';
+import 'package:appcesible/screens/task_list.dart';
+
+import 'package:appcesible/widgets/widget_top_teacher.dart';
 
 class TaskListTablet extends StatefulWidget {
   final List<MyTaskData> tasks;
+  final bool assignTask;
 
-  const TaskListTablet({super.key, required this.tasks});
+  TaskListTablet({Key? key, required this.tasks, required this.assignTask})
+      : super(key: key);
 
   @override
   State<TaskListTablet> createState() => _TaskListTabletState();
@@ -16,6 +21,8 @@ class _TaskListTabletState extends State<TaskListTablet> {
   final TextEditingController _searchController = TextEditingController();
   late List<MyTaskData> _filteredTasks;
   bool _isSearching = false;
+  bool _isDeleting = false;
+  String imagePath = "PRUEBA";
 
   @override
   void initState() {
@@ -26,9 +33,15 @@ class _TaskListTabletState extends State<TaskListTablet> {
   void _filterTasks(String searchText) {
     setState(() {
       _filteredTasks = widget.tasks.where((task) {
-        return task.studentName
-            .toLowerCase()
-            .contains(searchText.toLowerCase());
+        if (widget.assignTask) {
+          // If _assignTask is true, filter by taskName
+          return task.taskName.toLowerCase().contains(searchText.toLowerCase());
+        } else {
+          // If _assignTask is false, filter by studentName
+          return task.studentName
+              .toLowerCase()
+              .contains(searchText.toLowerCase());
+        }
       }).toList();
     });
   }
@@ -39,7 +52,7 @@ class _TaskListTabletState extends State<TaskListTablet> {
       home: Scaffold(
         appBar: const TopMenu(),
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
+          padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
           child: Center(
             child: Column(
               children: [
@@ -51,18 +64,9 @@ class _TaskListTabletState extends State<TaskListTablet> {
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(color: Colors.black),
                   ),
-                  child: const Center(
-                    child: Text(
-                      'Lista de tareas',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
+                  child: Center(child: _buildHeaderText()),
                 ),
-                const SizedBox(height: 10.0),
+                const SizedBox(height: 20.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -82,7 +86,9 @@ class _TaskListTabletState extends State<TaskListTablet> {
                           });
                         },
                         decoration: InputDecoration(
-                          labelText: 'Buscar por alumno',
+                          labelText: widget.assignTask
+                              ? "Buscar por tarea"
+                              : "Buscar por alumno",
                           border: const OutlineInputBorder(),
                           prefixIcon: _isSearching
                               ? IconButton(
@@ -102,7 +108,11 @@ class _TaskListTabletState extends State<TaskListTablet> {
                     IconButton(
                       icon: const Icon(Icons.delete),
                       onPressed: () {
-                        // Lógica para eliminar
+                        setState(() {
+                          _isDeleting = !_isDeleting;
+                        });
+
+                        MyTask.setDeleting(_isDeleting);
                       },
                     ),
                   ],
@@ -110,21 +120,27 @@ class _TaskListTabletState extends State<TaskListTablet> {
                 const SizedBox(height: 15),
                 Expanded(
                   child: GridView.builder(
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       crossAxisSpacing: 15.0,
                       mainAxisSpacing: 15.0,
-                      childAspectRatio: 200 /
-                          50, 
+                      childAspectRatio: 200 / 65,
                     ),
                     itemCount: _filteredTasks.length,
                     itemBuilder: (context, index) {
                       MyTaskData task = _filteredTasks[index];
+                      if (widget.assignTask) {
+                        imagePath = task.imagePath;
+                      } else {
+                        imagePath = task.imageStudent;
+                      }
                       return MyTask(
-                        imagePath: task.imagePath,
+                        imagePath: imagePath,
                         taskName: task.taskName,
                         studentName: task.studentName,
                         state: task.state,
+                        assignTask: widget.assignTask,
                       );
                     },
                   ),
@@ -136,6 +152,17 @@ class _TaskListTabletState extends State<TaskListTablet> {
       ),
     );
   }
+
+  Widget _buildHeaderText() {
+    return Text(
+      widget.assignTask ? 'Asignación de tareas' : 'Lista de tareas',
+      style: const TextStyle(
+        color: Colors.black,
+        fontSize: 24,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
 }
 
 // Class that creates a box with text inside
@@ -144,6 +171,9 @@ class MyTask extends StatelessWidget {
   final String taskName;
   final String studentName;
   final String state;
+  final bool assignTask;
+
+  static bool _isDeleting = false;
 
   const MyTask({
     super.key,
@@ -151,7 +181,12 @@ class MyTask extends StatelessWidget {
     required this.taskName,
     required this.studentName,
     required this.state,
+    required this.assignTask,
   });
+
+  static void setDeleting(bool delete) {
+    _isDeleting = delete;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -168,9 +203,12 @@ class MyTask extends StatelessWidget {
       backgroundColor = const Color.fromRGBO(189, 189, 189, 1); // Por defecto
     }
 
+    if (assignTask) {
+      backgroundColor = const Color.fromRGBO(
+          189, 189, 189, 1); // Fondo gris para asignación de tareas
+    }
+
     return Container(
-      height: 120,
-      width: 100,
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
         color: backgroundColor,
@@ -180,50 +218,86 @@ class MyTask extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(13.0),
       ),
-      child: Row(
-        children: [
-          imageWidget(image: imagePath),
-          const SizedBox(width: 20),
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-              
-                Text(
-                  taskName,
-                  style: const TextStyle(fontSize: 15.0),
-                ),
-                const SizedBox(height: 20),
-                Text(
-                  studentName,
-                  style: const TextStyle(fontSize: 15.0),
-                ),
-              ],
+      child: Center(
+        child: Row(
+          crossAxisAlignment:
+              CrossAxisAlignment.start, // Alinea la fila en la parte superior
+          children: [
+            imageWidget(image: imagePath, assignTask: assignTask),
+            const SizedBox(width: 20),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    taskName,
+                    style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.width * 0.020),
+                    maxLines: 1, // Limita el número de líneas a 1
+                    overflow: TextOverflow
+                        .ellipsis, // Agrega puntos suspensivos si el texto es demasiado largo
+                  ),
+                  if (!assignTask) ...[
+                    const SizedBox(height: 10), // Espacio más pequeño
+                    Text(
+                      studentName,
+                      style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.width *
+                              0.020), // Tamaño de fuente ligeramente más pequeño
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ]
+                ],
+              ),
             ),
-          ),
-          IconButton(
-            icon: const Icon(Icons.arrow_forward_ios_sharp),
-            onPressed: () {
-              // Lógica del botón
-            },
-          ),
-        ],
+            IconButton(
+              icon: (_isDeleting)
+                  ? const Icon(Icons.delete)
+                  : const Icon(Icons.arrow_forward_ios_sharp),
+              onPressed: () {
+                if (_isDeleting) {
+                } else {
+                  if (assignTask) {
+                    // Assign task true
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return const TaskAsign();
+                    }));
+                  } else {
+                    // Assign task false
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return const TaskInformation();
+                    }));
+                  }
+                }
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
 
   // Widged that shows an image
-  Widget imageWidget({required String image}) {
+  Widget imageWidget({required String image, required bool assignTask}) {
     return Container(
-      height: 70,
-      width: 70,
+      height: 80,
+      width: 80,
       decoration: BoxDecoration(
-          border: Border.all(
-            color: Colors.black,
-            width: 2,
-          ),
-          borderRadius: BorderRadius.circular(100),
+          border: assignTask
+              ? Border.all(
+                  color: Colors.black,
+                  width: 1,
+                )
+              : Border.all(
+                  color: Colors.black,
+                  width: 2,
+                ),
+          borderRadius: assignTask
+              ? BorderRadius.circular(0)
+              : BorderRadius.circular(100),
           image: DecorationImage(image: AssetImage(image), fit: BoxFit.cover)),
     );
   }

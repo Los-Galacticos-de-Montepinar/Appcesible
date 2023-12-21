@@ -79,7 +79,7 @@ class TopMenuStudent extends StatelessWidget implements PreferredSizeWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => StepCompletionCheckScreen(
+                  builder: (context) => const StepCheck(
                     image: "assets/images/salir.png",
                     texto: "¿Quieres Salir?",
                   ),
