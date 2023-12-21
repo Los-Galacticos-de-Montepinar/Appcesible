@@ -3,7 +3,6 @@ import 'package:appcesible/widgets/dialog_confirm.dart';
 import 'package:appcesible/widgets/dialog_info.dart';
 import 'package:flutter/material.dart';
 
-import 'package:appcesible/services/user_service.dart';
 import 'package:appcesible/models/user_model.dart';
 import 'package:appcesible/models/class_model.dart';
 
@@ -13,7 +12,6 @@ import 'package:appcesible/widgets/input_dropdown.dart';
 import 'package:appcesible/widgets/dialog_error.dart';
 import 'package:appcesible/widgets/dialog_loading.dart';
 import 'package:appcesible/widgets/widget_top_teacher.dart';
-import 'package:appcesible/widgets/upload_img.dart';
 import 'package:appcesible/widgets/button.dart';
 import 'package:appcesible/screens/insert_pass_pic_add_user.dart';
 
@@ -90,7 +88,7 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
   String _choosedTypes = '';
   String? _defaultTypeValue;
   String? _defaultClassValue;
-  File? _pickedImage;
+  //File? _pickedImage;
 
   bool userSelected=false;
   bool show=false;
@@ -99,8 +97,8 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
   bool _initialized = true;
   Future _initializeState() async {
     if (!_initialized) {
-      actionCall = (widget.newUser && widget.id == null) ? createUser : updateUser;
-      classes = await getClasses();
+      //actionCall = (widget.newUser && widget.id == null) ? createUser : updateUser;
+      //classes = await getClasses();
 
       if (!widget.newUser && widget.id != null) {
         userSelected = true;
@@ -123,7 +121,7 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
   }
 
   Future _handleConfirm() async {
-    await actionCall(user, _passwdController.value.text, _pickedImage!);
+    //await actionCall(user, _passwdController.value.text, _pickedImage!);
   }
 
   @override
@@ -349,13 +347,13 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: _initializeState(),
-      builder: (context, snapshot) {
-         return MaterialApp(
+    return MaterialApp(
+      //future: _initializeState(),
+      //builder: (context, snapshot) {
+         
          home: Scaffold(
           backgroundColor: Colors.white,
-          appBar: TopMenu(
+          /*appBar: TopMenu(
             onHomeTap: () {
               showDialog(
                 context: context,
@@ -376,8 +374,8 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                 }
               );
             }
-          ),
-          body: (_initialized || snapshot.connectionState == ConnectionState.done)
+          ),*/
+          body: (_initialized /*|| snapshot.connectionState == ConnectionState.done*/)
           ? SingleChildScrollView(
               padding: const EdgeInsets.all(8.0),
               child: Column(
@@ -619,9 +617,8 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
               )
           )
           : const LoadingDialog(),
-        ),
-    );}
+        )
+      //}
     );
-
   }
 }

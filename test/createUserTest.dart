@@ -37,9 +37,12 @@ void main(){
   Map<String,bool> content = {'Texto':false,'Audio':false,'Imagenes':false};
   List<int> elecciones=List.empty(growable: true);
 
-  final int clase=Random().nextInt(3);
+  final List<String> classes = ['1A','2A'];
+  final int clase=Random().nextInt(classes.length);
 
   final resultadoContentT=resultadoContentType(content, elecciones);
+
+  
 
   testWidgets('Widget test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
@@ -52,27 +55,34 @@ void main(){
     const ppK=Key("passwdP");
     const cK=Key("class");
 
-    //expect(find.byKey(ctK), findsOne);
-    expect(find.byKey(utK), findsOne);
-    expect(find.byKey(nK), findsOne);
-    expect(find.byKey(ptK), findsOne);
-    //expect(find.byKey(ppK), findsOne);
-    expect(find.byKey(cK), findsOne);
+    //print("--------- Encontrar widgets ---------\n");
 
+    expect(find.byKey(utK), findsOne);
+    //print("Widget tipo de usuario encontrado");
+    expect(find.byKey(nK), findsOne);
+    //print("Widget insertar nombre encontrado");
+    expect(find.byKey(ptK), findsOne);
+    //print("Widget contraseña de texto encontrado");
+    expect(find.byKey(cK), findsOne);
+    //print("Widget seleccion de clase encontrado\n");
+
+    //print("-------------------------------------\n");
     /**
      * Tipo de usuario y clase seleccionada
      */
-    final List<String> classes = ['1A','2A','3A'];
 
     /**
    * Vamos a intentar simular que el cliente selecciona varias cosas y deselecciona
    */
 
+
+    //print("--------- Insertar datos ---------\n");
     await tester.tap(find.byKey(utK));
     await tester.pump();
     await tester.tap(find.text(userTypes[userT]));
     await tester.pump();
 
+    //print("El tipo de usuario se inserta correctamente "+userTypes[userT].toString());
     /**
      * Nombres y contraseñas de distintos valores y longitudes
      */
@@ -83,15 +93,27 @@ void main(){
 
     expect(find.text(name), findsOne);
 
+    //print("Nombre insertado correctamente: "+name);
     //AHora solo comprobamos que se despliegue la ventana, cuando se termine de impkementar habrá que hacer más cosas
     if(userTypes[userT]=='Estudiante'){
+
+      //print("----- Pruebas para especiales usuario estudiante -----\n");
+      expect(find.byKey(ctK), findsOne);
+      //print("Encontrado el checkBox para contraseña por pictogramas");
+
+      await tester.tap(find.byType(Checkbox));
+      await tester.pump();
+
+      expect(find.byKey(ppK),findsExactly(2));
+      //print("Encontrado el boton para la insertar contraseña por pictogramas");
+      //Quitamos la imagen de ejemplo
       await tester.tap(find.byType(Checkbox));
       await tester.pump();
 
       expect(find.byKey(ppK),findsOne);
-      //Quitamos la imagen de ejemplo
-      await tester.tap(find.byType(Checkbox));
-      await tester.pump();
+      //print("Se ha escondido el boton para la insertar contraseña por pictogramas correctamente\n");
+
+      //print("------- Fin de pruebas especiales --------");
     }
 
     //Metemos contraseña
@@ -99,6 +121,7 @@ void main(){
     await tester.pump();
 
     expect(find.text(passwd), findsOne);
+    //print("La contraseña se ha introducido correctamente: "+passwd);
 
     if(userTypes[userT]=='Estudiante'){
       //El numero de elecciones que ha hecho el usuario
@@ -128,6 +151,8 @@ void main(){
       });
     }
 
+    
+
     /**
      * Seleccion de clase
      */
@@ -141,6 +166,7 @@ void main(){
     await tester.pump();
 
     expect(find.text(classes[clase]), findsOne);
+    //print("La clase se ha seleccionado correctamente: "+classes[clase]);
   });
 
 }
