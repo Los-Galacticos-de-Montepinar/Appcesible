@@ -108,7 +108,7 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
       if (!widget.newUser && widget.id != null) {
         userSelected = true;
 
-        user = await getUserFromId(widget.id!);
+        user = await getUserFromId(widget.id!, true);
         isUserStudent();
 
         _nameController.text = user.userName;
@@ -291,6 +291,8 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
               if(!picto) {
                 idPicturesPasswd=[];
               }
+
+              user.loginType = (!picto) ? 0 : 1;
             });
           },
           activeColor: const Color(0xFF333333).withOpacity(0.8),
@@ -587,7 +589,7 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                                 cont++;
                                 msg = 'Rellene el campo tipo usuario';
                               }
-                              if (user.userType != -1 && (user.interactionFormat == -1 && userTypes[user.userType]=='Estudiante')) {
+                              if (user.userType != -1 && (user.interactionFormat == -1 && user.userType == 1)) {
                                 cont++;
                                 msg = 'Rellene el campo tipo de contenido';
                               }

@@ -104,7 +104,9 @@ abstract class SelectionState<T extends StatefulWidget> extends State<T> {
     if (user.userType == 1) {
       // Falta la condición para modo de visualización
       Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
-        return PictoPassw();
+        return (user.loginType == 0)
+          ? Login(teacherInit: false, user: user)
+          : PictoPassw(user: user,);
       }));
     } else {
       Image img = images.firstWhere((element) => (element.key.id == user.idProfileImg)).value;

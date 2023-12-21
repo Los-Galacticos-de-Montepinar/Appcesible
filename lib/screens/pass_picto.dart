@@ -1,52 +1,101 @@
-import 'package:appcesible/widgets/widget_top_student.dart';
 import 'package:flutter/material.dart';
-import 'package:appcesible/models/user_model.dart';
+
 import 'package:appcesible/services/user_service.dart';
+import 'package:appcesible/services/media_service.dart';
+import 'package:appcesible/models/user_model.dart';
+
+import 'package:appcesible/screens/home_student.dart';
+import 'package:appcesible/widgets/dialog_loading.dart';
+import 'package:appcesible/widgets/widget_top_initial.dart';
 
 class PictoPassw extends StatefulWidget {
-  PictoPassw({Key? key}) : super(key: key);
+  const PictoPassw({super.key, required this.user});
+
+  final UserModel user;
 
   @override
-  _PictoPasswState createState() => _PictoPasswState();
+  State<PictoPassw> createState() => _PictoPasswState();
 }
 
 class _PictoPasswState extends State<PictoPassw> {
-  List<String> selectedImages = [];
+  List<Image> selectedImages = [];
   bool correct = false;
+  List<int> download = List.generate(9, (index) => index + 4);
+  List<int> codes = [];
+  final List<Image> images = [];
+  bool initialized = false;
+  late final UserModel user;
+
+  Future getImages() async {
+    try {
+      if (!initialized) {
+        for (int i = 0; i < download.length; i++) {
+          Image img = await downloadImage(download[i]);
+          images.add(img);
+          codes.add(download[i]);
+        }
+      }
+
+      setState(() {
+        initialized = true;
+      });
+    } catch (error) {
+      print("Error downloading image: $error");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    print(images.length);
     return MaterialApp(
-      home: Scaffold(
-        appBar: const TopMenuStudent(texto: 'INICIO'),
-        body: Column(
-          children: [
-            Expanded(
-              child: FirstGrid(
-                onImagesSelected: (images, state) {
-                  setState(() {
-                    selectedImages = images;
-                    correct = state;
-                  });
-                },
-              ),
-            ),
-            SizedBox(
-              height: 139,
-              child:
-                  SecondGrid(selectedImages: selectedImages, correct: correct),
-            ),
-          ],
-        ),
+      home: FutureBuilder(
+        future: getImages(),
+        builder: (context, snapshot) {
+          return Scaffold(
+              appBar: const TopBarInitial(showArrow: true,),
+              body: (initialized ||
+                      snapshot.connectionState == ConnectionState.done ||
+                      images.isNotEmpty)
+                  ? Column(
+                      children: [
+                        Expanded(
+                          child: FirstGrid(
+                            onImagesSelected: (images, state) {
+                              setState(() {
+                                selectedImages = images;
+                                correct = state;
+                              });
+                            },
+                            images: images,
+                            codes: codes,
+                            user: widget.user,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 139,
+                          child: SecondGrid(
+                              selectedImages: selectedImages, correct: correct),
+                        ),
+                      ],
+                    )
+                  : const LoadingDialog());
+        },
       ),
     );
   }
 }
 
 class FirstGrid extends StatefulWidget {
-  final Function(List<String>, bool) onImagesSelected;
+  final Function(List<Image>, bool) onImagesSelected;
+  final List<Image> images;
+  final List<int> codes;
+  final UserModel user;
 
-  FirstGrid({required this.onImagesSelected});
+  FirstGrid(
+      {required this.onImagesSelected,
+      required this.images,
+      required this.codes,
+      required this.user});
 
   @override
   _FirstGridState createState() => _FirstGridState();
@@ -55,35 +104,21 @@ class FirstGrid extends StatefulWidget {
 class _FirstGridState extends State<FirstGrid> {
   bool correct = false;
   int pos = 0;
+  int consecutiveCorrect = 0;
 
-  final List<String> images = [
-    'https://api.arasaac.org/v1/pictograms/2462?download=false',
-    'https://api.arasaac.org/v1/pictograms/25187?download=false',
-    'https://api.arasaac.org/v1/pictograms/28577?download=false',
-    'https://api.arasaac.org/v1/pictograms/2475?download=false',
-    'https://api.arasaac.org/v1/pictograms/7166?download=false',
-    'https://api.arasaac.org/v1/pictograms/3102?download=false',
-    'https://api.arasaac.org/v1/pictograms/6981?download=false',
-    'https://api.arasaac.org/v1/pictograms/38968?download=false',
-    'https://api.arasaac.org/v1/pictograms/4918?download=false',
-  ];
+  List<int> download = List.generate(9, (index) => index + 4);
 
+  @override
+  void initState() {
+    super.initState();
+  }
 
   List<bool> selected = List.generate(9, (index) => false);
-  List<String> selectedImages = [];
+  List<Image> selectedImages = [];
 
-  UserModel user = UserModel(
-    id: 3,
-    userName: 'Lucy Steel',
-    idProfileImg: 5,
-    userType: 5,
-    idClass: 1,
-    loginType: 0
-  );
-
-  Future<void> checkPass(int pos) async {
-    correct = await pictoAuthenticateUser0(user, "2", pos);
-  }    
+  Future<void> checkPass(int pos, int code) async {
+    correct = await pictoAuthenticateUser0(widget.user, code.toString(), pos);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,9 +126,6 @@ class _FirstGridState extends State<FirstGrid> {
     double screenHeight = MediaQuery.of(context).size.height;
     double imageWidth = (screenWidth / 2 - (3 - 1) * 10) / 3;
     double imageHeight = (screenHeight / 3 - (3 - 1) * 10) / 3;
-
-    // print(screenHeight);
-    // print(screenWidth);
 
     if (screenHeight < 660) {
       imageWidth = imageWidth.clamp(120.0, 120.0);
@@ -107,10 +139,8 @@ class _FirstGridState extends State<FirstGrid> {
 
     imageHeight = imageHeight.clamp(250.0, 250.0);
 
-    //double gridViewHeight = imageWidth * 3 + 20;
     double crossAxisSpacing = (screenWidth - imageWidth * 3) / (3 - 1);
     crossAxisSpacing = crossAxisSpacing.clamp(0.0, double.infinity);
-
     return GridView.count(
       crossAxisCount: 3,
       crossAxisSpacing: crossAxisSpacing + 5,
@@ -118,38 +148,59 @@ class _FirstGridState extends State<FirstGrid> {
       physics: const NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.all(8),
       children: List.generate(9, (index) {
-        return GestureDetector(
-          onTap: () async {
-            setState(() {
-              selected[index] = !selected[index];
-              selectedImages.add(images[index]);
-            });
+        if (widget.images.isNotEmpty) {
+          return GestureDetector(
+            onTap: () async {
+              NavigatorState navigator = Navigator.of(context);
 
-            await checkPass(pos);
-            pos++;
-            // Llama a la función de devolución de llamada
-            widget.onImagesSelected(selectedImages, correct);
-            if (!correct) {
-                selectedImages = [];
-                pos=0;
+              setState(() {
+                selected[index] = !selected[index];
+                selectedImages.add(widget.images[index]);
+              });
+
+              await checkPass(pos, widget.codes[index]);
+              pos++;
+
+              widget.onImagesSelected(selectedImages, correct);
+
+              if (correct) {
+                consecutiveCorrect++;
+                if (consecutiveCorrect == 3) {
+                  navigator.push(
+                    MaterialPageRoute(
+                      builder: (context) => const HomeStudentInit(),
+                    ),
+                  );
+                  consecutiveCorrect = 0;
+                }
+              }else{
+                consecutiveCorrect = 0;
               }
-          },
-          child: Center(
-            child: Image.network(
-              images[index],
-              width: imageWidth,
-              height: imageHeight,
-              fit: BoxFit.cover,
+
+              if (!correct) {
+                selectedImages = [];
+                pos = 0;
+              }
+            },
+            child: Center(
+              child: Image(
+                image: widget.images[index].image,
+                width: imageWidth,
+                height: imageHeight,
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-        );
+          );
+        } else {
+          return LoadingDialog();
+        }
       }),
     );
   }
 }
 
 class SecondGrid extends StatefulWidget {
-  final List<String> selectedImages;
+  final List<Image> selectedImages;
   final bool? correct;
 
   SecondGrid({required this.selectedImages, required this.correct});
@@ -183,8 +234,8 @@ class _SecondGridState extends State<SecondGrid> {
                   alignment: Alignment.topCenter,
                   widthFactor: 1.0,
                   heightFactor: 1.0,
-                  child: Image.network(
-                    widget.selectedImages[index],
+                  child: Image(
+                    image: widget.selectedImages[index].image,
                     width: 125,
                     height: 125,
                     fit: BoxFit.cover,
@@ -212,21 +263,6 @@ class _SecondGridState extends State<SecondGrid> {
           }
         }),
       ),
-    );
-  }
-}
-
-void main() {
-  runApp(const MainApp());
-}
-
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: PictoPassw(),
     );
   }
 }

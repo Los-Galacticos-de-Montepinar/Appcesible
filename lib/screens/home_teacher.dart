@@ -43,16 +43,15 @@ class _TeacherHomeState extends State<TeacherHome> {
       future: _initialize(),
       builder: (context, snapshot) {
         return Scaffold(
-          appBar: const TopMenu(),
+          appBar: TopMenu(
+            onHomeTap: () {},
+          ),
           body: (snapshot.connectionState == ConnectionState.done)
             ? SingleChildScrollView(
               child: Column(
                 //mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  const SizedBox(
-                    height: 15,
-                  ),
-
+                  const SizedBox(height: 15,),
                   ImageWidget(image: _profileImage),
                   const SizedBox(height: 10.0,),
                   Text(

@@ -9,11 +9,6 @@ import 'package:appcesible/services/media_service.dart';
 import 'package:appcesible/models/user_model.dart';
 import 'package:appcesible/models/class_model.dart';
 
-// String baseAddress = '10.0.2.2:8080';      // IP emulador
-// String baseAddress = 'localhost:8080';
-// String baseAddress = '100.70.70.131:8080';  // IP privada
-// String baseAddress = '192.168.1.42:8080';  // IP ordenador
-
 // CREATE
 
 Future createUser(UserModel user, String password, File image) async {
@@ -21,18 +16,45 @@ Future createUser(UserModel user, String password, File image) async {
 
   user.idProfileImg = await uploadImage(image);
 
+  List<String> pictoPass = [];
+  if (user.userType == 1 && user.loginType == 1) {
+    pictoPass = password.split(' ');
+  }
+
   final response = await http.post(
     Uri.http(baseAddress, '/user/new'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8'
     },
-    body: jsonEncode(<String, dynamic>{
-      'userName': user.userName,
-      'passwd': password,
-      'pfp': user.idProfileImg,
-      'idClass': user.idClass,
-      'userType': user.userType,
-    }),
+    body: (user.userType != 1)
+      ? jsonEncode(<String, dynamic>{
+        'userName': user.userName,
+        'passwd': password,
+        'pfp': user.idProfileImg,
+        'userType': user.userType,
+        'idClass': user.idClass,
+      })
+      : (user.loginType == 0)
+        ? jsonEncode(<String, dynamic> {
+          'userName': user.userName,
+          'pfp': user.idProfileImg,
+          'userType': user.userType,
+          'idClass': user.idClass,
+          'loginType': user.loginType,
+          'passwd': password,
+          'interactionFormat': user.interactionFormat
+        })
+        : jsonEncode(<String, dynamic> {
+          'userName': user.userName,
+          'pfp': user.idProfileImg,
+          'userType': user.userType,
+          'idClass': user.idClass,
+          'loginType': user.loginType,
+          'passPart0': int.parse(pictoPass[0]),
+          'passPart1': int.parse(pictoPass[1]),
+          'passPart2': int.parse(pictoPass[2]),
+          'interactionFormat': user.interactionFormat
+        })
   );
 
   if (response.statusCode == 200) {
@@ -123,7 +145,7 @@ Future<List<UserModel>> getAllNoStudent(bool getImages) async {
 }
 
 // Makes a HTTP request to get a User from the server DB
-Future<UserModel> getUserFromId(int id) async {
+Future<UserModel> getUserFromId(int id, bool getImage) async {
   String baseAddress = await getBaseAddress();
 
   final response = await http.get(Uri.http(baseAddress, '/user/$id'),
@@ -135,8 +157,9 @@ Future<UserModel> getUserFromId(int id) async {
     dynamic json = jsonDecode(utf8.decode(response.bodyBytes));
 
     UserModel user = UserModel.userFromJSON(json);
-    user.image = await downloadImage(user.idProfileImg);
-    print('image - ${user.image}');
+    if (getImage) {
+      user.image = await downloadImage(user.idProfileImg);
+    }
 
     return user;
   } else {
@@ -169,8 +192,8 @@ Future<UserModel> getStudentFromId(int id) async {
 // TODO: función para pedir un profesor dado su id (ahora mismo no hace falta)
 
 Future<Image> getProfileImage(int id) async {
-  UserModel user = await getUserFromId(id);
-  Image img = await downloadImage(user.idProfileImg);
+  UserModel user = await getUserFromId(id, true);
+  Image img = user.image!;
 
   return img;
 }

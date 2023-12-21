@@ -50,13 +50,11 @@ class TopMenu extends StatelessWidget implements PreferredSizeWidget {
             ),
           ],
         ),
-        onPressed: onHomeTap ??
-            () {
-              Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) {
-                return const TeacherHome();
-              }), (route) => false);
-            },
+        onPressed: onHomeTap ?? () {
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => const TeacherHome()
+          ), (route) => false);
+        },
       ),
       // ! Se utiliza para poner texto a la derecha del titulo
       actions: <Widget>[

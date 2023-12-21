@@ -1,8 +1,9 @@
+import 'package:flutter/material.dart';
+
 import 'package:appcesible/models/user_model.dart';
 import 'package:appcesible/screens/pass_picto.dart';
 import 'package:appcesible/screens/pass_text.dart';
 import 'package:appcesible/screens/select_user.dart';
-import 'package:flutter/material.dart';
 
 class SelectMain extends StatelessWidget {
   const SelectMain({super.key});
@@ -26,11 +27,11 @@ class SelectMain extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          MyBoxWithImageAndText(
+                          const MyBoxWithImageAndText(
                             text: 'ESTUDIANTES',
-                            color: const Color.fromARGB(255, 0, 0, 0),
-                            color2: const Color.fromARGB(255, 51, 159, 179),
-                            destinationScreen: PictoPassw(),
+                            color: Color.fromARGB(255, 0, 0, 0),
+                            color2: Color.fromARGB(255, 51, 159, 179),
+                            destinationScreen: SelectUser(),
                             size: 400,
                           ),
                           const SizedBox(width: 200.0),
@@ -38,7 +39,17 @@ class SelectMain extends StatelessWidget {
                             text: 'Profesor',
                             color: const Color.fromARGB(255, 0, 0, 0),
                             color2: const Color.fromARGB(255, 119, 124, 119),
-                            destinationScreen: PictoPassw(),
+                            destinationScreen: Login(
+                              teacherInit: true,
+                              user: UserModel(
+                                id: -1,
+                                userName: '',
+                                idProfileImg: -1,
+                                userType: -1,
+                                idClass: -1,
+                                loginType: 1
+                              ),
+                            ),
                             size: 250,
                           ),
                         ],
