@@ -35,7 +35,7 @@ class _TaskAsignMobileState extends State<TaskAsignMobile> {
   List<UserModel> teachers = [];
   bool initialized = false;
 
-  List<AssignmentsUser> selectedAssignments = [];
+  List<AsignmentsUser> selectedAssignments = [];
 
   @override
   void initState() {
@@ -165,14 +165,14 @@ class _TaskAsignMobileState extends State<TaskAsignMobile> {
                             shrinkWrap: true,
                             itemCount: selectedAssignments.length,
                             itemBuilder: (BuildContext context, int index) {
-                              AssignmentsUser assignmentUser =
+                              AsignmentsUser assignmentUser =
                                   selectedAssignments[index];
                               int numAssignments = getNumAssignmentsForUser(
                                   selectedAssignments, assignmentUser.userId);
-                              return ShowAssignmentsWidget(
-                                assignmentUser: assignmentUser,
-                                newAssignment: _selectDateTime,
-                                numAssignments: numAssignments,
+                              return ShowAsignmentsWidget(
+                                asignmentUser: assignmentUser,
+                                newAsignment: _selectDateTime,
+                                numAsignments: numAssignments,
                               );
                             },
                           ),
@@ -222,10 +222,10 @@ class _TaskAsignMobileState extends State<TaskAsignMobile> {
     return studentsNames;
   }
 
-  int getNumAssignmentsForUser(List<AssignmentsUser> assignments, int userId) {
+  int getNumAssignmentsForUser(List<AsignmentsUser> assignments, int userId) {
     int numAssignments = 0;
 
-    for (AssignmentsUser assignment in assignments) {
+    for (AsignmentsUser assignment in assignments) {
       if (assignment.userId == userId) {
         numAssignments += assignment.dates.length;
       }
@@ -328,7 +328,7 @@ class _TaskAsignMobileState extends State<TaskAsignMobile> {
           Pair<UserModel, DateTime>(selectedUser!, selectedDateTime);
 
       // Actualiza la lista de asignaciones de usuarios
-      AssignmentsUser selectedAssignmentUser = AssignmentsUser(
+      AsignmentsUser selectedAssignmentUser = AsignmentsUser(
         userName: selectedUser!.userName,
         userId: selectedUser!.id,
         dates: [selectedDateTime],
@@ -351,7 +351,7 @@ class _TaskAsignMobileState extends State<TaskAsignMobile> {
             // Si ya existe, añadir la nueva fecha a las fechas existentes
             selectedAssignments[existingIndex].dates.add(selectedDateTime);
           } else {
-            // Si no existe, añadir una nueva AssignmentsUser a la lista
+            // Si no existe, añadir una nueva AsignmentsUser a la lista
             selectedAssignments.add(selectedAssignmentUser);
           }
         });

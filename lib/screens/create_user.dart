@@ -244,8 +244,10 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
   }
 
   Widget passwdPic(){
-    return ElevatedButton(
-      onPressed: (){
+    return ActionButton(
+      text: 'Introducor contraseña',
+      type: 1,
+      onPressed: () {
         Navigator.push(
           context, 
           MaterialPageRoute(builder: (context){
@@ -254,8 +256,7 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
         ).then((value) => {
           idPicturesPasswd=value
         });
-      },
-      child: const Text("Introducir contraseña"),
+      }
     );
   }
 
@@ -283,16 +284,17 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
     return Row(
       children: [
         Checkbox(
-            value: picto, 
-            onChanged: (bool? value) {
-              setState(() {
-                picto = value!;
-                if(picto==false) {
-                  idPicturesPasswd=[];
-                }
-              });
-            }, 
-          ),
+          value: picto,
+          onChanged: (bool? value) {
+            setState(() {
+              picto = value!;
+              if(!picto) {
+                idPicturesPasswd=[];
+              }
+            });
+          },
+          activeColor: const Color(0xFF333333).withOpacity(0.8),
+        ),
         const Text('Contraseña con pictogramas')
       ],
     );
@@ -432,9 +434,19 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               DropdownButtonFormField<String>(
-                                decoration: const InputDecoration(
+                                decoration: InputDecoration(
                                   labelText: 'Tipo de usuario',
-                                  border: OutlineInputBorder(),
+                                  border: const OutlineInputBorder(),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                    borderSide: const BorderSide(
+                                      color: Colors.black,
+                                      width: 2,
+                                    ),
+                                  ),
                                 ),
                                 value: _defaultTypeValue,
                                 dropdownColor: Colors.white,
@@ -490,9 +502,19 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10.0),
                           child: DropdownButtonFormField<String>(
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
                               labelText: 'Clase',
-                              border: OutlineInputBorder(),
+                              border: const OutlineInputBorder(),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16),
+                                borderSide: const BorderSide(
+                                  color: Colors.black,
+                                  width: 2,
+                                ),
+                              ),
                             ),
                             value: _defaultClassValue,
                             dropdownColor: Colors.white,

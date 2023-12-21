@@ -1,14 +1,15 @@
-import 'package:appcesible/command/session_command.dart';
-import 'package:appcesible/screens/assign_fixed_task_app.dart';
-import 'package:appcesible/services/user_service.dart';
-import 'package:appcesible/widgets/dialog_loading.dart';
-import 'package:appcesible/widgets/widget_profile_image.dart';
+import 'package:appcesible/widgets/dialog_select_task.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:appcesible/command/session_command.dart';
+import 'package:appcesible/services/user_service.dart';
 
 import 'package:appcesible/screens/task_list.dart';
 import 'package:appcesible/screens/create_user.dart';
 import 'package:appcesible/widgets/widget_top_teacher.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:appcesible/widgets/dialog_loading.dart';
+import 'package:appcesible/widgets/widget_profile_image.dart';
 
 class TeacherHome extends StatefulWidget {
   const TeacherHome({super.key});
@@ -66,10 +67,9 @@ class _TeacherHomeState extends State<TeacherHome> {
                     padding: const EdgeInsets.only(left: 8, right: 8),
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.of(context)
-                            .push(MaterialPageRoute(builder: (context) {
-                          return const TaskAsignMobile();
-                        }));
+                        // Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                        //   return const TaskAsignMobile();
+                        // }));
                       },
                       style: ButtonStyle(
                         elevation: MaterialStateProperty.all(5),
@@ -111,7 +111,7 @@ class _TeacherHomeState extends State<TeacherHome> {
                     height: 15,
                   ),
 
-                  //*BOTON TAREAS *
+                  //*BOTON HISTORIAL TAREAS *
 
                   Padding(
                     padding: const EdgeInsets.only(left: 8, right: 8),
@@ -163,7 +163,7 @@ class _TeacherHomeState extends State<TeacherHome> {
                       visible: (_userType == 2),
                       child: Column(
                         children: [
-                          // BOTON CREAR TAREAS
+                          // BOTON ASIGNAR TAREAS
 
                           const SizedBox(
                             height: 15,
@@ -173,9 +173,12 @@ class _TeacherHomeState extends State<TeacherHome> {
                             padding: const EdgeInsets.only(left: 8, right: 8),
                             child: ElevatedButton(
                               onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                                  return const TaskListInit();
-                                }));
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return const SelectTaskTypeDialog();
+                                    }
+                                  );
                               },
                               style: ButtonStyle(
                                 elevation: MaterialStateProperty.all(5),

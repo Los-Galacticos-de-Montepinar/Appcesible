@@ -116,6 +116,16 @@ class _FormEntryState extends State<FormEntry> {
                 decoration: InputDecoration(
                   labelText: widget.name,
                   border: const OutlineInputBorder(),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: const BorderSide(
+                      color: Colors.black,
+                      width: 2,
+                    ),
+                  ),
                 ),
                 keyboardType: _getKeyboardType(),
                 inputFormatters: _getInputFormatters(),
@@ -123,28 +133,29 @@ class _FormEntryState extends State<FormEntry> {
             ),
           ),
         if (widget.typeData == 2) // Selector de fecha si typeData es 2
-          Row(
-            children: [
-              Expanded(
-                child: TextFormField(
-                  controller: widget.controller,
-                  enabled: false,
-                  style: const TextStyle(
-
-                  ),
-                  decoration: InputDecoration(
-                    labelText: widget.name,
-                    border: const OutlineInputBorder(),
-                  ),
+          TextFormField(
+            controller: widget.controller,
+            readOnly: true,
+            onTap: () {
+              _selectDateTime(context);
+            },
+            // enabled: false,
+            decoration: InputDecoration(
+              labelText: widget.name,
+              labelStyle: const TextStyle(color: Colors.black),
+              border: const OutlineInputBorder(),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+                borderSide: const BorderSide(
+                  color: Colors.black,
+                  width: 2,
                 ),
               ),
-              IconButton(
-                icon: const Icon(Icons.calendar_today),
-                onPressed: () {
-                  _selectDateTime(context);
-                },
-              ),
-            ],
+              suffixIcon: const Icon(Icons.calendar_today),
+            ),
           ),
       ],
     );

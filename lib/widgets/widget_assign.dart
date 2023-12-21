@@ -4,16 +4,16 @@ import 'package:intl/intl.dart';
 import 'package:appcesible/models/assigments_user.dart';
 import 'package:appcesible/widgets/button.dart';
 
-class ShowAssignmentsWidget extends StatelessWidget {
-  final AssignmentsUser assignmentUser;
-  final Function() newAssignment;
-  final int numAssignments;
+class ShowAsignmentsWidget extends StatelessWidget {
+  final AsignmentsUser asignmentUser;
+  final Function() newAsignment;
+  final int numAsignments;
 
-  const ShowAssignmentsWidget({
+  const ShowAsignmentsWidget({
     super.key,
-    required this.assignmentUser,
-    required this.newAssignment,
-    required this.numAssignments,
+    required this.asignmentUser,
+    required this.newAsignment,
+    required this.numAsignments,
   });
 
   @override
@@ -35,7 +35,7 @@ class ShowAssignmentsWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            assignmentUser.userName,
+            asignmentUser.userName,
             style: TextStyle(
               fontSize: MediaQuery.of(context).size.width * 0.06,
               fontWeight: FontWeight.bold,
@@ -46,7 +46,7 @@ class ShowAssignmentsWidget extends StatelessWidget {
           Center(
               child: InkWell(
             onTap: () {
-              _showTimePopup(context, assignmentUser);
+              _showTimePopup(context, asignmentUser);
             },
             child: Material(
               elevation:
@@ -77,7 +77,7 @@ class ShowAssignmentsWidget extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               Text(
-                                numAssignments.toString(),
+                                numAsignments.toString(),
                                 style: TextStyle(
                                   fontSize:
                                       MediaQuery.of(context).size.width * 0.05,
@@ -100,7 +100,7 @@ class ShowAssignmentsWidget extends StatelessWidget {
     );
   }
 
-  void _showTimePopup(BuildContext context, AssignmentsUser assignmentUser) {
+  void _showTimePopup(BuildContext context, AsignmentsUser asignmentUser) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -118,7 +118,7 @@ class ShowAssignmentsWidget extends StatelessWidget {
               ),
               const SizedBox(height: 10), // Espaciado opcional
               Column(
-                children: assignmentUser.dates.map((date) {
+                children: asignmentUser.dates.map((date) {
                   String formattedDateTime =
                       DateFormat('dd MMM yyyy - HH:mm').format(date);
                   return Text(
@@ -151,7 +151,7 @@ class ShowAssignmentsWidget extends StatelessWidget {
                     text: 'Añadir',
                     type: 1,
                     onPressed: () {
-                      newAssignment();
+                      newAsignment();
                     }),
               ],
             ),

@@ -36,11 +36,15 @@ class _InputDropdownState extends State<InputDropdown> {
           decoration: InputDecoration(
             labelText: widget.name,
             border: const OutlineInputBorder(),
-            focusedBorder: const OutlineInputBorder(
-              borderSide: BorderSide(
-                color: Colors.black45,
-                width: 2.0
-              )
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(16),
+              borderSide: const BorderSide(
+                color: Colors.black,
+                width: 2,
+              ),
             ),
             floatingLabelStyle: const TextStyle(
               color: Colors.black45
