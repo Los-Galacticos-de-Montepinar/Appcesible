@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'dart:convert';
@@ -47,18 +48,19 @@ Future createUser(UserModel user, String password, File image) async {
 Future<List<UserModel>> getAllUsers(bool getImages) async {
   String baseAddress = await getBaseAddress();
 
-  final response = await http.get(Uri.http(baseAddress, '/user'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8'
-      });
+  final response = await http.get(
+    Uri.http(baseAddress, '/user'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8'
+    }
+  );
 
   if (response.statusCode == 200) {
     List<dynamic> userList = jsonDecode(utf8.decode(response.bodyBytes));
 
-    List<UserModel> users =
-        userList.map((json) => UserModel.userFromJSON(json)).toList();
+    List<UserModel> users = userList.map((json) => UserModel.userFromJSON(json)).toList();
     for (int i = 0; i < users.length && getImages; i++) {
-      users[i].image = await downloadImage(users[i].idProfileImg!);
+      users[i].image = await downloadImage(users[i].idProfileImg);
     }
 
     return users;
@@ -71,7 +73,54 @@ Future<List<UserModel>> getAllUsers(bool getImages) async {
 //TODO: función para pedir profesores (ahora mismo no hace falta)
 
 // Makes a HTTP request to get all students
-//TODO: función para pedir alumnos (ahora mismo no hace falta)
+Future<List<UserModel>> getAllStudents(bool getImages) async {
+  String baseAddress = await getBaseAddress();
+
+  final response = await http.get(
+    Uri.http(baseAddress, '/user/student'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8'
+    }
+  );
+
+  if (response.statusCode == 200) {
+    List<dynamic> userList = jsonDecode(utf8.decode(response.bodyBytes));
+
+    List<UserModel> users = userList.map((json) => UserModel.userFromJSON(json)).toList();
+    for (int i = 0; i < users.length && getImages; i++) {
+      users[i].image = await downloadImage(users[i].idProfileImg);
+    }
+
+    return users;
+  } else {
+    throw Exception('Failed to fetch user list');
+  }
+}
+
+// Makes a HTTP request to get all users except students
+Future<List<UserModel>> getAllNoStudent(bool getImages) async {
+  String baseAddress = await getBaseAddress();
+
+  final response = await http.get(
+    Uri.http(baseAddress, '/user/nostudent'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8'
+    }
+  );
+
+  if (response.statusCode == 200) {
+    List<dynamic> userList = jsonDecode(utf8.decode(response.bodyBytes));
+
+    List<UserModel> users = userList.map((json) => UserModel.userFromJSON(json)).toList();
+    for (int i = 0; i < users.length && getImages; i++) {
+      users[i].image = await downloadImage(users[i].idProfileImg);
+    }
+
+    return users;
+  } else {
+    throw Exception('Failed to fetch user list');
+  }
+}
 
 // Makes a HTTP request to get a User from the server DB
 Future<UserModel> getUserFromId(int id) async {
@@ -86,7 +135,7 @@ Future<UserModel> getUserFromId(int id) async {
     dynamic json = jsonDecode(utf8.decode(response.bodyBytes));
 
     UserModel user = UserModel.userFromJSON(json);
-    user.image = await downloadImage(user.idProfileImg!);
+    user.image = await downloadImage(user.idProfileImg);
     print('image - ${user.image}');
 
     return user;
@@ -108,7 +157,7 @@ Future<UserModel> getStudentFromId(int id) async {
     dynamic json = jsonDecode(utf8.decode(response.bodyBytes));
 
     UserModel student = UserModel.studentFromJSON(json);
-    student.image = await downloadImage(student.idProfileImg!);
+    student.image = await downloadImage(student.idProfileImg);
 
     return student;
   } else {
@@ -119,42 +168,49 @@ Future<UserModel> getStudentFromId(int id) async {
 // Makes a HTTP request to get a Teacher from the server DB
 // TODO: función para pedir un profesor dado su id (ahora mismo no hace falta)
 
-// Returns the list of users in the DB (id and profile picture url)
-Future<List> getInfoUsers(bool getImages) async {
-  List<MapEntry<UserModel, String>> profileList = [];
+Future<Image> getProfileImage(int id) async {
+  UserModel user = await getUserFromId(id);
+  Image img = await downloadImage(user.idProfileImg);
 
-  try {
-    List<UserModel> users = await getAllUsers(getImages);
-
-    for (var user in users) {
-      String photoUrl = "faltaUrl"; /*_getUserPhoto(user.idProfileImg);*/
-
-      profileList.add(MapEntry(user, photoUrl));
-    }
-  } catch (e) {
-    // Manejar el error según sea necesario
-    throw Exception('Error fetching user list: $e');
-  }
-
-  return profileList;
+  return img;
 }
+
+// Returns the list of users in the DB (id and profile picture url)
+// Future<List> getInfoUsers(bool getImages) async {
+//   List<MapEntry<UserModel, String>> profileList = [];
+
+//   try {
+//     List<UserModel> users = await getAllUsers(getImages);
+
+//     for (var user in users) {
+//       String photoUrl = "faltaUrl"; /*_getUserPhoto(user.idProfileImg);*/
+
+//       profileList.add(MapEntry(user, photoUrl));
+//     }
+//   } catch (e) {
+//     // Manejar el error según sea necesario
+//     throw Exception('Error fetching user list: $e');
+//   }
+
+//   return profileList;
+// }
 
 // Returns the number of users in the DB
-Future<int> countUsers() async {
-  String baseAddress = await getBaseAddress();
+// Future<int> countUsers() async {
+//   String baseAddress = await getBaseAddress();
 
-  final response = await http.get(Uri.http(baseAddress, '/user'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8'
-      });
+//   final response = await http.get(Uri.http(baseAddress, '/user'),
+//       headers: <String, String>{
+//         'Content-Type': 'application/json; charset=UTF-8'
+//       });
 
-  if (response.statusCode == 200) {
-    List<dynamic> userList = jsonDecode(utf8.decode(response.bodyBytes));
-    return userList.length;
-  } else {
-    throw Exception('Failed to load User');
-  }
-}
+//   if (response.statusCode == 200) {
+//     List<dynamic> userList = jsonDecode(utf8.decode(response.bodyBytes));
+//     return userList.length;
+//   } else {
+//     throw Exception('Failed to load User');
+//   }
+// }
 
 Future<List<ClassModel>> getClasses() async {
   String baseAddress = await getBaseAddress();

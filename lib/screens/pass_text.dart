@@ -1,11 +1,12 @@
-import 'package:appcesible/widgets/widget_top_initial.dart';
 import 'package:flutter/material.dart';
 
+import 'package:appcesible/command/session_command.dart';
 import 'package:appcesible/services/user_service.dart';
 import 'package:appcesible/models/user_model.dart';
 
 import 'package:appcesible/screens/home_student.dart';
 import 'package:appcesible/screens/home_teacher.dart';
+import 'package:appcesible/widgets/widget_top_initial.dart';
 
 class Login extends StatefulWidget {
   final bool teacherInit;
@@ -170,7 +171,7 @@ class _LoginState extends State<Login> {
                   if (widget.teacherInit) {
                     widget.user.userName = userName.text;
 
-                    List<UserModel> users = await getAllUsers(false);
+                    List<UserModel> users = await getAllNoStudent(false);
                     for (UserModel user in users) {
                       if (user.userName == widget.user.userName) {
                         widget.user.id = user.id;
@@ -181,6 +182,7 @@ class _LoginState extends State<Login> {
                     }
                   }
 
+                  initSession();
                   bool correct = await authenticateUser(widget.user, password.text);
                   setState(() {
                     _authenticationFailed = !correct;

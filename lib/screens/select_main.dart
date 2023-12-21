@@ -63,6 +63,7 @@ class SelectMain extends StatelessWidget {
                               user: UserModel(
                                 id: -1,
                                 userName: '',
+                                idProfileImg: -1,
                                 userType: -1,
                                 idClass: -1,
                                 loginType: 1

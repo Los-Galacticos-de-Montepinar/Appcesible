@@ -8,7 +8,7 @@ class UserModel {
 
   // Profile information
   Image? image;
-  int? idProfileImg;
+  int idProfileImg;
   int userType;
   int idClass;
 
@@ -22,7 +22,7 @@ class UserModel {
     required this.id,
     required this.userName,
     this.image,
-    this.idProfileImg,
+    required this.idProfileImg,
     required this.userType,
     required this.idClass,
     required this.loginType,

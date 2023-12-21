@@ -72,6 +72,7 @@ class FormularioAlumnosState extends State<FormularioUsuarios> {
   UserModel user = UserModel(
     id: -1,
     userName: '',
+    idProfileImg: -1,
     userType: -1,
     idClass: 0,
     loginType: 0,
