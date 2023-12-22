@@ -40,9 +40,9 @@ class StudentDiaryTablet extends StatelessWidget {
                     ),
                     const SizedBox(width: 40),
                     const MyBoxWithImageAndText(
-                      text: 'OTRA TAREA',
+                      text: 'PONER LA LAVADORA 2',
                       image: 'assets/images/lavadora.png',
-                      destinationScreen: OtraPantalla(),
+                      destinationScreen: StudentTask(),
                     ),
                     const SizedBox(width: 20),
                     InkWell(
@@ -64,17 +64,6 @@ class StudentDiaryTablet extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class OtraPantalla extends StatelessWidget {
-  const OtraPantalla({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: const Text('Otra pantalla'),
     );
   }
 }
