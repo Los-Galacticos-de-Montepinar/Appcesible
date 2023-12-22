@@ -1,3 +1,4 @@
+import 'package:appcesible/models/gallery_model.dart';
 import 'package:flutter/material.dart';
 
 import 'package:appcesible/services/user_service.dart';
@@ -25,14 +26,20 @@ class _PictoPasswState extends State<PictoPassw> {
   final List<Image> images = [];
   bool initialized = false;
   late final UserModel user;
+  List<GalleryModel> galleryList = [];
+  List<String> description = [];
 
   Future getImages() async {
     try {
       if (!initialized) {
+        galleryList = await getGallery();
+
         for (int i = 0; i < download.length; i++) {
           Image img = await downloadImage(download[i]);
           images.add(img);
+          description.add(galleryList[i + 3].description);
           codes.add(download[i]);
+          print(images.length);
         }
       }
 
@@ -46,13 +53,14 @@ class _PictoPasswState extends State<PictoPassw> {
 
   @override
   Widget build(BuildContext context) {
-    print(images.length);
     return MaterialApp(
       home: FutureBuilder(
         future: getImages(),
         builder: (context, snapshot) {
           return Scaffold(
-              appBar: const TopBarInitial(showArrow: true,),
+              appBar: const TopBarInitial(
+                showArrow: true,
+              ),
               body: (initialized ||
                       snapshot.connectionState == ConnectionState.done ||
                       images.isNotEmpty)
@@ -69,12 +77,13 @@ class _PictoPasswState extends State<PictoPassw> {
                             images: images,
                             codes: codes,
                             user: widget.user,
+                            description: description,
                           ),
                         ),
                         SizedBox(
                           height: 139,
                           child: SecondGrid(
-                              selectedImages: selectedImages, correct: correct),
+                              selectedImages: selectedImages, correct: correct, description: description,),
                         ),
                       ],
                     )
@@ -90,12 +99,14 @@ class FirstGrid extends StatefulWidget {
   final List<Image> images;
   final List<int> codes;
   final UserModel user;
+  final List<String> description;
 
   FirstGrid(
       {required this.onImagesSelected,
       required this.images,
       required this.codes,
-      required this.user});
+      required this.user,
+      required this.description});
 
   @override
   _FirstGridState createState() => _FirstGridState();
@@ -118,6 +129,20 @@ class _FirstGridState extends State<FirstGrid> {
 
   Future<void> checkPass(int pos, int code) async {
     correct = await pictoAuthenticateUser0(widget.user, code.toString(), pos);
+  }
+
+  String deletePNG(String description) {
+    // Encontrar la posición del último punto
+    int dot = description.lastIndexOf(".");
+
+    // Verificar si se encontró un punto y si la extensión es ".png"
+    if (dot != -1 && description.substring(dot) == ".png") {
+      // Obtener una subcadena que excluya la extensión
+      return description.substring(0, dot);
+    } else {
+      // Devolver el nombre de archivo original si no se encuentra ".png"
+      return description;
+    }
   }
 
   @override
@@ -173,7 +198,7 @@ class _FirstGridState extends State<FirstGrid> {
                   );
                   consecutiveCorrect = 0;
                 }
-              }else{
+              } else {
                 consecutiveCorrect = 0;
               }
 
@@ -188,6 +213,9 @@ class _FirstGridState extends State<FirstGrid> {
                 width: imageWidth,
                 height: imageHeight,
                 fit: BoxFit.cover,
+                semanticLabel: index < widget.description.length
+                    ? deletePNG(widget.description[index])
+                    : 'Descripción no disponible',
               ),
             ),
           );
@@ -202,14 +230,30 @@ class _FirstGridState extends State<FirstGrid> {
 class SecondGrid extends StatefulWidget {
   final List<Image> selectedImages;
   final bool? correct;
+  final List<String> description;
 
-  SecondGrid({required this.selectedImages, required this.correct});
+  SecondGrid({required this.selectedImages, required this.correct, required this.description});
 
   @override
   _SecondGridState createState() => _SecondGridState();
 }
 
 class _SecondGridState extends State<SecondGrid> {
+
+  String deletePNG(String description) {
+    // Encontrar la posición del último punto
+    int dot = description.lastIndexOf(".");
+
+    // Verificar si se encontró un punto y si la extensión es ".png"
+    if (dot != -1 && description.substring(dot) == ".png") {
+      // Obtener una subcadena que excluya la extensión
+      return description.substring(0, dot);
+    } else {
+      // Devolver el nombre de archivo original si no se encuentra ".png"
+      return description;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     //checkPass();
@@ -239,6 +283,9 @@ class _SecondGridState extends State<SecondGrid> {
                     width: 125,
                     height: 125,
                     fit: BoxFit.cover,
+                    semanticLabel: index < widget.description.length
+                    ? "Imagen seleccionada" + deletePNG(widget.description[index])
+                    : 'Descripción no disponible',
                   ),
                 ),
               ),
@@ -256,6 +303,7 @@ class _SecondGridState extends State<SecondGrid> {
                     width: 125,
                     height: 125,
                     fit: BoxFit.cover,
+                    semanticLabel: "Error",
                   ),
                 ),
               ),

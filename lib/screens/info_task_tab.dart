@@ -136,7 +136,7 @@ class _TaskInformationTabletState extends State<TaskInformationTablet> {
                 padding: myPad,
                 child: ActionButton(
                   text: "Volver",
-                  type: 0,
+                  type: 1,
                   onPressed: () {
                     Navigator.pop(context);
                   },

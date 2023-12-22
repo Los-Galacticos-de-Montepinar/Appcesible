@@ -1,3 +1,4 @@
+import 'package:appcesible/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:appcesible/widgets/widget_top_teacher.dart';
 import 'package:flutter/rendering.dart';
@@ -112,18 +113,9 @@ class TaskInformationMobile extends StatelessWidget {
                 const SizedBox(height: 20),
                 Padding(
                   padding: myPad,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red[900],
-                      minimumSize: Size(double.infinity, 40),
-                    ),
-                    child: Text("Volver",
-                        style: TextStyle(
-                            fontSize: titlesSize, color: Colors.white)),
-                  ),
+                  child: ActionButton(text: "Volver", type: 1, onPressed: () {
+                    Navigator.of(context).pop();
+                  },)
                 ),
               ],
             ),

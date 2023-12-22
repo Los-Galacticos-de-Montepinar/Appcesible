@@ -80,13 +80,23 @@ class StudentInformationTablet extends StatelessWidget {
             child: Column(
               children: [
                 Container(
-                  alignment: Alignment.center,
+                  width: double.maxFinite,
+                  height: 40,
                   decoration: BoxDecoration(
-                    color: Colors.grey[400],
+                    color: const Color(0xFFD9D9D9),
+                    borderRadius: BorderRadius.circular(10),
                     border: Border.all(color: Colors.black),
                   ),
-                  child: const Text("Información Estudiante",
-                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  child: Center(
+                    child: Text(
+                      "Información Estudiante",
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
                 ),
                 Padding(
                   padding: myPad,
@@ -116,8 +126,8 @@ class StudentInformationTablet extends StatelessWidget {
                                     child: informationContainer(
                                       context,
                                       screenSize,
-                                      "Correo",
-                                      "Correo electrónico del estudiante",
+                                      "Modo de visualizacion",
+                                      "Modo",
                                     ),
                                   ),
                                 ],
@@ -150,7 +160,7 @@ class StudentInformationTablet extends StatelessWidget {
                   padding: myPad,
                   child: ActionButton(
                     text: "Volver",
-                    type: 0,
+                    type: 1,
                     onPressed: () {
                       Navigator.pop(context);
                     },

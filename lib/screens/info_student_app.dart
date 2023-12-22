@@ -46,12 +46,24 @@ class StudentInformationMobile extends StatelessWidget {
             child: Column(
               children: [
                 Container(
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      color: Colors.grey[400],
-                      border: Border.all(color: Colors.black)),
-                  child: Text("Información Estudiante", textScaler: titlesSize),
-                ),
+                    width: double.maxFinite,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFD9D9D9),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: Colors.black),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Información Estudiante",
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
                 informationContainer(
                   context,
                   screenSize,
@@ -61,26 +73,21 @@ class StudentInformationMobile extends StatelessWidget {
                 informationContainer(
                   context,
                   screenSize,
-                  "Matrícula",
-                  "Número de matrícula",
+                  "Modo de visualizacion",
+                  "Modo",
                 ),
                 informationContainer(
                   context,
                   screenSize,
-                  "Carrera",
-                  "Carrera del estudiante",
+                  "Clase",
+                  "Clase del alumno",
                 ),
-                informationContainer(
-                  context,
-                  screenSize,
-                  "Correo Electrónico",
-                  "correo@ejemplo.com",
-                ),
+                
                 Padding(
                   padding: myPad,
                   child: ActionButton(
                     text: "Volver",
-                    type: 0,
+                    type: 1,
                     onPressed: () {
                       Navigator.pop(context);
                     },

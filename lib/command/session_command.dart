@@ -20,7 +20,7 @@ Future initSession() async {
   sessionInfo.setInt('MODE_TAP', 111);
 
   // sessionInfo.setString('baseAddress', '10.0.2.2:8080');
-  sessionInfo.setString('baseAddress', 'localhost:8080');
+  sessionInfo.setString('baseAddress', '192.168.107.47:8080');
   //sessionInfo.setString('baseAddress', '100.70.70.131:8080');
   // sessionInfo.setString('baseAddress', '192.168.1.42:8080');
 }
