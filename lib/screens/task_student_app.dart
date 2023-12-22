@@ -1,14 +1,15 @@
 // STUDENT DIARY - Mobile Version
 // Autor: Alejandro Sanchez Rodríguez
 
-import 'package:appcesible/screens/congratulations_screen.dart';
+import 'package:appcesible/screens/congratulations_screen_app.dart';
 import 'package:appcesible/screens/stepTaskView.dart';
 import 'package:appcesible/screens/step_check.dart';
+import 'package:appcesible/screens/task_student_init.dart';
 import 'package:appcesible/widgets/widget_top_student.dart';
 import 'package:flutter/material.dart';
 
-class StudentTask extends StatelessWidget {
-  const StudentTask({super.key});
+class StudentTaskApp extends StatelessWidget {
+  const StudentTaskApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -47,10 +48,10 @@ class StudentTask extends StatelessWidget {
                     const stepTaskView(
                         text: 'HOLA',
                         image: 'HOLA',
-                        destinationScreen: StepCompletionCheckScreen(
+                        destinationScreen: StepCheck(
                           image: "assets/images/pasoCompletado.png",
                           texto: "¿Paso Completado?",
-                          destinationScreen: StudentTask(),
+                          destinationScreen: TaskStudentInit(),
                         )),
                     const SizedBox(height: 20),
                     InkWell(
@@ -59,7 +60,7 @@ class StudentTask extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  const CongratulationsScreen()),
+                                  const CongratulationsScreenApp()),
                         );
                       },
                       child: const Icon(

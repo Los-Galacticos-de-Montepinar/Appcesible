@@ -23,28 +23,21 @@ class _MaterialTaskTabState extends MaterialTaskState<MaterialTaskTab> {
       builder: (context, snapshot) {
         return Scaffold(
           backgroundColor: Colors.white,
-          appBar: TopMenu(
-            onHomeTap: () {
-              showDialog(
+          appBar: TopMenu(onHomeTap: () {
+            showDialog(
                 context: context,
                 builder: (context) {
                   return ConfirmationDialog(
-                    message: '¿Está seguro de que quiere abandonar el proceso?\nLos datos introducidos hasta el momento se perderán',
-                    onConfirm: () {
-                      Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return const TeacherHome();
-                          }
-                        ),
-                        (route) => false
-                      );
-                    }
-                  );
-                }
-              );
-            }
-          ),
+                      message:
+                          '¿Está seguro de que quiere abandonar el proceso?\nLos datos introducidos hasta el momento se perderán',
+                      onConfirm: () {
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(builder: (context) {
+                          return const TeacherHome();
+                        }), (route) => false);
+                      });
+                });
+          }),
           body: (initialized ||
                   snapshot.connectionState == ConnectionState.done)
               ? SingleChildScrollView(
@@ -99,18 +92,21 @@ class _MaterialTaskTabState extends MaterialTaskState<MaterialTaskTab> {
                                   typeData: 1,
                                   controller: taskNameController,
                                 ),
+                                const SizedBox(height: 8.0),
                                 FormEntry(
                                   name: 'Profesor',
                                   typeData: 4,
                                   controller: teacherController,
                                   onTap: showProfesorPopup,
                                 ),
+                                const SizedBox(height: 8.0),
                                 FormEntry(
                                   name: 'Clase',
                                   typeData: 4,
                                   controller: classController,
                                   onTap: showClasePopup,
                                 ),
+                                const SizedBox(height: 8.0),
                                 FormEntry(
                                   name: 'Estudiante',
                                   typeData: 4,
@@ -120,6 +116,7 @@ class _MaterialTaskTabState extends MaterialTaskState<MaterialTaskTab> {
                               ],
                             ),
                           ),
+                          const SizedBox(width: 8.0),
                           // Columna Derecha
                           Expanded(
                             flex: 1,
@@ -144,6 +141,7 @@ class _MaterialTaskTabState extends MaterialTaskState<MaterialTaskTab> {
                                   typeData: 2,
                                   controller: dateTimeController,
                                 ),
+                                const SizedBox(height: 8.0),
                                 InputDropdown(
                                   name: 'Tipo Material',
                                   onElementSelected: onMaterialSelected,
@@ -172,8 +170,7 @@ class _MaterialTaskTabState extends MaterialTaskState<MaterialTaskTab> {
                                               ),
                                             ),
                                             TextButton.icon(
-                                              onPressed:
-                                                  clearSelectedMaterials,
+                                              onPressed: clearSelectedMaterials,
                                               style: const ButtonStyle(
                                                 iconColor:
                                                     MaterialStatePropertyAll(
@@ -190,8 +187,7 @@ class _MaterialTaskTabState extends MaterialTaskState<MaterialTaskTab> {
                                           ],
                                         ),
                                         const SizedBox(height: 5),
-                                        for (var material
-                                            in selectedMaterials)
+                                        for (var material in selectedMaterials)
                                           Text(
                                               'Material: ${material.name}\nCantidad: ${material.count}\n'),
                                         const SizedBox(height: 20.0),
@@ -203,7 +199,7 @@ class _MaterialTaskTabState extends MaterialTaskState<MaterialTaskTab> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 40),
                       // Botón "Crear Pedido" en el medio
                       Align(
                         alignment: Alignment.center,

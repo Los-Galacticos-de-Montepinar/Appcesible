@@ -21,29 +21,22 @@ class _CreateStepMobileState extends State<CreateStepMobile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-        appBar: TopMenu(
-          onHomeTap: () {
-            showDialog(
+        resizeToAvoidBottomInset: false,
+        appBar: TopMenu(onHomeTap: () {
+          showDialog(
               context: context,
               builder: (context) {
                 return ConfirmationDialog(
-                  message: '¿Está seguro de que quiere abandonar el proceso?\nLos datos introducidos hasta el momento se perderán',
-                  onConfirm: () {
-                    Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return const TeacherHome();
-                        }
-                      ),
-                      (route) => false
-                    );
-                  }
-                );
-              }
-            );
-          }
-        ),
+                    message:
+                        '¿Está seguro de que quiere abandonar el proceso?\nLos datos introducidos hasta el momento se perderán',
+                    onConfirm: () {
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (context) {
+                        return const TeacherHome();
+                      }), (route) => false);
+                    });
+              });
+        }),
         body: Center(
           child: FittedBox(
             child: Column(
@@ -81,20 +74,32 @@ class _CreateStepMobileState extends State<CreateStepMobile> {
                       const SizedBox(height: 20.0),
                       imageWidget(image: 'assets/images/addPicture.png'),
                       const SizedBox(height: 20.0),
-                      SizedBox(
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey[400],
+                          border: Border.all(
+                            color: Colors.black,
+                            width: 1.5,
+                          ),
+                          borderRadius: BorderRadius.circular(32.0),
+                        ),
                         width: 300,
                         child: ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all<Color>(Colors.red),
-                            fixedSize: MaterialStateProperty.all(
-                                const Size(200.0, 60.0)),
-                          ),
-                          onPressed: () {
-                            _onFormSubmit();
-                          },
-                          child: const Text('Crear paso'),
-                        ),
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all<Color>(Colors.red),
+                              fixedSize: MaterialStateProperty.all(
+                                  const Size(200.0, 60.0)),
+                            ),
+                            onPressed: () {
+                              _onFormSubmit();
+                            },
+                            child: const Text(
+                              'Crear paso',
+                              style: TextStyle(
+                                color: Colors.black,
+                              ),
+                            )),
                       ),
                     ],
                   ),
@@ -102,7 +107,7 @@ class _CreateStepMobileState extends State<CreateStepMobile> {
               ],
             ),
           ),
-        )); 
+        ));
   }
 
   Widget imageWidget({required String image}) {
@@ -132,7 +137,7 @@ class _CreateStepMobileState extends State<CreateStepMobile> {
         return AlertDialog(
           title: const Text('Seleccionar Multimedia'),
           content: SizedBox(
-            height: 120.0, 
+            height: 120.0,
             child: Column(
               children: [
                 ListTile(
@@ -168,7 +173,6 @@ class _CreateStepMobileState extends State<CreateStepMobile> {
   void _pickVideo() {
     // Logic for the selecting video
   }
-
 
   void _onFormSubmit() {
     // Valide if the fields are empty
