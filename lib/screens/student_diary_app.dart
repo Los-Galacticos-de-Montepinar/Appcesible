@@ -29,7 +29,8 @@ class StudentDiaryMobile extends StatelessWidget {
                             Icons.arrow_back_ios_sharp,
                             size: 50, // Ajusta el tamaño según tus necesidades
                             color: Color.fromARGB(
-                                255, 0, 0, 0), // Cambia el color de la flecha
+                                255, 0, 0, 0),
+                            semanticLabel: 'Siguiente paso', // Cambia el color de la flecha
                           ),
                         ),
                         const SizedBox(width: 20),
@@ -47,7 +48,8 @@ class StudentDiaryMobile extends StatelessWidget {
                             Icons.arrow_forward_ios,
                             size: 50, // Ajusta el tamaño según tus necesidades
                             color: Color.fromARGB(
-                                255, 0, 0, 0), // Cambia el color de la flecha
+                                255, 0, 0, 0),
+                            semanticLabel: 'Siguiente paso', // Cambia el color de la flecha
                           ),
                         ),
                       ],

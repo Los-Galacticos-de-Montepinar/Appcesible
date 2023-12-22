@@ -65,9 +65,10 @@ class StudentTaskApp extends StatelessWidget {
                       },
                       child: const Icon(
                         Icons.keyboard_double_arrow_down_outlined,
-                        size: 50, // Ajusta el tamaño según tus necesidades
+                        size: 55, // Ajusta el tamaño según tus necesidades
                         color: Color.fromARGB(
-                            255, 0, 0, 0), // Cambia el color de la flecha
+                            255, 0, 0, 0),
+                        semanticLabel: 'Siguiente paso', // Cambia el color de la flecha
                       ),
                     ),
                     const SizedBox(height: 20),

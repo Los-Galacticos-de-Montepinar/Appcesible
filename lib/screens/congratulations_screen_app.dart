@@ -96,6 +96,7 @@ class MyBoxWithImageAndText extends StatelessWidget {
               style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width * 0.06,
                   fontWeight: FontWeight.bold),
+              semanticsLabel: "lo lograste",
             ),
           ],
         ),

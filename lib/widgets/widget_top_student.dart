@@ -33,6 +33,7 @@ class TopMenuStudent extends StatelessWidget implements PreferredSizeWidget {
                 'INICIO', // Utiliza el atributo de texto aquí
                 style:
                     TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                    semanticsLabel: 'Volver a pagina principal',
               ),
             )
           ],

@@ -23,6 +23,7 @@ class TopBarInitial extends StatelessWidget implements PreferredSizeWidget {
                 'assets/images/back_arrow.png',
                 width: 300,
                 height: 300,
+                semanticLabel: 'Volver',
               ),
             )
           : const Text(
