@@ -1,12 +1,12 @@
 // CONGRATULATIONS SCREEN - Mobile Version
 // Autor: Alejandro Sanchez Rodríguez
 
-import 'package:appcesible/screens/task_student.dart';
+import 'package:appcesible/screens/task_student_init.dart';
 import 'package:appcesible/widgets/widget_top_student.dart';
 import 'package:flutter/material.dart';
 
-class CongratulationsScreen extends StatelessWidget {
-  const CongratulationsScreen({super.key});
+class CongratulationsScreenApp extends StatelessWidget {
+  const CongratulationsScreenApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +62,7 @@ class MyBoxWithImageAndText extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const StudentTask()),
+          MaterialPageRoute(builder: (context) => const TaskStudentInit()),
         );
       },
       child: Container(
@@ -94,7 +94,7 @@ class MyBoxWithImageAndText extends StatelessWidget {
             Text(
               "LO LOGRASTE !!!!!",
               style: TextStyle(
-                  fontSize: MediaQuery.of(context).size.width * 0.070,
+                  fontSize: MediaQuery.of(context).size.width * 0.06,
                   fontWeight: FontWeight.bold),
             ),
           ],
@@ -115,7 +115,7 @@ class MyBoxWithImageAndText extends StatelessWidget {
 
   Widget imageWidget2({required String image, required BuildContext context}) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.20,
+      height: MediaQuery.of(context).size.height * 0.24,
       width: MediaQuery.of(context).size.width * 0.40,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),

@@ -1,27 +1,24 @@
-import 'package:appcesible/screens/assign_fixed_task.dart';
-import 'package:appcesible/screens/info_task.dart';
+import 'package:appcesible/screens/info_student_tab.dart';
 import 'package:flutter/material.dart';
-import 'package:appcesible/screens/task_list.dart';
-
+import 'package:appcesible/screens/students_list.dart';
 import 'package:appcesible/widgets/widget_top_teacher.dart';
 
-class TaskListTablet extends StatefulWidget {
-  final List<MyTaskData> tasks;
+class StudentListTablet extends StatefulWidget {
+  final List<MyStudentData> tasks;
   final bool assignTask;
 
-  TaskListTablet({Key? key, required this.tasks, required this.assignTask})
+  StudentListTablet({Key? key, required this.tasks, required this.assignTask})
       : super(key: key);
 
   @override
-  State<TaskListTablet> createState() => _TaskListTabletState();
+  State<StudentListTablet> createState() => _StudentListTabletState();
 }
 
-class _TaskListTabletState extends State<TaskListTablet> {
+class _StudentListTabletState extends State<StudentListTablet> {
   final TextEditingController _searchController = TextEditingController();
-  late List<MyTaskData> _filteredTasks;
+  late List<MyStudentData> _filteredTasks;
   bool _isSearching = false;
   bool _isDeleting = false;
-  String imagePath = "PRUEBA";
 
   @override
   void initState() {
@@ -34,7 +31,9 @@ class _TaskListTabletState extends State<TaskListTablet> {
       _filteredTasks = widget.tasks.where((task) {
         if (widget.assignTask) {
           // If _assignTask is true, filter by taskName
-          return task.taskName.toLowerCase().contains(searchText.toLowerCase());
+          return task.studentName
+              .toLowerCase()
+              .contains(searchText.toLowerCase());
         } else {
           // If _assignTask is false, filter by studentName
           return task.studentName
@@ -85,9 +84,7 @@ class _TaskListTabletState extends State<TaskListTablet> {
                           });
                         },
                         decoration: InputDecoration(
-                          labelText: widget.assignTask
-                              ? "Buscar por tarea"
-                              : "Buscar por alumno",
+                          labelText: "Buscar por alumno",
                           border: const OutlineInputBorder(),
                           prefixIcon: _isSearching
                               ? IconButton(
@@ -111,7 +108,7 @@ class _TaskListTabletState extends State<TaskListTablet> {
                           _isDeleting = !_isDeleting;
                         });
 
-                        MyTask.setDeleting(_isDeleting);
+                        MyStudent.setDeleting(_isDeleting);
                       },
                     ),
                   ],
@@ -128,18 +125,11 @@ class _TaskListTabletState extends State<TaskListTablet> {
                     ),
                     itemCount: _filteredTasks.length,
                     itemBuilder: (context, index) {
-                      MyTaskData task = _filteredTasks[index];
-                      if (widget.assignTask) {
-                        imagePath = task.imagePath;
-                      } else {
-                        imagePath = task.imageStudent;
-                      }
-                      return MyTask(
-                        imagePath: imagePath,
-                        taskName: task.taskName,
+                      MyStudentData task = _filteredTasks[index];
+                      return MyStudent(
+                        imagePath: task.imageStudent,
                         studentName: task.studentName,
-                        state: task.state,
-                        assignTask: widget.assignTask,
+                        clase: task.clase,
                       );
                     },
                   ),
@@ -153,9 +143,9 @@ class _TaskListTabletState extends State<TaskListTablet> {
   }
 
   Widget _buildHeaderText() {
-    return Text(
-      widget.assignTask ? 'Asignación de tareas' : 'Lista de tareas',
-      style: const TextStyle(
+    return const Text(
+      'Lista de Alumnos',
+      style: TextStyle(
         color: Colors.black,
         fontSize: 24,
         fontWeight: FontWeight.bold,
@@ -165,22 +155,18 @@ class _TaskListTabletState extends State<TaskListTablet> {
 }
 
 // Class that creates a box with text inside
-class MyTask extends StatelessWidget {
+class MyStudent extends StatelessWidget {
   final String imagePath;
-  final String taskName;
+  final String clase;
   final String studentName;
-  final String state;
-  final bool assignTask;
 
   static bool _isDeleting = false;
 
-  const MyTask({
+  const MyStudent({
     super.key,
     required this.imagePath,
-    required this.taskName,
+    required this.clase,
     required this.studentName,
-    required this.state,
-    required this.assignTask,
   });
 
   static void setDeleting(bool delete) {
@@ -189,25 +175,11 @@ class MyTask extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color backgroundColor;
-
-    // Lógica para determinar el color de fondo según el estado
-    if (state == 'not finished') {
-      backgroundColor = const Color.fromRGBO(189, 189, 189, 1); // Color actual
-    } else if (state == 'done') {
-      backgroundColor = const Color.fromARGB(255, 126, 229, 130); // Color verde
-    } else if (state == 'not done') {
-      backgroundColor = const Color.fromARGB(255, 223, 102, 93); // Color rojo
-    } else {
-      backgroundColor = const Color.fromRGBO(189, 189, 189, 1); // Por defecto
-    }
-
-    if (assignTask) {
-      backgroundColor = const Color.fromRGBO(
-          189, 189, 189, 1); // Fondo gris para asignación de tareas
-    }
+    Color backgroundColor = const Color.fromRGBO(189, 189, 189, 1);
 
     return Container(
+      height: 120,
+      width: 200,
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
         color: backgroundColor,
@@ -217,86 +189,60 @@ class MyTask extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(13.0),
       ),
-      child: Center(
-        child: Row(
-          crossAxisAlignment:
-              CrossAxisAlignment.start, // Alinea la fila en la parte superior
-          children: [
-            imageWidget(image: imagePath, assignTask: assignTask),
-            const SizedBox(width: 20),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    taskName,
-                    style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width * 0.020),
-                    maxLines: 1, // Limita el número de líneas a 1
-                    overflow: TextOverflow
-                        .ellipsis, // Agrega puntos suspensivos si el texto es demasiado largo
-                  ),
-                  if (!assignTask) ...[
-                    const SizedBox(height: 10), // Espacio más pequeño
-                    Text(
-                      studentName,
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width *
-                              0.020), // Tamaño de fuente ligeramente más pequeño
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ]
-                ],
-              ),
+      child: Row(
+        children: [
+          imageWidget(image: imagePath),
+          const SizedBox(width: 20),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  studentName,
+                  style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.020),
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  clase,
+                  style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.020),
+                ),
+              ],
             ),
-            IconButton(
-              icon: (_isDeleting)
-                  ? const Icon(Icons.delete)
-                  : const Icon(Icons.arrow_forward_ios_sharp),
-              onPressed: () {
-                if (_isDeleting) {
-                } else {
-                  if (assignTask) {
-                    // Assign task true
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) {
-                      return const TaskAsign();
-                    }));
-                  } else {
-                    // Assign task false
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) {
-                      return const TaskInformation();
-                    }));
-                  }
-                }
-              },
-            ),
-          ],
-        ),
+          ),
+          IconButton(
+            icon: (_isDeleting)
+                ? const Icon(Icons.delete)
+                : const Icon(Icons.arrow_forward_ios_sharp),
+            onPressed: () {
+              if (_isDeleting) {
+              } else {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const StudentInformationTablet()),
+                );
+              }
+            },
+          ),
+        ],
       ),
     );
   }
 
   // Widged that shows an image
-  Widget imageWidget({required String image, required bool assignTask}) {
+  Widget imageWidget({required String image}) {
     return Container(
       height: 80,
       width: 80,
       decoration: BoxDecoration(
-          border: assignTask
-              ? Border.all(
-                  color: Colors.black,
-                  width: 1,
-                )
-              : Border.all(
-                  color: Colors.black,
-                  width: 2,
-                ),
-          borderRadius: assignTask
-              ? BorderRadius.circular(0)
-              : BorderRadius.circular(100),
+          border: Border.all(
+            color: Colors.black,
+            width: 1,
+          ),
+          borderRadius: BorderRadius.circular(100),
           image: DecorationImage(image: AssetImage(image), fit: BoxFit.cover)),
     );
   }

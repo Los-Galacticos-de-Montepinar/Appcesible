@@ -15,7 +15,6 @@ class CreateTaskMobile extends StatefulWidget {
 }
 
 class _CreateTaskMobileState extends State<CreateTaskMobile> {
-
   // Auxiliary variables
   // String _selectedTipo = '';
   final String _mediaPath = '';
@@ -33,28 +32,21 @@ class _CreateTaskMobileState extends State<CreateTaskMobile> {
     return MaterialApp(
       home: Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: TopMenu(
-          onHomeTap: () {
-            showDialog(
+        appBar: TopMenu(onHomeTap: () {
+          showDialog(
               context: context,
               builder: (context) {
                 return ConfirmationDialog(
-                  message: '¿Está seguro de que quiere abandonar el proceso?\nLos datos introducidos hasta el momento se perderán',
-                  onConfirm: () {
-                    Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return const TeacherHome();
-                        }
-                      ),
-                      (route) => false
-                    );
-                  }
-                );
-              }
-            );
-          }
-        ),
+                    message:
+                        '¿Está seguro de que quiere abandonar el proceso?\nLos datos introducidos hasta el momento se perderán',
+                    onConfirm: () {
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (context) {
+                        return const TeacherHome();
+                      }), (route) => false);
+                    });
+              });
+        }),
         body: Center(
           child: FittedBox(
             child: Column(
@@ -153,7 +145,10 @@ class _CreateTaskMobileState extends State<CreateTaskMobile> {
                     const Color.fromARGB(255, 158, 155, 155)),
                 fixedSize: MaterialStateProperty.all(const Size(200.0, 60.0)),
               ),
-              child: const Text('Añadir Paso'),
+              child: const Text('Añadir Paso',
+                  style: TextStyle(
+                    color: Colors.black,
+                  )),
             ),
           ),
           const SizedBox(
@@ -216,7 +211,7 @@ class _CreateTaskMobileState extends State<CreateTaskMobile> {
         return AlertDialog(
           title: const Text('Seleccionar Multimedia'),
           content: SizedBox(
-            height: 120.0, 
+            height: 120.0,
             child: Column(
               children: [
                 ListTile(
@@ -245,18 +240,17 @@ class _CreateTaskMobileState extends State<CreateTaskMobile> {
     );
   }
 
-    void _pickImage() {
+  void _pickImage() {
     // Logic for the selecting image
-    }
+  }
 
-    void _pickVideo() {
-      // Logic for the selecting video
-    }
+  void _pickVideo() {
+    // Logic for the selecting video
+  }
 }
 
 // Class that creates a box with text inside
 class MyStyledBox extends StatelessWidget {
-
   const MyStyledBox({super.key});
 
   @override

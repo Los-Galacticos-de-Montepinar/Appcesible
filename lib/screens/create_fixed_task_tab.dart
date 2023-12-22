@@ -32,28 +32,21 @@ class _CreateTaskTabletState extends State<CreateTaskTablet> {
     return MaterialApp(
       home: Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: TopMenu(
-          onHomeTap: () {
-            showDialog(
+        appBar: TopMenu(onHomeTap: () {
+          showDialog(
               context: context,
               builder: (context) {
                 return ConfirmationDialog(
-                  message: '¿Está seguro de que quiere abandonar el proceso?\nLos datos introducidos hasta el momento se perderán',
-                  onConfirm: () {
-                    Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return const TeacherHome();
-                        }
-                      ),
-                      (route) => false
-                    );
-                  }
-                );
-              }
-            );
-          }
-        ),
+                    message:
+                        '¿Está seguro de que quiere abandonar el proceso?\nLos datos introducidos hasta el momento se perderán',
+                    onConfirm: () {
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (context) {
+                        return const TeacherHome();
+                      }), (route) => false);
+                    });
+              });
+        }),
         body: Center(
           child: FittedBox(
             child: Column(
@@ -74,7 +67,15 @@ class _CreateTaskTabletState extends State<CreateTaskTablet> {
                 ),
                 imageWidget(image: 'assets/images/addPicture.png'),
                 const SizedBox(height: 20),
-                SizedBox(
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey[400],
+                    border: Border.all(
+                      color: Colors.black,
+                      width: 1.5,
+                    ),
+                    borderRadius: BorderRadius.circular(25.0),
+                  ),
                   width: 700,
                   height: 50,
                   child: ElevatedButton(
@@ -87,7 +88,10 @@ class _CreateTaskTabletState extends State<CreateTaskTablet> {
                       fixedSize:
                           MaterialStateProperty.all(const Size(200.0, 60.0)),
                     ),
-                    child: const Text('Crear Tarea'),
+                    child: const Text('Crear Tarea',
+                        style: TextStyle(
+                          color: Colors.black,
+                        )),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -140,7 +144,7 @@ class _CreateTaskTabletState extends State<CreateTaskTablet> {
           ),
           SizedBox(height: 20.0),
           TextField(
-            maxLines: 7,
+            maxLines: 5,
             style: TextStyle(fontSize: 15.0),
             decoration: InputDecoration(
               labelText: 'Descripción',
@@ -165,7 +169,15 @@ class _CreateTaskTabletState extends State<CreateTaskTablet> {
       child: Column(
         children: [
           const SizedBox(height: 10.0),
-          SizedBox(
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.grey[400],
+              border: Border.all(
+                color: Colors.black,
+                width: 1.5,
+              ),
+              borderRadius: BorderRadius.circular(25.0),
+            ),
             width: 320,
             height: 49,
             child: ElevatedButton(
@@ -196,7 +208,10 @@ class _CreateTaskTabletState extends State<CreateTaskTablet> {
                     const Color.fromARGB(255, 158, 155, 155)),
                 fixedSize: MaterialStateProperty.all(const Size(200.0, 60.0)),
               ),
-              child: const Text('Añadir Paso'),
+              child: const Text('Añadir Paso',
+                  style: TextStyle(
+                    color: Colors.black,
+                  )),
             ),
           ),
           const SizedBox(
