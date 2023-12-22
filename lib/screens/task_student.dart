@@ -44,13 +44,14 @@ class StudentTask extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 20),
-                    // const stepTaskView(
-                    //     text: 'HOLA',
-                    //     image: 'HOLA',
-                    //     destinationScreen: StepCompletionCheckScreen(
-                    //       image: "assets/images/pasoCompletado.png",
-                    //       texto: "¿Paso Completado?",
-                    //     )),
+                    const stepTaskView(
+                        text: 'HOLA',
+                        image: 'HOLA',
+                        destinationScreen: StepCheck(
+                          image: "assets/images/pasoCompletado.png",
+                          texto: "¿Paso Completado?",
+                          destinationScreen: StudentTask(),
+                        )),
                     const SizedBox(height: 20),
                     InkWell(
                       onTap: () {
