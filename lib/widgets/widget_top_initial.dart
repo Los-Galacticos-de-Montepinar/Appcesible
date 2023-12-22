@@ -1,4 +1,3 @@
-import 'package:appcesible/screens/select_user.dart';
 import 'package:flutter/material.dart';
 
 class TopBarInitial extends StatelessWidget implements PreferredSizeWidget {
@@ -18,10 +17,7 @@ class TopBarInitial extends StatelessWidget implements PreferredSizeWidget {
       title: (showArrow)
           ? GestureDetector(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const SelectUser()),
-                );
+                Navigator.pop(context);
               },
               child: Image.asset(
                 'assets/images/back_arrow.png',
