@@ -4,10 +4,12 @@ import 'package:appcesible/widgets/widget_top_confirmation.dart';
 class StepCompletionCheckScreen extends StatelessWidget {
   final String image;
   final String texto;
+  final Widget destinationScreen;
 
   const StepCompletionCheckScreen({
     required this.image,
     required this.texto,
+    required this.destinationScreen,
     super.key,
   });
 
@@ -30,7 +32,11 @@ class StepCompletionCheckScreen extends StatelessWidget {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.of(context).pop();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => destinationScreen),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,

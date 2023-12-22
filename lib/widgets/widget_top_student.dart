@@ -1,3 +1,4 @@
+import 'package:appcesible/screens/select_main.dart';
 import 'package:appcesible/screens/step_check.dart';
 import 'package:flutter/material.dart';
 import 'package:appcesible/screens/home_student.dart';
@@ -8,11 +9,8 @@ class TopMenuStudent extends StatelessWidget implements PreferredSizeWidget {
   final String texto; // Nuevo atributo de texto
   final Function()? onHomeTap;
 
-  const TopMenuStudent({
-    super.key,
-    required this.texto,
-    this.onHomeTap
-  }) : preferredSize = const Size.fromHeight(80.0);
+  const TopMenuStudent({super.key, required this.texto, this.onHomeTap})
+      : preferredSize = const Size.fromHeight(80.0);
 
   @override
   Widget build(BuildContext context) {
@@ -33,18 +31,20 @@ class TopMenuStudent extends StatelessWidget implements PreferredSizeWidget {
               offset: const Offset(0, 3),
               child: const Text(
                 'INICIO', // Utiliza el atributo de texto aquí
-                style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                style:
+                    TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
               ),
             )
           ],
         ),
-        onPressed: onHomeTap ?? () {
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => const HomeStudentInit()
-            ), (route) => false
-          );
-        },
+        onPressed: onHomeTap ??
+            () {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const HomeStudentInit()),
+                  (route) => false);
+            },
       ),
       title: Text(
         texto, // Utiliza el atributo de texto aquí
@@ -83,9 +83,10 @@ class TopMenuStudent extends StatelessWidget implements PreferredSizeWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => StepCompletionCheckScreen(
+                  builder: (context) => const StepCompletionCheckScreen(
                     image: "assets/images/salir.png",
                     texto: "¿Quieres Salir?",
+                    destinationScreen: SelectMain(),
                   ),
                 ),
               );

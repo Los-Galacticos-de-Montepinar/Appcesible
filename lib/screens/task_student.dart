@@ -50,6 +50,7 @@ class StudentTask extends StatelessWidget {
                         destinationScreen: StepCompletionCheckScreen(
                           image: "assets/images/pasoCompletado.png",
                           texto: "¿Paso Completado?",
+                          destinationScreen: StudentTask(),
                         )),
                     const SizedBox(height: 20),
                     InkWell(
